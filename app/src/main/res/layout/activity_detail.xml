@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".ui.detail.DetailActivity">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.example.moviescatalogue.ui.detail.DetailViewModel" />
+
+    </data>
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <include
+            android:id="@+id/content_offline"
+            layout="@layout/content_detail_offline"
+            app:viewModel="@{viewModel}"/>
+        <include
+            android:id="@+id/content_movies"
+            layout="@layout/content_detail_movies"
+            app:viewModel="@{viewModel}"/>
+        <include
+            android:id="@+id/content_shows"
+            layout="@layout/content_detail_shows"
+            app:viewModel="@{viewModel}"/>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</layout>

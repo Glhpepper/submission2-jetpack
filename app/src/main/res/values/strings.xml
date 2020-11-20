@@ -1,0 +1,33 @@
+<resources>
+    <string name="app_name">Movies Catalogue</string>
+    <string name="tab_movies">Movies</string>
+    <string name="tab_tv_show">Tv Shows</string>
+    <string name="image_movies">Image Movies</string>
+    <string name="title">Title</string>
+    <string name="genre">Genre :</string>
+    <string name="score">Score :</string>
+    <string name="image_tv_shows">Image Tv Shows</string>
+    <string name="date">Date</string>
+    <string name="detail_image">Detail Image</string>
+    <string name="overview">overview</string>
+    <string name="director">Director : </string>
+    <string name="cast_name">Cast Name</string>
+    <string name="detail_content">Detail content</string>
+    <string name="top_cast">Top Cast :</string>
+    <string name="share">Share</string>
+    <string name="release_date">Release : %s</string>
+    <string name="intent_content">Segera cek serial berikut : %s</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="homepage">homepage</string>
+    <string name="status">Status :</string>
+    <string name="popularity">Popularity :</string>
+    <string name="date_release">Date :</string>
+    <string name="vote">Vote Average :</string>
+    <string name="vote_count">Vote Count :</string>
+    <string name="original_title">Original Title :</string>
+    <string name="tagline">tagline</string>
+    <string name="backdop">Image Backdrop</string>
+    <string name="season">Season List :</string>
+    <string name="season_name">season name</string>
+</resources>

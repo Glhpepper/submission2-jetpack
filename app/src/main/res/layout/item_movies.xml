@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="clickListener"
+            type="android.view.View.OnClickListener"/>
+        <variable
+            name="moviesEntity"
+            type="com.example.moviescatalogue.data.local.entity.MoviesEntity" />
+    </data>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cv_movies"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:orientation="vertical"
+        android:onClick="@{clickListener}"
+        app:cardCornerRadius="4dp"
+        app:cardElevation="4dp"
+        app:cardMaxElevation="4dp"
+        app:cardUseCompatPadding="true">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/container_movies"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white">
+
+            <View
+                android:layout_width="8dp"
+                android:layout_height="0dp"
+                android:background="@color/blumine"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/img_movies"
+                android:layout_width="130dp"
+                android:layout_height="175dp"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                app:imgUrl="@{moviesEntity.moviesImage}"
+                android:contentDescription="@string/image_movies"
+                android:src="@color/teal_200"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_title_movies"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:text="@{moviesEntity.moviesTitle}"
+                android:ellipsize="end"
+                android:gravity="center"
+                android:maxLines="2"
+                android:textColor="@color/blumine"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/img_movies"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="@string/title" />
+
+            <TextView
+                android:id="@+id/tv_overview_movies"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="8dp"
+                android:text="@{moviesEntity.moviesOverview}"
+                android:gravity="center"
+                android:maxLines="4"
+                android:textColor="@color/black"
+                android:textSize="14sp"
+                android:textStyle="italic"
+                app:layout_constraintBottom_toTopOf="@+id/tv_date_movies"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/img_movies"
+                app:layout_constraintTop_toBottomOf="@+id/tv_title_movies"
+                tools:text="@string/overview" />
+
+            <TextView
+                android:id="@+id/tv_date_movies"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:gravity="center"
+                android:textColor="@color/black"
+                android:text="@{String.format(@string/release_date, moviesEntity.moviesDate)}"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/pb_score_movies"
+                app:layout_constraintStart_toEndOf="@+id/img_movies"
+                tools:text="@string/date" />
+
+            <ProgressBar
+                android:id="@+id/pb_score_movies"
+                style="@style/ProgressBar"
+                android:layout_width="50dp"
+                app:progressScore="@{moviesEntity.moviesScore}"
+                android:layout_height="50dp"
+                android:clickable="false"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                tools:progress="50" />
+
+            <TextView
+                android:id="@+id/tv_score_movies"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@{moviesEntity.moviesScore}"
+                android:gravity="center"
+                android:textColor="@color/blumine"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@+id/pb_score_movies"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/pb_score_movies"
+                app:layout_constraintTop_toTopOf="@+id/pb_score_movies"
+                tools:text="@string/score" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+</layout>
