@@ -40,6 +40,13 @@ android {
     }
     testOptions.unitTests {
         includeAndroidResources = true
+        returnDefaultValues = true
+    }
+    packagingOptions {
+        exclude "**/attach_hotspot_windows.dll"
+        exclude "META-INF/licenses/**"
+        exclude "META-INF/AL2.0"
+        exclude "META-INF/LGPL2.1"
     }
 }
 
@@ -65,6 +72,7 @@ dependencies {
     implementation "com.google.dagger:dagger:$daggerVersion"
     kapt "com.google.dagger:dagger-compiler:$daggerVersion"
     implementation "androidx.navigation:navigation-fragment-ktx:$navVersion"
+    implementation "androidx.test.espresso:espresso-idling-resource:$espressoVersion"
 
     testImplementation "org.hamcrest:hamcrest-all:$hamcrestVersion"
     testImplementation "org.robolectric:robolectric:$robolectricVersion"
@@ -78,4 +86,14 @@ dependencies {
 
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+    androidTestImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutinesVersion"
+    androidTestImplementation "androidx.test.espresso:espresso-contrib:$espressoVersion"
+    androidTestImplementation "com.linkedin.dexmaker:dexmaker-mockito:$dexMakerVersion"
+    androidTestImplementation "org.mockito:mockito-core:$mockitoVersion"
+    debugImplementation "androidx.fragment:fragment-testing:$fragmentVersion"
+    debugImplementation "androidx.test:core:$androidXTestCoreVersion"
+
+    kaptTest "com.google.dagger:dagger-compiler:$daggerVersion"
+    kaptAndroidTest "com.google.dagger:dagger-compiler:$daggerVersion"
+
 }

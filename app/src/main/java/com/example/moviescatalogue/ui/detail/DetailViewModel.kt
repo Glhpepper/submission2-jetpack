@@ -25,20 +25,15 @@ class DetailViewModel @Inject constructor(private val mainRepo: MainRepository) 
     val detailContentShows: LiveData<ResponseDetailShows>
         get() = _detailContentShows
 
-    private val _detailContentOffline = MutableLiveData<DetailEntity?>()
-    val detailContentOffline: LiveData<DetailEntity?>
+    private val _detailContentOffline = MutableLiveData<List<DetailEntity?>>()
+    val detailContentOffline: LiveData<List<DetailEntity?>>
         get() = _detailContentOffline
-
-    private val _detailContentTopCast = MutableLiveData<List<DetailTopCastEntity>?>()
-    val detailContentTopCast: LiveData<List<DetailTopCastEntity>?>
-        get() = _detailContentTopCast
 
     fun getDetailMovie(id: String) {
         viewModelScope.launch {
             val detailMovie = mainRepo.getDetailMovie(id)
             try {
-                _detailContentMovie.value = detailMovie
-                Log.d("TG", detailMovie.toString())
+                _detailContentMovie.value = detailMovie.value
             } catch (e: Exception) {
                 e.printStackTrace()
             }
@@ -49,8 +44,7 @@ class DetailViewModel @Inject constructor(private val mainRepo: MainRepository) 
         viewModelScope.launch {
             val detailShow = mainRepo.getDetailTvShows(id)
             try {
-                _detailContentShows.value = detailShow
-                Log.d("TG", detailShow.toString())
+                _detailContentShows.value = detailShow.value
             } catch (e: Exception) {
                 e.printStackTrace()
             }
@@ -61,9 +55,7 @@ class DetailViewModel @Inject constructor(private val mainRepo: MainRepository) 
         viewModelScope.launch {
             val detail = mainRepo.getDetailOffline(id)
             try {
-                _detailContentTopCast.value = detail[0].detailTopCast
-                _detailContentOffline.value = detail[0]
-                Log.d("TG", detail.toString())
+                _detailContentOffline.value = detail.value
             } catch (e: Exception) {
                 e.printStackTrace()
             }

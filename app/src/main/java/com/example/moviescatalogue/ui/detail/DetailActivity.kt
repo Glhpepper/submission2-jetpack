@@ -186,7 +186,7 @@ class DetailActivity : AppCompatActivity() {
                 when (menu.itemId) {
                     R.id.action_share -> {
                         if (detail != null) {
-                            onShareClick(detail)
+                            onShareClick(detail[0])
                         }
                         true
                     }
@@ -196,13 +196,13 @@ class DetailActivity : AppCompatActivity() {
         })
     }
 
-    private fun onShareClick(detail: DetailEntity) {
+    private fun onShareClick(detail: DetailEntity?) {
         val intent = Intent()
         intent.action = Intent.ACTION_SEND
         intent.putExtra(
             Intent.EXTRA_TEXT, resources.getString(
                 R.string.intent_content,
-                detail.detailTitle
+                detail?.detailTitle
             )
         )
         intent.type = INTENT_TYPE

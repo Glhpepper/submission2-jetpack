@@ -8,7 +8,7 @@ data class ResponseDetailShows(
 	val genres: List<GenresItemShows>?,
 
 	@field:SerializedName("popularity")
-	val popularity: Double,
+	val popularity: Double?,
 
 	@field:SerializedName("id")
 	val id: Int?,

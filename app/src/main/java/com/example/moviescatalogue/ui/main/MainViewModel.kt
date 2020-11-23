@@ -22,11 +22,11 @@ class MainViewModel @Inject constructor(private val mainRepo: MainRepository) : 
     val listShowsApi: LiveData<List<TvShowsEntity>?>
         get() = _listShowsApi
 
-    fun getMovies() {
+    fun getMovies(){
         viewModelScope.launch {
             val resultMovies = mainRepo.getMovies()
             try {
-                _listMoviesApi.value = resultMovies
+                _listMoviesApi.value = resultMovies.value
             } catch (e: Exception) {
                 e.printStackTrace()
             }
@@ -37,7 +37,7 @@ class MainViewModel @Inject constructor(private val mainRepo: MainRepository) : 
         viewModelScope.launch {
             val resultTvShows = mainRepo.getTvShows()
             try {
-                _listShowsApi.value = resultTvShows
+                _listShowsApi.value = resultTvShows.value
             } catch (e: Exception) {
                 e.printStackTrace()
             }
@@ -48,7 +48,7 @@ class MainViewModel @Inject constructor(private val mainRepo: MainRepository) : 
         viewModelScope.launch {
             val resultMoviesApi = mainRepo.getMoviesApi()
             try {
-                _listMoviesApi.value = resultMoviesApi.results
+                _listMoviesApi.value = resultMoviesApi.value?.results
             } catch (e: Exception) {
                 e.printStackTrace()
             }
@@ -59,7 +59,7 @@ class MainViewModel @Inject constructor(private val mainRepo: MainRepository) : 
         viewModelScope.launch {
             val resultTvShows = mainRepo.getShowsApi()
             try {
-                _listShowsApi.value = resultTvShows.results
+                _listShowsApi.value = resultTvShows.value?.results
             } catch (e: Exception) {
                 e.printStackTrace()
             }

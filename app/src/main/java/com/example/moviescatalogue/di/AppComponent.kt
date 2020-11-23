@@ -1,5 +1,7 @@
 package com.example.moviescatalogue.di
 
+import com.example.moviescatalogue.data.MainDataSource
+import com.example.moviescatalogue.data.MainRepository
 import com.example.moviescatalogue.di.module.DispatcherModule
 import com.example.moviescatalogue.di.module.DummyModule
 import com.example.moviescatalogue.di.module.NetworkModule
@@ -27,4 +29,6 @@ interface AppComponent {
 
     fun mainComponent(): MainComponent.Factory
     fun detailComponent(): DetailComponent.Factory
+
+    val mainRepository: MainRepository
 }
