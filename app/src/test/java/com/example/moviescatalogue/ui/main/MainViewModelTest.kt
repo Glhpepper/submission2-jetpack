@@ -2,6 +2,7 @@ package com.example.moviescatalogue.ui.main
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.MutableLiveData
+import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.example.moviescatalogue.MainCoroutineRule
 import com.example.moviescatalogue.data.MainRepository
 import com.example.moviescatalogue.data.local.entity.MoviesEntity
@@ -20,11 +21,13 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mock
+import org.mockito.Mockito
+import org.mockito.Mockito.mock
 import org.mockito.Mockito.verify
 import org.mockito.junit.MockitoJUnitRunner
 
 @ExperimentalCoroutinesApi
-@RunWith(MockitoJUnitRunner::class)
+@RunWith(AndroidJUnit4::class)
 class MainViewModelTest {
     private lateinit var mainViewModel: MainViewModel
 
@@ -34,8 +37,7 @@ class MainViewModelTest {
     @get:Rule
     var mainCoroutineRule = MainCoroutineRule()
 
-    @Mock
-    private lateinit var mainRepository: MainRepository
+    private val mainRepository = mock(MainRepository::class.java)
 
     @Before
     fun setupViewModel() {

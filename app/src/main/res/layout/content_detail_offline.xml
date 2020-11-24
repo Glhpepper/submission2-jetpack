@@ -42,7 +42,7 @@
                 app:toolbarId="@id/toolbar">
 
                 <ImageView
-                    android:id="@+id/detail_image"
+                    android:id="@+id/detail_image_offline"
                     imgUrl="@{viewModel.detailContentOffline[0].detailImage}"
                     android:layout_width="match_parent"
                     android:layout_height="350dp"
@@ -77,7 +77,7 @@
                 android:layout_margin="16dp">
 
                 <TextView
-                    android:id="@+id/movies_title"
+                    android:id="@+id/title_offline"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"

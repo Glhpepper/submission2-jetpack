@@ -43,7 +43,7 @@
                 app:toolbarId="@id/toolbar">
 
                 <ImageView
-                    android:id="@+id/detail_image"
+                    android:id="@+id/detail_image_movie"
                     imgUrl="@{viewModel.detailContentMovie.posterPath}"
                     android:layout_width="match_parent"
                     android:layout_height="350dp"
@@ -221,7 +221,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/popularity" />
 
                 <TextView
-                    android:id="@+id/vote_average"
+                    android:id="@+id/vote_average_movie"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="32dp"
@@ -240,11 +240,11 @@
                     android:layout_marginTop="8dp"
                     android:gravity="center"
                     android:text="@string/vote_count"
-                    app:layout_constraintStart_toEndOf="@+id/vote_average"
+                    app:layout_constraintStart_toEndOf="@+id/vote_average_movie"
                     app:layout_constraintTop_toBottomOf="@+id/popularity_movies" />
 
                 <TextView
-                    android:id="@+id/vote_count"
+                    android:id="@+id/vote_count_movie"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="32dp"
@@ -263,11 +263,11 @@
                     android:layout_marginTop="8dp"
                     android:gravity="center"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/vote_average"
+                    app:layout_constraintTop_toBottomOf="@+id/vote_average_movie"
                     android:text="@string/original_title" />
 
                 <TextView
-                    android:id="@+id/orginal_title"
+                    android:id="@+id/orginal_title_movies"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
@@ -277,11 +277,11 @@
                     android:text="@{viewModel.detailContentMovie.originalTitle}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/orginal"
-                    app:layout_constraintTop_toBottomOf="@+id/vote_average"
+                    app:layout_constraintTop_toBottomOf="@+id/vote_average_movie"
                     tools:text="@string/original_title" />
 
                 <TextView
-                    android:id="@+id/tagline"
+                    android:id="@+id/tagline_movie"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
@@ -291,17 +291,18 @@
                     android:textSize="18sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/orginal_title"
+                    app:layout_constraintTop_toBottomOf="@+id/orginal_title_movies"
                     tools:text="@string/tagline" />
 
                 <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/backdrop_movie"
                     android:layout_width="200dp"
                     android:layout_height="200dp"
                     android:layout_marginTop="16dp"
                     app:imgUrl="@{viewModel.detailContentMovie.backdropPath}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tagline"
+                    app:layout_constraintTop_toBottomOf="@+id/tagline_movie"
                     android:contentDescription="@string/backdop"/>
 
             </androidx.constraintlayout.widget.ConstraintLayout>

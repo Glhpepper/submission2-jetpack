@@ -43,7 +43,7 @@
                 app:toolbarId="@id/toolbar">
 
                 <ImageView
-                    android:id="@+id/detail_image"
+                    android:id="@+id/detail_image_shows"
                     imgUrl="@{viewModel.detailContentShows.posterPath}"
                     android:layout_width="match_parent"
                     android:layout_height="350dp"
@@ -176,7 +176,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/genre" />
 
                 <TextView
-                    android:id="@+id/date_movies"
+                    android:id="@+id/date_shows"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
@@ -220,7 +220,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/popularity" />
 
                 <TextView
-                    android:id="@+id/vote_average"
+                    android:id="@+id/vote_average_shows"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
@@ -239,11 +239,11 @@
                     android:layout_marginTop="8dp"
                     android:gravity="center"
                     android:text="@string/vote_count"
-                    app:layout_constraintStart_toEndOf="@+id/vote_average"
+                    app:layout_constraintStart_toEndOf="@+id/vote_average_shows"
                     app:layout_constraintTop_toBottomOf="@+id/popularity_shows" />
 
                 <TextView
-                    android:id="@+id/vote_count"
+                    android:id="@+id/vote_count_shows"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
@@ -262,11 +262,11 @@
                     android:layout_marginTop="8dp"
                     android:gravity="center"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/vote_average"
+                    app:layout_constraintTop_toBottomOf="@+id/vote_average_shows"
                     android:text="@string/original_title" />
 
                 <TextView
-                    android:id="@+id/orginal_title"
+                    android:id="@+id/orginal_title_shows"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
@@ -276,11 +276,11 @@
                     android:text="@{viewModel.detailContentShows.originalName}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/orginal"
-                    app:layout_constraintTop_toBottomOf="@+id/vote_average"
+                    app:layout_constraintTop_toBottomOf="@+id/vote_average_shows"
                     tools:text="@string/original_title" />
 
                 <TextView
-                    android:id="@+id/tagline"
+                    android:id="@+id/tagline_shows"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
@@ -290,7 +290,7 @@
                     android:textSize="18sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/orginal_title"
+                    app:layout_constraintTop_toBottomOf="@+id/orginal_title_shows"
                     tools:text="@string/tagline" />
 
                 <TextView
@@ -303,7 +303,7 @@
                     android:text="@string/season"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tagline" />
+                    app:layout_constraintTop_toBottomOf="@+id/tagline_shows" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rv_season_list"
