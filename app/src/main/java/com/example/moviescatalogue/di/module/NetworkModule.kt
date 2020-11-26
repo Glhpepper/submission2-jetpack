@@ -4,7 +4,6 @@ import com.example.moviescatalogue.data.remote.ApiServices
 import com.example.moviescatalogue.data.remote.RetrofitClient
 import dagger.Module
 import dagger.Provides
-import retrofit2.Retrofit
 import javax.inject.Singleton
 
 @Module

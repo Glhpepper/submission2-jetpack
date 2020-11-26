@@ -3,16 +3,12 @@ package com.example.moviescatalogue
 import androidx.recyclerview.widget.RecyclerView
 import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.ApplicationProvider
-import androidx.test.espresso.Espresso
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.IdlingRegistry
-import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.action.ViewActions.swipeUp
-import androidx.test.espresso.assertion.ViewAssertions
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.contrib.RecyclerViewActions
-import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
@@ -58,7 +54,7 @@ class MainActivityOnlineTest {
             mainRepository.getMoviesApi()
         }
         val showsEntity = runBlocking {
-            mainRepository.getMoviesApi()
+            mainRepository.getShowsApi()
         }
 
         val activityScenario = ActivityScenario.launch(MainActivity::class.java)
@@ -107,11 +103,11 @@ class MainActivityOnlineTest {
                     click()
                 )
             )
-        onView(withId(R.id.detail_image_movie)).check(matches(isDisplayed()))
-        onView(withId(R.id.detail_image_movie)).perform(swipeUp())
-
         onView(withId(R.id.movies_title)).check(matches(isDisplayed()))
         onView(withId(R.id.movies_title)).check(matches(withText(detailEntity?.value?.title)))
+
+        onView(withId(R.id.detail_image_movie)).check(matches(isDisplayed()))
+        onView(withId(R.id.detail_image_movie)).perform(swipeUp())
 
         onView(withId(R.id.detail_overview_movies)).check(matches(isDisplayed()))
         onView(withId(R.id.detail_overview_movies)).check(matches(withText(detailEntity?.value?.overview)))
@@ -138,8 +134,8 @@ class MainActivityOnlineTest {
         onView(withId(R.id.vote_count_movie)).check(matches(isDisplayed()))
         onView(withId(R.id.vote_count_movie)).check(matches(withText(detailEntity?.value?.voteCount.toString())))
 
-        onView(withId(R.id.orginal_title_movies)).check(matches(isDisplayed()))
-        onView(withId(R.id.orginal_title_movies)).check(matches(withText(detailEntity?.value?.originalTitle)))
+        onView(withId(R.id.original_title_movies)).check(matches(isDisplayed()))
+        onView(withId(R.id.original_title_movies)).check(matches(withText(detailEntity?.value?.originalTitle)))
 
         onView(withId(R.id.tagline_movie)).check(matches(isDisplayed()))
         onView(withId(R.id.tagline_movie)).check(matches(withText(detailEntity?.value?.tagline)))
@@ -171,11 +167,11 @@ class MainActivityOnlineTest {
                     click()
                 )
             )
-        onView(withId(R.id.detail_image_shows)).check(matches(isDisplayed()))
-        onView(withId(R.id.detail_image_shows)).perform(swipeUp())
-
         onView(withId(R.id.shows_title)).check(matches(isDisplayed()))
         onView(withId(R.id.shows_title)).check(matches(withText(detailEntity?.value?.name)))
+
+        onView(withId(R.id.detail_image_shows)).check(matches(isDisplayed()))
+        onView(withId(R.id.detail_image_shows)).perform(swipeUp())
 
         onView(withId(R.id.detail_overview_shows)).check(matches(isDisplayed()))
         onView(withId(R.id.detail_overview_shows)).check(matches(withText(detailEntity?.value?.overview)))
@@ -202,8 +198,8 @@ class MainActivityOnlineTest {
         onView(withId(R.id.vote_count_shows)).check(matches(isDisplayed()))
         onView(withId(R.id.vote_count_shows)).check(matches(withText(detailEntity?.value?.voteCount.toString())))
 
-        onView(withId(R.id.orginal_title_shows)).check(matches(isDisplayed()))
-        onView(withId(R.id.orginal_title_shows)).check(matches(withText(detailEntity?.value?.originalName)))
+        onView(withId(R.id.original_title_shows)).check(matches(isDisplayed()))
+        onView(withId(R.id.original_title_shows)).check(matches(withText(detailEntity?.value?.originalName)))
 
         onView(withId(R.id.tagline_shows)).check(matches(isDisplayed()))
         onView(withId(R.id.tagline_shows)).check(matches(withText(detailEntity?.value?.tagline)))

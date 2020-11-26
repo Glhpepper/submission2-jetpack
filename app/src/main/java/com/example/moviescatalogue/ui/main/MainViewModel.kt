@@ -8,6 +8,7 @@ import com.example.moviescatalogue.data.MainRepository
 import com.example.moviescatalogue.data.local.entity.MoviesEntity
 import com.example.moviescatalogue.data.local.entity.TvShowsEntity
 import com.example.moviescatalogue.ui.main.di.MainScope
+import com.example.moviescatalogue.utils.wrapEspressoIdlingResource
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -22,7 +23,7 @@ class MainViewModel @Inject constructor(private val mainRepo: MainRepository) : 
     val listShowsApi: LiveData<List<TvShowsEntity>?>
         get() = _listShowsApi
 
-    fun getMovies(){
+    fun getMovies() {
         viewModelScope.launch {
             val resultMovies = mainRepo.getMovies()
             try {
@@ -34,34 +35,40 @@ class MainViewModel @Inject constructor(private val mainRepo: MainRepository) : 
     }
 
     fun getTvShows() {
-        viewModelScope.launch {
-            val resultTvShows = mainRepo.getTvShows()
-            try {
-                _listShowsApi.value = resultTvShows.value
-            } catch (e: Exception) {
-                e.printStackTrace()
+        wrapEspressoIdlingResource {
+            viewModelScope.launch {
+                val resultTvShows = mainRepo.getTvShows()
+                try {
+                    _listShowsApi.value = resultTvShows.value
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
             }
         }
     }
 
     fun getMoviesApi() {
-        viewModelScope.launch {
-            val resultMoviesApi = mainRepo.getMoviesApi()
-            try {
-                _listMoviesApi.value = resultMoviesApi.value?.results
-            } catch (e: Exception) {
-                e.printStackTrace()
+        wrapEspressoIdlingResource {
+            viewModelScope.launch {
+                val resultMoviesApi = mainRepo.getMoviesApi()
+                try {
+                    _listMoviesApi.value = resultMoviesApi.value?.results
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
             }
         }
     }
 
     fun getTvShowsApi() {
-        viewModelScope.launch {
-            val resultTvShows = mainRepo.getShowsApi()
-            try {
-                _listShowsApi.value = resultTvShows.value?.results
-            } catch (e: Exception) {
-                e.printStackTrace()
+        wrapEspressoIdlingResource {
+            viewModelScope.launch {
+                val resultTvShows = mainRepo.getShowsApi()
+                try {
+                    _listShowsApi.value = resultTvShows.value?.results
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
             }
         }
     }

@@ -3,21 +3,18 @@ package com.example.moviescatalogue.ui.tvshows
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestOptions
 import com.example.moviescatalogue.R
-import com.example.moviescatalogue.data.local.entity.MoviesEntity
 import com.example.moviescatalogue.data.local.entity.TvShowsEntity
-import com.example.moviescatalogue.data.remote.RetrofitClient.BASE_IMG
 import com.example.moviescatalogue.databinding.ItemTvShowsBinding
 import com.example.moviescatalogue.ui.main.MainFragmentDirections
-import com.example.moviescatalogue.utils.isOnline
 import kotlinx.android.synthetic.main.item_tv_shows.view.*
 
 class TvShowsAdapter : RecyclerView.Adapter<TvShowsAdapter.TvShowsViewHolder>() {
     private val listTvShows = ArrayList<TvShowsEntity>()
+    private var lastPosition = -1
 
     fun setTvShows(tvShows: List<TvShowsEntity>?) {
         if (tvShows == null) return
@@ -40,6 +37,15 @@ class TvShowsAdapter : RecyclerView.Adapter<TvShowsAdapter.TvShowsViewHolder>() 
     override fun onBindViewHolder(holder: TvShowsViewHolder, position: Int) {
         val tvShows = listTvShows[position]
         holder.bind(tvShows)
+        setAnimation(holder.itemView.cv_tv_shows, position)
+    }
+
+    private fun setAnimation(view: View, position: Int) {
+        if (position > lastPosition) {
+            val animation = AnimationUtils.loadAnimation(view.context, R.anim.fade_in)
+            view.startAnimation(animation)
+            lastPosition = position
+        }
     }
 
     override fun getItemCount(): Int = listTvShows.size

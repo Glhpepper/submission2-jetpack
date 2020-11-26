@@ -1,7 +1,4 @@
-
 package com.example.moviescatalogue.utils
-
-import androidx.test.espresso.IdlingResource
 
 object EspressoIdlingResource {
 

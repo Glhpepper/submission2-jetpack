@@ -28,15 +28,16 @@ import kotlinx.android.synthetic.main.content_detail_offline.*
 import kotlinx.android.synthetic.main.content_detail_shows.*
 import javax.inject.Inject
 
-
-private const val INTENT_TYPE = "text/plain"
-private const val INTENT_TITLE = "Bagikan ini sekarang."
-
 class DetailActivity : AppCompatActivity() {
+
+    companion object {
+        private const val INTENT_TYPE = "text/plain"
+        private const val INTENT_TITLE = "Bagikan ini sekarang."
+    }
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
-    lateinit var detailComponent: DetailComponent
+    private lateinit var detailComponent: DetailComponent
     private val detailViewModel by viewModels<DetailViewModel> { viewModelFactory }
     private val args: DetailActivityArgs by navArgs()
     private lateinit var binding: ActivityDetailBinding

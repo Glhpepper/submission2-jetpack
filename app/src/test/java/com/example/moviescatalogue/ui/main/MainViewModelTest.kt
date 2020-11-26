@@ -20,11 +20,8 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.mockito.Mock
-import org.mockito.Mockito
 import org.mockito.Mockito.mock
 import org.mockito.Mockito.verify
-import org.mockito.junit.MockitoJUnitRunner
 
 @ExperimentalCoroutinesApi
 @RunWith(AndroidJUnit4::class)
@@ -57,6 +54,7 @@ class MainViewModelTest {
             val moviesEntity = mainViewModel.listMoviesApi.value
             assertThat(moviesEntity, `is`(allOf(notNullValue(), not(empty()))))
             assertThat(moviesEntity?.size, `is`(5))
+            assertThat(moviesEntity?.get(0), `is`(movies.value?.get(0)))
         }
     }
 
@@ -94,6 +92,7 @@ class MainViewModelTest {
             val moviesEntity = mainViewModel.listMoviesApi.value
             assertThat(moviesEntity, `is`(allOf(notNullValue(), not(empty()))))
             assertThat(moviesEntity?.size, `is`(1))
+            assertThat(moviesEntity?.get(0), `is`(movies.value?.results?.get(0)))
         }
     }
 
@@ -126,6 +125,7 @@ class MainViewModelTest {
             val showsEntity = mainViewModel.listShowsApi.value
             assertThat(showsEntity, `is`(allOf(notNullValue(), not(empty()))))
             assertThat(showsEntity?.size, `is`(5))
+            assertThat(showsEntity?.get(0), `is`(shows.value?.get(0)))
         }
     }
 
@@ -163,6 +163,7 @@ class MainViewModelTest {
             val showsEntity = mainViewModel.listShowsApi.value
             assertThat(showsEntity, `is`(allOf(notNullValue(), not(empty()))))
             assertThat(showsEntity?.size, `is`(1))
+            assertThat(showsEntity?.get(0), `is`(shows.value?.results?.get(0)))
         }
     }
 
@@ -181,6 +182,4 @@ class MainViewModelTest {
             assertThat(showsEntity?.size, `is`(0))
         }
     }
-
-
 }

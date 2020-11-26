@@ -9,7 +9,6 @@ import androidx.databinding.DataBindingUtil.inflate
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.fragment.findNavController
 import com.example.moviescatalogue.R
 import com.example.moviescatalogue.databinding.FragmentMoviesBinding
 import com.example.moviescatalogue.ui.main.MainActivity

@@ -19,10 +19,8 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.mockito.Mock
 import org.mockito.Mockito.mock
 import org.mockito.Mockito.verify
-import org.mockito.junit.MockitoJUnitRunner
 
 @ExperimentalCoroutinesApi
 @RunWith(AndroidJUnit4::class)
@@ -58,6 +56,7 @@ class DetailViewModelTest {
             assertThat(detailEntity, `is`(notNullValue()))
             assertThat(detailEntity?.size, `is`(1))
             assertThat(detailEntity?.get(0)?.detailTopCast?.size, `is`(5))
+            assertThat(detailEntity?.get(0), `is`(movies.value?.get(0)))
         }
     }
 
@@ -110,6 +109,7 @@ class DetailViewModelTest {
 
             assertThat(detailEntity, `is`(notNullValue()))
             assertThat(detailEntity?.genres?.size, `is`(1))
+            assertThat(detailEntity, `is`(movies.value))
         }
     }
 
@@ -163,6 +163,7 @@ class DetailViewModelTest {
             assertThat(detailEntity, `is`(notNullValue()))
             assertThat(detailEntity?.size, `is`(1))
             assertThat(detailEntity?.get(0)?.detailTopCast?.size, `is`(5))
+            assertThat(detailEntity?.get(0), `is`(shows.value?.get(0)))
         }
     }
 
@@ -190,7 +191,7 @@ class DetailViewModelTest {
         val genreList = ArrayList<GenresItemShows>()
         genreList.add(GenresItemShows("NAME", 0))
         val seasonList = ArrayList<SeasonsItem>()
-        seasonList.add(SeasonsItem("NAME", 0,"POSTERPATH"))
+        seasonList.add(SeasonsItem("NAME", 0, "POSTERPATH"))
         val showsList = ResponseDetailShows(
             genreList,
             0.0,
@@ -218,6 +219,7 @@ class DetailViewModelTest {
 
             assertThat(detailEntity, `is`(notNullValue()))
             assertThat(detailEntity?.genres?.size, `is`(1))
+            assertThat(detailEntity, `is`(shows.value))
         }
     }
 

@@ -6,7 +6,7 @@ import com.example.moviescatalogue.data.local.entity.DetailTopCastEntity
 import com.example.moviescatalogue.data.local.entity.MoviesEntity
 import com.example.moviescatalogue.data.local.entity.TvShowsEntity
 
-object DummyData  {
+object DummyData {
 
     fun generateDummyMovies(): ArrayList<MoviesEntity> {
         val movies = ArrayList<MoviesEntity>()

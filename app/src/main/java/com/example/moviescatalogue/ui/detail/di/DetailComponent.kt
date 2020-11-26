@@ -1,7 +1,6 @@
 package com.example.moviescatalogue.ui.detail.di
 
 import com.example.moviescatalogue.ui.detail.DetailActivity
-import com.example.moviescatalogue.ui.main.di.MainComponent
 import dagger.Subcomponent
 
 @DetailScope

@@ -14,7 +14,6 @@ import com.example.moviescatalogue.databinding.FragmentTvShowsBinding
 import com.example.moviescatalogue.ui.main.MainActivity
 import com.example.moviescatalogue.ui.main.MainViewModel
 import com.example.moviescatalogue.utils.isOnline
-import kotlinx.android.synthetic.main.fragment_tv_shows.*
 import javax.inject.Inject
 
 

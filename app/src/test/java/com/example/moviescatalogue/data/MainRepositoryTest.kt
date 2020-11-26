@@ -55,6 +55,7 @@ class MainRepositoryTest {
 
             assertThat(moviesEntity, `is`(allOf(notNullValue(), not(empty()))))
             assertThat(moviesEntity.size, `is`(movies.size))
+            assertThat(moviesEntity, `is`(movies))
         }
     }
 
@@ -68,6 +69,7 @@ class MainRepositoryTest {
 
             assertThat(showsEntity, `is`(allOf(notNullValue(), not(empty()))))
             assertThat(showsEntity.size, `is`(shows.size))
+            assertThat(showsEntity, `is`(shows))
         }
     }
 
@@ -87,12 +89,14 @@ class MainRepositoryTest {
 
             assertThat(moviesDetail, `is`(allOf(notNullValue(), not(empty()))))
             assertThat(moviesDetail.size, `is`(moviesEntity.size))
+            assertThat(moviesEntity, `is`(moviesDetail))
 
             mainRepository.getDetailOffline(showsId)
             val showsEntity = mainRepository.getDetailOffline(showsId).getOrAwaitValue()
 
             assertThat(showsDetail, `is`(allOf(notNullValue(), not(empty()))))
             assertThat(showsDetail.size, `is`(showsEntity.size))
+            assertThat(showsEntity, `is`(showsDetail))
         }
     }
 
@@ -114,6 +118,7 @@ class MainRepositoryTest {
             val moviesEntity = mainRepository.getMoviesApi().getOrAwaitValue()
             assertThat(moviesEntity, `is`(notNullValue()))
             assertThat(moviesEntity.results?.size, `is`(1))
+            assertThat(moviesEntity, `is`(movies))
         }
     }
 
@@ -135,6 +140,7 @@ class MainRepositoryTest {
             val showsEntity = mainRepository.getShowsApi().getOrAwaitValue()
             assertThat(showsEntity, `is`(notNullValue()))
             assertThat(showsEntity.results?.size, `is`(1))
+            assertThat(showsEntity, `is`(shows))
         }
     }
 
@@ -168,6 +174,7 @@ class MainRepositoryTest {
             val detailEntity = mainRepository.getDetailMovie(id).getOrAwaitValue()
             assertThat(detailEntity, `is`(notNullValue()))
             assertThat(detailEntity.genres?.size, `is`(1))
+            assertThat(detailEntity, `is`(movies))
         }
     }
 
@@ -177,7 +184,7 @@ class MainRepositoryTest {
         val genreList = ArrayList<GenresItemShows>()
         genreList.add(GenresItemShows("NAME", 0))
         val seasonList = ArrayList<SeasonsItem>()
-        seasonList.add(SeasonsItem("NAME", 0,"POSTERPATH"))
+        seasonList.add(SeasonsItem("NAME", 0, "POSTERPATH"))
         val shows = ResponseDetailShows(
             genreList,
             0.0,
@@ -204,6 +211,7 @@ class MainRepositoryTest {
             assertThat(detailEntity, Matchers.`is`(Matchers.notNullValue()))
             assertThat(detailEntity.genres?.size, Matchers.`is`(1))
             assertThat(detailEntity.seasons?.size, Matchers.`is`(1))
+            assertThat(detailEntity, `is`(shows))
         }
     }
 }

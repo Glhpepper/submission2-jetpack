@@ -13,7 +13,7 @@
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
-        android:id="@+id/detail_container"
+        android:id="@+id/detail_container_shows"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="20dp">
@@ -118,7 +118,7 @@
                     tools:text="@string/homepage" />
 
                 <TextView
-                    android:id="@+id/genre"
+                    android:id="@+id/genre_text_shows"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
@@ -138,19 +138,19 @@
                     android:textStyle="italic"
                     app:genreTextShows="@{viewModel.detailContentShows.genres}"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/genre"
+                    app:layout_constraintStart_toEndOf="@+id/genre_text_shows"
                     app:layout_constraintTop_toBottomOf="@+id/homepage_shows"
                     tools:text="@string/genre" />
 
                 <TextView
-                    android:id="@+id/status"
+                    android:id="@+id/status_text_shows"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:gravity="center"
                     android:text="@string/status"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/genre" />
+                    app:layout_constraintTop_toBottomOf="@+id/genre_text_shows" />
 
                 <TextView
                     android:id="@+id/status_shows"
@@ -160,12 +160,12 @@
                     android:layout_marginTop="8dp"
                     android:gravity="center"
                     android:text="@{viewModel.detailContentShows.status}"
-                    app:layout_constraintStart_toEndOf="@+id/status"
-                    app:layout_constraintTop_toBottomOf="@+id/genre"
+                    app:layout_constraintStart_toEndOf="@+id/status_text_shows"
+                    app:layout_constraintTop_toBottomOf="@+id/genre_text_shows"
                     tools:text="@string/status" />
 
                 <TextView
-                    android:id="@+id/date"
+                    android:id="@+id/date_text_shows"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="64dp"
@@ -173,7 +173,7 @@
                     android:gravity="center"
                     android:text="@string/date_release"
                     app:layout_constraintStart_toEndOf="@+id/status_shows"
-                    app:layout_constraintTop_toBottomOf="@+id/genre" />
+                    app:layout_constraintTop_toBottomOf="@+id/genre_text_shows" />
 
                 <TextView
                     android:id="@+id/date_shows"
@@ -183,19 +183,19 @@
                     android:layout_marginTop="8dp"
                     android:gravity="center"
                     android:text="@{viewModel.detailContentShows.firstAirDate}"
-                    app:layout_constraintStart_toEndOf="@+id/date"
-                    app:layout_constraintTop_toBottomOf="@+id/genre"
+                    app:layout_constraintStart_toEndOf="@+id/date_text_shows"
+                    app:layout_constraintTop_toBottomOf="@+id/genre_text_shows"
                     tools:text="@string/date" />
 
                 <TextView
-                    android:id="@+id/popularity"
+                    android:id="@+id/popularity_text_shows"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:gravity="center"
                     android:text="@string/popularity"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/status"/>
+                    app:layout_constraintTop_toBottomOf="@+id/status_text_shows"/>
 
                 <TextView
                     android:id="@+id/popularity_shows"
@@ -205,19 +205,19 @@
                     android:gravity="center"
                     android:text="@{String.valueOf(viewModel.detailContentShows.popularity)}"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/popularity"
+                    app:layout_constraintStart_toEndOf="@+id/popularity_text_shows"
                     app:layout_constraintTop_toBottomOf="@+id/status_shows"
                     tools:text="@string/popularity" />
 
                 <TextView
-                    android:id="@+id/vote"
+                    android:id="@+id/vote_shows"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:gravity="center"
                     android:text="@string/vote"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/popularity" />
+                    app:layout_constraintTop_toBottomOf="@+id/popularity_text_shows" />
 
                 <TextView
                     android:id="@+id/vote_average_shows"
@@ -227,12 +227,12 @@
                     android:layout_marginTop="8dp"
                     android:gravity="center"
                     android:text="@{String.valueOf(viewModel.detailContentShows.voteAverage)}"
-                    app:layout_constraintStart_toEndOf="@+id/vote"
+                    app:layout_constraintStart_toEndOf="@+id/vote_shows"
                     app:layout_constraintTop_toBottomOf="@+id/popularity_shows"
                     tools:text="@string/vote" />
 
                 <TextView
-                    android:id="@+id/vote_c"
+                    android:id="@+id/vote_count_text_shows"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="64dp"
@@ -251,12 +251,12 @@
                     android:gravity="center"
                     android:text="@{String.valueOf(viewModel.detailContentShows.voteCount)}"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/vote_c"
+                    app:layout_constraintStart_toEndOf="@+id/vote_count_text_shows"
                     app:layout_constraintTop_toBottomOf="@+id/popularity_shows"
                     tools:text="@string/vote_count" />
 
                 <TextView
-                    android:id="@+id/orginal"
+                    android:id="@+id/original_shows"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
@@ -266,7 +266,7 @@
                     android:text="@string/original_title" />
 
                 <TextView
-                    android:id="@+id/orginal_title_shows"
+                    android:id="@+id/original_title_shows"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
@@ -275,7 +275,7 @@
                     android:gravity="center"
                     android:text="@{viewModel.detailContentShows.originalName}"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/orginal"
+                    app:layout_constraintStart_toEndOf="@+id/original_shows"
                     app:layout_constraintTop_toBottomOf="@+id/vote_average_shows"
                     tools:text="@string/original_title" />
 
@@ -290,7 +290,7 @@
                     android:textSize="18sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/orginal_title_shows"
+                    app:layout_constraintTop_toBottomOf="@+id/original_title_shows"
                     tools:text="@string/tagline" />
 
                 <TextView

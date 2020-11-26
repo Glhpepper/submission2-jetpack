@@ -3,19 +3,18 @@ package com.example.moviescatalogue.ui.movies
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
-import androidx.navigation.NavAction
-import androidx.navigation.Navigation
+import android.view.animation.AnimationUtils
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
-import com.example.moviescatalogue.data.MainRepository_Factory
+import com.example.moviescatalogue.R
 import com.example.moviescatalogue.data.local.entity.MoviesEntity
 import com.example.moviescatalogue.databinding.ItemMoviesBinding
-import com.example.moviescatalogue.ui.main.MainFragment
 import com.example.moviescatalogue.ui.main.MainFragmentDirections
+import kotlinx.android.synthetic.main.item_movies.view.*
 
 class MoviesAdapter : RecyclerView.Adapter<MoviesAdapter.MoviesViewHolder>() {
     private val listMovies = ArrayList<MoviesEntity>()
+    private var lastPosition = -1
 
     fun setMovies(movies: List<MoviesEntity>?) {
         if (movies == null) return
@@ -39,6 +38,15 @@ class MoviesAdapter : RecyclerView.Adapter<MoviesAdapter.MoviesViewHolder>() {
     override fun onBindViewHolder(holder: MoviesViewHolder, position: Int) {
         val movies = listMovies[position]
         holder.bind(movies)
+        setAnimation(holder.itemView.cv_movies, position)
+    }
+
+    private fun setAnimation(view: View, position: Int) {
+        if (position > lastPosition) {
+            val animation = AnimationUtils.loadAnimation(view.context, R.anim.fade_in)
+            view.startAnimation(animation)
+            lastPosition = position
+        }
     }
 
     class MoviesViewHolder(private val binding: ItemMoviesBinding) :
