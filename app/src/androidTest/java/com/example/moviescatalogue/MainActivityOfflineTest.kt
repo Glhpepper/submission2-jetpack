@@ -15,9 +15,9 @@ import androidx.test.filters.LargeTest
 import com.example.moviescatalogue.data.MainRepository
 import com.example.moviescatalogue.ui.main.MainActivity
 import com.example.moviescatalogue.utils.DataBindingIdlingResource
+import com.example.moviescatalogue.utils.DummyData
 import com.example.moviescatalogue.utils.EspressoIdlingResource
 import com.example.moviescatalogue.utils.monitorActivity
-import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
@@ -26,6 +26,12 @@ import org.junit.runner.RunWith
 @LargeTest
 @RunWith(AndroidJUnit4::class)
 class MainActivityOfflineTest {
+    private val dummyMovies = DummyData.generateDummyMovies()
+    private val detailDummyMovies = DummyData.generateDetail(dummyMovies[0].moviesId)
+
+    private val dummyTvShows = DummyData.generateDummyShows()
+    private val detailDummyTvShows = DummyData.generateDetail(dummyTvShows[0].showsId)
+
     private lateinit var mainRepository: MainRepository
 
     private val dataBindingIdlingResource = DataBindingIdlingResource()
@@ -50,12 +56,6 @@ class MainActivityOfflineTest {
 
     @Test
     fun loadOffline_MovieAndShows() {
-        val moviesEntity = runBlocking {
-            mainRepository.getMovies()
-        }
-        val showsEntity = runBlocking {
-            mainRepository.getTvShows()
-        }
 
         val activityScenario = ActivityScenario.launch(MainActivity::class.java)
         dataBindingIdlingResource.monitorActivity(activityScenario)
@@ -63,34 +63,18 @@ class MainActivityOfflineTest {
         onView(withId(R.id.rv_movies))
             .check(matches(isDisplayed()))
         onView(withId(R.id.rv_movies))
-            .perform(moviesEntity.value?.size?.let {
-                RecyclerViewActions.scrollToPosition<RecyclerView.ViewHolder>(
-                    it
-                )
-            })
+            .perform(RecyclerViewActions.scrollToPosition<RecyclerView.ViewHolder>(dummyMovies.size))
 
         onView(withText("Tv Shows")).perform(click())
         onView(withId(R.id.rv_tv_shows)).check(matches(isDisplayed()))
         onView(withId(R.id.rv_tv_shows))
-            .perform(showsEntity.value?.size?.let {
-                RecyclerViewActions.scrollToPosition<RecyclerView.ViewHolder>(
-                    it
-                )
-            })
+            .perform(RecyclerViewActions.scrollToPosition<RecyclerView.ViewHolder>(dummyTvShows.size))
 
         activityScenario.close()
     }
 
     @Test
     fun loadDetailMoviesOffline() {
-        val movies = runBlocking {
-            mainRepository.getMovies()
-        }
-        val detailEntity = movies.value?.get(0)?.moviesId.let { id ->
-            runBlocking {
-                id?.let { mainRepository.getDetailOffline(it) }
-            }
-        }
 
         val activityScenario = ActivityScenario.launch(MainActivity::class.java)
         dataBindingIdlingResource.monitorActivity(activityScenario)
@@ -103,19 +87,19 @@ class MainActivityOfflineTest {
                 )
             )
         onView(withId(R.id.title_offline)).check(matches(isDisplayed()))
-        onView(withId(R.id.title_offline)).check(matches(withText(detailEntity?.value?.get(0)?.detailTitle)))
+        onView(withId(R.id.title_offline)).check(matches(withText(detailDummyMovies[0].detailTitle)))
 
         onView(withId(R.id.detail_image_offline)).check(matches(isDisplayed()))
         onView(withId(R.id.detail_image_offline)).perform(swipeUp())
 
         onView(withId(R.id.detail_overview)).check(matches(isDisplayed()))
-        onView(withId(R.id.detail_overview)).check(matches(withText(detailEntity?.value?.get(0)?.detailOverview)))
+        onView(withId(R.id.detail_overview)).check(matches(withText(detailDummyMovies[0].detailOverview)))
 
         onView(withId(R.id.text_director)).check(matches(isDisplayed()))
         onView(withId(R.id.text_director)).check(matches(withText("Director :")))
 
         onView(withId(R.id.detail_director)).check(matches(isDisplayed()))
-        onView(withId(R.id.detail_director)).check(matches(withText(detailEntity?.value?.get(0)?.detailDirector)))
+        onView(withId(R.id.detail_director)).check(matches(withText(detailDummyMovies[0].detailDirector)))
 
         onView(withId(R.id.progressBar)).check(matches(isDisplayed()))
 
@@ -123,14 +107,14 @@ class MainActivityOfflineTest {
         onView(withId(R.id.text_score)).check(matches(withText("Score :")))
 
         onView(withId(R.id.detail_score)).check(matches(isDisplayed()))
-        onView(withId(R.id.detail_score)).check(matches(withText(detailEntity?.value?.get(0)?.detailContentScoreText)))
+        onView(withId(R.id.detail_score)).check(matches(withText(detailDummyMovies[0].detailContentScoreText)))
 
         onView(withId(R.id.detail_top_cast)).check(matches(isDisplayed()))
         onView(withId(R.id.detail_top_cast)).check(matches(withText("Top Cast :")))
 
         onView(withId(R.id.rv_top_cast)).check(matches(isDisplayed()))
         onView(withId(R.id.rv_top_cast))
-            .perform(detailEntity?.value?.get(0)?.detailTopCast?.size?.let {
+            .perform(detailDummyMovies[0].detailTopCast?.size?.let {
                 RecyclerViewActions.scrollToPosition<RecyclerView.ViewHolder>(
                     it
                 )
@@ -141,14 +125,6 @@ class MainActivityOfflineTest {
 
     @Test
     fun loadDetailTvShowsOffline() {
-        val shows = runBlocking {
-            mainRepository.getTvShows()
-        }
-        val detailEntity = shows.value?.get(0)?.showsId.let { id ->
-            runBlocking {
-                id?.let { mainRepository.getDetailOffline(it) }
-            }
-        }
 
         val activityScenario = ActivityScenario.launch(MainActivity::class.java)
         dataBindingIdlingResource.monitorActivity(activityScenario)
@@ -162,19 +138,19 @@ class MainActivityOfflineTest {
                 )
             )
         onView(withId(R.id.title_offline)).check(matches(isDisplayed()))
-        onView(withId(R.id.title_offline)).check(matches(withText(detailEntity?.value?.get(0)?.detailTitle)))
+        onView(withId(R.id.title_offline)).check(matches(withText(detailDummyTvShows[0].detailTitle)))
 
         onView(withId(R.id.detail_image_offline)).check(matches(isDisplayed()))
         onView(withId(R.id.detail_image_offline)).perform(swipeUp())
 
         onView(withId(R.id.detail_overview)).check(matches(isDisplayed()))
-        onView(withId(R.id.detail_overview)).check(matches(withText(detailEntity?.value?.get(0)?.detailOverview)))
+        onView(withId(R.id.detail_overview)).check(matches(withText(detailDummyTvShows[0].detailOverview)))
 
         onView(withId(R.id.text_director)).check(matches(isDisplayed()))
         onView(withId(R.id.text_director)).check(matches(withText("Director :")))
 
         onView(withId(R.id.detail_director)).check(matches(isDisplayed()))
-        onView(withId(R.id.detail_director)).check(matches(withText(detailEntity?.value?.get(0)?.detailDirector)))
+        onView(withId(R.id.detail_director)).check(matches(withText(detailDummyTvShows[0].detailDirector)))
 
         onView(withId(R.id.progressBar)).check(matches(isDisplayed()))
 
@@ -182,7 +158,7 @@ class MainActivityOfflineTest {
         onView(withId(R.id.text_score)).check(matches(withText("Score :")))
 
         onView(withId(R.id.detail_score)).check(matches(isDisplayed()))
-        onView(withId(R.id.detail_score)).check(matches(withText(detailEntity?.value?.get(0)?.detailContentScoreText)))
+        onView(withId(R.id.detail_score)).check(matches(withText(detailDummyTvShows[0].detailContentScoreText)))
 
         onView(withId(R.id.detail_top_cast)).check(matches(isDisplayed()))
         onView(withId(R.id.detail_top_cast)).check(matches(withText("Top Cast :")))
@@ -190,13 +166,14 @@ class MainActivityOfflineTest {
         onView(withId(R.id.rv_top_cast)).check(matches(isDisplayed()))
         onView(withId(R.id.rv_top_cast))
             .perform(
-                detailEntity?.value?.get(0)?.detailTopCast?.size?.let {
+                detailDummyTvShows[0].detailTopCast?.size?.let {
                     RecyclerViewActions.scrollToPosition<RecyclerView.ViewHolder>(
                         it
                     )
-                }
-            )
+                })
 
         activityScenario.close()
     }
 }
+
+

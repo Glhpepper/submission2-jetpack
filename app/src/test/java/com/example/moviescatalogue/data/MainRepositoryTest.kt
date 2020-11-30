@@ -88,15 +88,13 @@ class MainRepositoryTest {
             val moviesEntity = mainRepository.getDetailOffline(moviesId).getOrAwaitValue()
 
             assertThat(moviesDetail, `is`(allOf(notNullValue(), not(empty()))))
-            assertThat(moviesDetail.size, `is`(moviesEntity.size))
-            assertThat(moviesEntity, `is`(moviesDetail))
+            assertThat(moviesEntity, `is`(moviesDetail[0]))
 
             mainRepository.getDetailOffline(showsId)
             val showsEntity = mainRepository.getDetailOffline(showsId).getOrAwaitValue()
 
             assertThat(showsDetail, `is`(allOf(notNullValue(), not(empty()))))
-            assertThat(showsDetail.size, `is`(showsEntity.size))
-            assertThat(showsEntity, `is`(showsDetail))
+            assertThat(showsEntity, `is`(showsDetail[0]))
         }
     }
 

@@ -26,10 +26,11 @@ class MainRepository @Inject constructor(
     override suspend fun getMovies(): LiveData<List<MoviesEntity>> {
         wrapEspressoIdlingResource {
             val moviesResults = MutableLiveData<List<MoviesEntity>>()
+            var moviesList: ArrayList<MoviesEntity>
             withContext(ioDispatcher) {
-                val moviesList = dummyData.generateDummyMovies()
-                moviesResults.postValue(moviesList)
+                moviesList = dummyData.generateDummyMovies()
             }
+            moviesResults.value = moviesList
             return moviesResults
         }
     }
@@ -37,10 +38,11 @@ class MainRepository @Inject constructor(
     override suspend fun getTvShows(): LiveData<List<TvShowsEntity>> {
         wrapEspressoIdlingResource {
             val tvShowsResults = MutableLiveData<List<TvShowsEntity>>()
+            var showsList:ArrayList<TvShowsEntity>
             withContext(ioDispatcher) {
-                val showsList = dummyData.generateDummyShows()
-                tvShowsResults.postValue(showsList)
+                showsList = dummyData.generateDummyShows()
             }
+            tvShowsResults.value = showsList
             return tvShowsResults
         }
     }
@@ -89,13 +91,14 @@ class MainRepository @Inject constructor(
         }
     }
 
-    override suspend fun getDetailOffline(id: String): LiveData<List<DetailEntity>> {
+    override suspend fun getDetailOffline(id: String): LiveData<DetailEntity> {
         wrapEspressoIdlingResource {
-            val detailResults = MutableLiveData<List<DetailEntity>>()
+            val detailResults = MutableLiveData<DetailEntity>()
+            var detail: ArrayList<DetailEntity>
             withContext(ioDispatcher) {
-                val detail = dummyData.generateDetail(id)
-                detailResults.postValue(detail)
+               detail = dummyData.generateDetail(id)
             }
+            detailResults.value = detail[0]
             return detailResults
         }
     }

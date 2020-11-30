@@ -24,8 +24,8 @@ class DetailViewModel @Inject constructor(private val mainRepo: MainRepository) 
     val detailContentShows: LiveData<ResponseDetailShows>
         get() = _detailContentShows
 
-    private val _detailContentOffline = MutableLiveData<List<DetailEntity?>>()
-    val detailContentOffline: LiveData<List<DetailEntity?>>
+    private val _detailContentOffline = MutableLiveData<DetailEntity?>()
+    val detailContentOffline: LiveData<DetailEntity?>
         get() = _detailContentOffline
 
     fun getDetailMovie(id: String) {
@@ -33,7 +33,7 @@ class DetailViewModel @Inject constructor(private val mainRepo: MainRepository) 
             viewModelScope.launch {
                 val detailMovie = mainRepo.getDetailMovie(id)
                 try {
-                    _detailContentMovie.value = detailMovie.value
+                    _detailContentMovie.postValue(detailMovie.value)
                 } catch (e: Exception) {
                     e.printStackTrace()
                 }
@@ -46,7 +46,7 @@ class DetailViewModel @Inject constructor(private val mainRepo: MainRepository) 
             viewModelScope.launch {
                 val detailShow = mainRepo.getDetailTvShows(id)
                 try {
-                    _detailContentShows.value = detailShow.value
+                    _detailContentShows.postValue(detailShow.value)
                 } catch (e: Exception) {
                     e.printStackTrace()
                 }

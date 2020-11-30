@@ -187,7 +187,7 @@ class DetailActivity : AppCompatActivity() {
                 when (menu.itemId) {
                     R.id.action_share -> {
                         if (detail != null) {
-                            onShareClick(detail[0])
+                            onShareClick(detail)
                         }
                         true
                     }

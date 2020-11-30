@@ -44,7 +44,7 @@ class DetailViewModelTest {
     fun getDetailMovies_return_moviesOffline() {
         val id = "0001"
         val moviesList = DummyData.generateDetail(id)
-        val movies = MutableLiveData<List<DetailEntity>>(moviesList)
+        val movies = MutableLiveData(moviesList[0])
 
         mainCoroutineRule.runBlockingTest {
             whenever(mainRepository.getDetailOffline(id)).thenReturn(movies)
@@ -54,26 +54,8 @@ class DetailViewModelTest {
             val detailEntity = detailViewModel.detailContentOffline.value
 
             assertThat(detailEntity, `is`(notNullValue()))
-            assertThat(detailEntity?.size, `is`(1))
-            assertThat(detailEntity?.get(0)?.detailTopCast?.size, `is`(5))
-            assertThat(detailEntity?.get(0), `is`(movies.value?.get(0)))
-        }
-    }
-
-    @Test
-    fun getDetailMovies_return_moviesOfflineWithEmpty() {
-        val id = "0001"
-        val movies = MutableLiveData<List<DetailEntity>>(emptyList())
-
-        mainCoroutineRule.runBlockingTest {
-            whenever(mainRepository.getDetailOffline(id)).thenReturn(movies)
-            detailViewModel.getDetailOffline(id)
-            verify(mainRepository).getDetailOffline(id)
-            detailViewModel.detailContentOffline.getOrAwaitValue()
-            val detailEntity = detailViewModel.detailContentOffline.value
-
-            assertThat(detailEntity, `is`(notNullValue()))
-            assertThat(detailEntity?.size, `is`(0))
+            assertThat(detailEntity?.detailTopCast?.size, `is`(5))
+            assertThat(detailEntity, `is`(movies.value))
         }
     }
 
@@ -151,7 +133,7 @@ class DetailViewModelTest {
     fun getDetailShows_return_showsOffline() {
         val id = "1000"
         val showsList = DummyData.generateDetail(id)
-        val shows = MutableLiveData<List<DetailEntity>>(showsList)
+        val shows = MutableLiveData(showsList[0])
 
         mainCoroutineRule.runBlockingTest {
             whenever(mainRepository.getDetailOffline(id)).thenReturn(shows)
@@ -161,27 +143,8 @@ class DetailViewModelTest {
             val detailEntity = detailViewModel.detailContentOffline.value
 
             assertThat(detailEntity, `is`(notNullValue()))
-            assertThat(detailEntity?.size, `is`(1))
-            assertThat(detailEntity?.get(0)?.detailTopCast?.size, `is`(5))
-            assertThat(detailEntity?.get(0), `is`(shows.value?.get(0)))
-        }
-    }
-
-    @Test
-    fun getDetailShows_return_ShowsOfflineWithEmpty() {
-        val id = "1000"
-        val showsList = arrayListOf<DetailEntity>()
-        val shows = MutableLiveData<List<DetailEntity>>(showsList)
-
-        mainCoroutineRule.runBlockingTest {
-            whenever(mainRepository.getDetailOffline(id)).thenReturn(shows)
-            detailViewModel.getDetailOffline(id)
-            verify(mainRepository).getDetailOffline(id)
-            detailViewModel.detailContentOffline.getOrAwaitValue()
-            val detailEntity = detailViewModel.detailContentOffline.value
-
-            assertThat(detailEntity, `is`(notNullValue()))
-            assertThat(detailEntity?.size, `is`(0))
+            assertThat(detailEntity?.detailTopCast?.size, `is`(5))
+            assertThat(detailEntity, `is`(shows.value))
         }
     }
 

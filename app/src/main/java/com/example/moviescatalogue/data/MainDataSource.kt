@@ -23,5 +23,5 @@ interface MainDataSource {
 
     suspend fun getDetailTvShows(id: String): LiveData<ResponseDetailShows>
 
-    suspend fun getDetailOffline(id: String): LiveData<List<DetailEntity>>
+    suspend fun getDetailOffline(id: String): LiveData<DetailEntity>
 }
