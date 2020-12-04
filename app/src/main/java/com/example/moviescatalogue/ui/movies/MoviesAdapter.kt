@@ -5,6 +5,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import androidx.navigation.findNavController
+import androidx.paging.PagingDataAdapter
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.moviescatalogue.R
 import com.example.moviescatalogue.data.local.entity.MoviesEntity
@@ -12,9 +14,19 @@ import com.example.moviescatalogue.databinding.ItemMoviesBinding
 import com.example.moviescatalogue.ui.main.MainFragmentDirections
 import kotlinx.android.synthetic.main.item_movies.view.*
 
-class MoviesAdapter : RecyclerView.Adapter<MoviesAdapter.MoviesViewHolder>() {
+class MoviesAdapter : PagingDataAdapter<MoviesEntity, MoviesAdapter.MoviesViewHolder>(Movie_DiffUtils) {
     private val listMovies = ArrayList<MoviesEntity>()
     private var lastPosition = -1
+
+    companion object {
+        private val Movie_DiffUtils = object : DiffUtil.ItemCallback<MoviesEntity>() {
+            override fun areItemsTheSame(oldItem: MoviesEntity, newItem: MoviesEntity): Boolean =
+                oldItem.moviesId == newItem.moviesId
+
+            override fun areContentsTheSame(oldItem: MoviesEntity, newItem: MoviesEntity): Boolean =
+                oldItem == newItem
+        }
+    }
 
     fun setMovies(movies: List<MoviesEntity>?) {
         if (movies == null) return
@@ -33,10 +45,8 @@ class MoviesAdapter : RecyclerView.Adapter<MoviesAdapter.MoviesViewHolder>() {
         return MoviesViewHolder(view)
     }
 
-    override fun getItemCount(): Int = listMovies.size
-
     override fun onBindViewHolder(holder: MoviesViewHolder, position: Int) {
-        val movies = listMovies[position]
+        val movies = getItem(position)
         holder.bind(movies)
         setAnimation(holder.itemView.cv_movies, position)
     }
@@ -69,7 +79,7 @@ class MoviesAdapter : RecyclerView.Adapter<MoviesAdapter.MoviesViewHolder>() {
             view.findNavController().navigate(direction)
         }
 
-        fun bind(movies: MoviesEntity) {
+        fun bind(movies: MoviesEntity?) {
             binding.apply {
                 moviesEntity = movies
                 executePendingBindings()

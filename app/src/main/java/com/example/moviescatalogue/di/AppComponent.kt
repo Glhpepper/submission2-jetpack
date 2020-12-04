@@ -2,7 +2,6 @@ package com.example.moviescatalogue.di
 
 import com.example.moviescatalogue.data.MainRepository
 import com.example.moviescatalogue.di.module.DispatcherModule
-import com.example.moviescatalogue.di.module.DummyModule
 import com.example.moviescatalogue.di.module.NetworkModule
 import com.example.moviescatalogue.di.module.ViewModelModuleBuilder
 import com.example.moviescatalogue.ui.detail.di.DetailComponent
@@ -15,7 +14,6 @@ import javax.inject.Singleton
     modules = [
         DispatcherModule::class,
         NetworkModule::class,
-        DummyModule::class,
         AppMainComponent::class,
         ViewModelModuleBuilder::class]
 )

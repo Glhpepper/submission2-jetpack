@@ -17,10 +17,6 @@
         android:layout_height="match_parent">
 
         <include
-            android:id="@+id/content_offline"
-            layout="@layout/content_detail_offline"
-            app:viewModel="@{viewModel}"/>
-        <include
             android:id="@+id/content_movies"
             layout="@layout/content_detail_movies"
             app:viewModel="@{viewModel}"/>

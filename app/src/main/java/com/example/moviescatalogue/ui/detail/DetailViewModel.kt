@@ -5,7 +5,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.moviescatalogue.data.MainRepository
-import com.example.moviescatalogue.data.local.entity.DetailEntity
 import com.example.moviescatalogue.data.remote.response.ResponseDetailMovies
 import com.example.moviescatalogue.data.remote.response.ResponseDetailShows
 import com.example.moviescatalogue.ui.detail.di.DetailScope
@@ -23,10 +22,6 @@ class DetailViewModel @Inject constructor(private val mainRepo: MainRepository) 
     private val _detailContentShows = MutableLiveData<ResponseDetailShows>()
     val detailContentShows: LiveData<ResponseDetailShows>
         get() = _detailContentShows
-
-    private val _detailContentOffline = MutableLiveData<DetailEntity?>()
-    val detailContentOffline: LiveData<DetailEntity?>
-        get() = _detailContentOffline
 
     fun getDetailMovie(id: String) {
         wrapEspressoIdlingResource {
@@ -47,19 +42,6 @@ class DetailViewModel @Inject constructor(private val mainRepo: MainRepository) 
                 val detailShow = mainRepo.getDetailTvShows(id)
                 try {
                     _detailContentShows.postValue(detailShow.value)
-                } catch (e: Exception) {
-                    e.printStackTrace()
-                }
-            }
-        }
-    }
-
-    fun getDetailOffline(id: String) {
-        wrapEspressoIdlingResource {
-            viewModelScope.launch {
-                val detail = mainRepo.getDetailOffline(id)
-                try {
-                    _detailContentOffline.value = detail.value
                 } catch (e: Exception) {
                     e.printStackTrace()
                 }

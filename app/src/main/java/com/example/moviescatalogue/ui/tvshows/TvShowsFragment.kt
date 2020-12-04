@@ -13,7 +13,6 @@ import com.example.moviescatalogue.R
 import com.example.moviescatalogue.databinding.FragmentTvShowsBinding
 import com.example.moviescatalogue.ui.main.MainActivity
 import com.example.moviescatalogue.ui.main.MainViewModel
-import com.example.moviescatalogue.utils.isOnline
 import javax.inject.Inject
 
 
@@ -49,10 +48,6 @@ class TvShowsFragment : Fragment() {
     }
 
     private fun setupShows() {
-        if (isOnline(context)) {
-            viewModel.getTvShowsApi()
-        } else {
-            viewModel.getTvShows()
-        }
+        viewModel.getTvShowsApi()
     }
 }
