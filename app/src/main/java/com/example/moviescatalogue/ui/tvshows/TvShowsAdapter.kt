@@ -19,7 +19,6 @@ import javax.inject.Inject
 
 @MainScope
 class TvShowsAdapter @Inject constructor() : PagingDataAdapter<TvShowsEntity, TvShowsAdapter.TvShowsViewHolder>(Shows_DiffUtils) {
-    private val listTvShows = ArrayList<TvShowsEntity>()
     private var lastPosition = -1
 
     companion object {
@@ -30,15 +29,6 @@ class TvShowsAdapter @Inject constructor() : PagingDataAdapter<TvShowsEntity, Tv
             override fun areContentsTheSame(oldItem: TvShowsEntity, newItem: TvShowsEntity): Boolean =
                 oldItem == newItem
         }
-    }
-
-    fun setTvShows(tvShows: List<TvShowsEntity>?) {
-        if (tvShows == null) return
-        listTvShows.apply {
-            clear()
-            addAll(tvShows)
-        }
-        notifyDataSetChanged()
     }
 
     override fun onCreateViewHolder(

@@ -1,5 +1,6 @@
 package com.example.moviescatalogue.ui.detail.di
 
+import androidx.paging.ExperimentalPagingApi
 import com.example.moviescatalogue.ui.detail.DetailActivity
 import dagger.Subcomponent
 

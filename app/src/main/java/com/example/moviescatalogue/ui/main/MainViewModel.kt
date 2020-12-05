@@ -1,7 +1,7 @@
 package com.example.moviescatalogue.ui.main
 
-import android.util.Log
 import androidx.lifecycle.*
+import androidx.paging.ExperimentalPagingApi
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.example.moviescatalogue.data.MainRepository
@@ -9,6 +9,7 @@ import com.example.moviescatalogue.data.local.entity.MoviesEntity
 import com.example.moviescatalogue.data.local.entity.TvShowsEntity
 import com.example.moviescatalogue.ui.main.di.MainScope
 import com.example.moviescatalogue.utils.wrapEspressoIdlingResource
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -23,44 +24,15 @@ class MainViewModel @Inject constructor(private val mainRepo: MainRepository) : 
     val listShowsApi: LiveData<List<TvShowsEntity>?>
         get() = _listShowsApi
 
-    private val _listShowsApiPaging = MutableLiveData<PagingData<TvShowsEntity>?>()
-    val listShowsApiPaging: LiveData<PagingData<TvShowsEntity>?>
-        get() = _listShowsApiPaging
-
-    fun getMoviesApi() {
+    suspend fun getMovieApiPaging(): Flow<PagingData<MoviesEntity>> {
         wrapEspressoIdlingResource {
-            viewModelScope.launch {
-                val resultMoviesApi = mainRepo.getMoviesApi().cachedIn(viewModelScope).asLiveData()
-                try {
-                    _listMoviesApi.value = resultMoviesApi.value
-                } catch (e: Exception) {
-                    e.printStackTrace()
-                }
-            }
+            return mainRepo.getMoviesApi().cachedIn(viewModelScope)
         }
     }
 
-    suspend fun getMovieApiPaging() =
+    suspend fun getShowsApiPaging(): Flow<PagingData<TvShowsEntity>> {
         wrapEspressoIdlingResource {
-            mainRepo.getMoviesApi().cachedIn(viewModelScope)
-        }
-
-    suspend fun getShowsApiPaging() =
-        wrapEspressoIdlingResource {
-            mainRepo.getShowsApi().cachedIn(viewModelScope)
-        }
-
-
-    fun getTvShowsApi() {
-        wrapEspressoIdlingResource {
-            viewModelScope.launch {
-                val resultTvShows = mainRepo.getShowsApi().cachedIn(viewModelScope).asLiveData()
-                try {
-                    _listShowsApiPaging.value = resultTvShows.value
-                } catch (e: Exception) {
-                    e.printStackTrace()
-                }
-            }
+           return mainRepo.getShowsApi().cachedIn(viewModelScope)
         }
     }
 }

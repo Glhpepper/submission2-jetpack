@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
+import androidx.paging.ExperimentalPagingApi
 import com.example.moviescatalogue.R
 import com.example.moviescatalogue.ui.movies.MoviesFragment
 import com.example.moviescatalogue.ui.tvshows.TvShowsFragment

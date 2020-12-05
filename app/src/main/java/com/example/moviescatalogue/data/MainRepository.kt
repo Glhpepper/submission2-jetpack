@@ -2,17 +2,13 @@ package com.example.moviescatalogue.data
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.paging.Pager
-import androidx.paging.PagingConfig
-import androidx.paging.PagingData
-import androidx.paging.liveData
+import androidx.paging.*
 import com.example.moviescatalogue.data.local.entity.MoviesEntity
 import com.example.moviescatalogue.data.local.entity.TvShowsEntity
+import com.example.moviescatalogue.data.local.room.CatalogueDatabase
 import com.example.moviescatalogue.data.remote.ApiServices
 import com.example.moviescatalogue.data.remote.response.ResponseDetailMovies
 import com.example.moviescatalogue.data.remote.response.ResponseDetailShows
-import com.example.moviescatalogue.data.remote.response.ResponseMovies
-import com.example.moviescatalogue.data.remote.response.ResponseTvShows
 import com.example.moviescatalogue.di.module.DispatcherModule.IoDispatcher
 import com.example.moviescatalogue.ui.movies.MoviePagingSource
 import com.example.moviescatalogue.ui.tvshows.TvShowsPagingSource
@@ -24,10 +20,11 @@ import javax.inject.Inject
 
 class MainRepository @Inject constructor(
     @IoDispatcher private val ioDispatcher: CoroutineDispatcher,
-    private val network: ApiServices
+    private val network: ApiServices,
+    private val catalogueDatabase: CatalogueDatabase
 ) : MainDataSource {
 
-    companion object{
+    companion object {
         private const val NETWORK_PAGE_SIZE = 10
     }
 

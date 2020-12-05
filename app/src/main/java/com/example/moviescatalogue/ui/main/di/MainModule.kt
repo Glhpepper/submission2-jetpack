@@ -1,6 +1,7 @@
 package com.example.moviescatalogue.ui.main.di
 
 import androidx.lifecycle.ViewModel
+import androidx.paging.ExperimentalPagingApi
 import com.example.moviescatalogue.di.module.ViewModelModuleBuilder.ViewModelKey
 import com.example.moviescatalogue.ui.main.MainViewModel
 import dagger.Binds

@@ -12,6 +12,7 @@ import androidx.core.widget.NestedScrollView
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.navArgs
+import androidx.paging.ExperimentalPagingApi
 import com.example.moviescatalogue.MyApplication
 import com.example.moviescatalogue.R
 import com.example.moviescatalogue.data.remote.response.ResponseDetailMovies

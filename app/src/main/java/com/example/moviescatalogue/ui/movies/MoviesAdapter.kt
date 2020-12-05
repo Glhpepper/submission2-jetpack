@@ -18,7 +18,6 @@ import javax.inject.Inject
 
 @MainScope
 class MoviesAdapter @Inject constructor(): PagingDataAdapter<MoviesEntity, MoviesAdapter.MoviesViewHolder>(Movie_DiffUtils) {
-    private val listMovies = ArrayList<MoviesEntity>()
     private var lastPosition = -1
 
     companion object {
@@ -29,15 +28,6 @@ class MoviesAdapter @Inject constructor(): PagingDataAdapter<MoviesEntity, Movie
             override fun areContentsTheSame(oldItem: MoviesEntity, newItem: MoviesEntity): Boolean =
                 oldItem == newItem
         }
-    }
-
-    fun setMovies(movies: List<MoviesEntity>?) {
-        if (movies == null) return
-        listMovies.apply {
-            clear()
-            addAll(movies)
-        }
-        notifyDataSetChanged()
     }
 
     override fun onCreateViewHolder(

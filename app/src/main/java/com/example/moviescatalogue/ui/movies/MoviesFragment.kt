@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.paging.ExperimentalPagingApi
 import com.example.moviescatalogue.R
 import com.example.moviescatalogue.databinding.FragmentMoviesBinding
 import com.example.moviescatalogue.ui.main.MainActivity
@@ -18,7 +19,6 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
-
 
 class MoviesFragment : Fragment() {
     @Inject

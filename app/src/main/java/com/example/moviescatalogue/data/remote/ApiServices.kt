@@ -13,14 +13,14 @@ interface ApiServices {
     @GET("discover/movie?")
     suspend fun getListMovies(
         @Query("api_key") apiKey: String = BuildConfig.API_TOKEN,
-        @Query("language") language : String = "en-EN",
+        @Query("sort_by") sortBy : String = "popularity.desc",
         @Query("page") page: Int
     ): ResponseMovies
 
     @GET("discover/tv?")
     suspend fun getListTvShows(
         @Query("api_key") apiKey: String = BuildConfig.API_TOKEN,
-        @Query("language") language : String = "en-EN",
+        @Query("sort_by") sortBy : String = "popularity.desc",
         @Query("page") page: Int
     ): ResponseTvShows
 

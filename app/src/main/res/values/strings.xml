@@ -28,4 +28,5 @@
     <string name="backdop">Image Backdrop</string>
     <string name="season">Season List :</string>
     <string name="season_name">season name</string>
+    <string name="retry">Retry</string>
 </resources>
