@@ -7,6 +7,7 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.liveData
 import com.example.moviescatalogue.data.local.entity.MoviesEntity
+import com.example.moviescatalogue.data.local.entity.TvShowsEntity
 import com.example.moviescatalogue.data.remote.ApiServices
 import com.example.moviescatalogue.data.remote.response.ResponseDetailMovies
 import com.example.moviescatalogue.data.remote.response.ResponseDetailShows
@@ -14,8 +15,10 @@ import com.example.moviescatalogue.data.remote.response.ResponseMovies
 import com.example.moviescatalogue.data.remote.response.ResponseTvShows
 import com.example.moviescatalogue.di.module.DispatcherModule.IoDispatcher
 import com.example.moviescatalogue.ui.movies.MoviePagingSource
+import com.example.moviescatalogue.ui.tvshows.TvShowsPagingSource
 import com.example.moviescatalogue.utils.wrapEspressoIdlingResource
 import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
@@ -25,10 +28,10 @@ class MainRepository @Inject constructor(
 ) : MainDataSource {
 
     companion object{
-        private const val NETWORK_PAGE_SIZE = 20
+        private const val NETWORK_PAGE_SIZE = 10
     }
 
-    override suspend fun getMoviesApi(): LiveData<PagingData<MoviesEntity>> {
+    override suspend fun getMoviesApi(): Flow<PagingData<MoviesEntity>> {
         wrapEspressoIdlingResource {
             return Pager(
                 config = PagingConfig(
@@ -36,24 +39,19 @@ class MainRepository @Inject constructor(
                     enablePlaceholders = false
                 ),
                 pagingSourceFactory = { MoviePagingSource(network) }
-            ).liveData
-//            val moviesResults = MutableLiveData<ResponseMovies>()
-//            withContext(ioDispatcher) {
-//                val moviesList = network.getListMovies()
-//                moviesResults.postValue(moviesList)
-//            }
-//            return moviesResults
+            ).flow
         }
     }
 
-    override suspend fun getShowsApi(): LiveData<ResponseTvShows> {
+    override suspend fun getShowsApi(): Flow<PagingData<TvShowsEntity>> {
         wrapEspressoIdlingResource {
-            val tvShowsResults = MutableLiveData<ResponseTvShows>()
-            withContext(ioDispatcher) {
-                val showsList = network.getListTvShows()
-                tvShowsResults.postValue(showsList)
-            }
-            return tvShowsResults
+            return Pager(
+                config = PagingConfig(
+                    pageSize = NETWORK_PAGE_SIZE,
+                    enablePlaceholders = false
+                ),
+                pagingSourceFactory = { TvShowsPagingSource(network) }
+            ).flow
         }
     }
 

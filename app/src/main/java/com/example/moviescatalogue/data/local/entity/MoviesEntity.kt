@@ -7,21 +7,21 @@ import kotlinx.android.parcel.Parcelize
 @Parcelize
 data class MoviesEntity(
 
-    @field:SerializedName("id")
+    @SerializedName("id")
     val moviesId: String,
 
-    @field:SerializedName("title")
+    @SerializedName("title")
     val moviesTitle: String,
 
-    @field:SerializedName("overview")
+    @SerializedName("overview")
     val moviesOverview: String,
 
-    @field:SerializedName("vote_average")
+    @SerializedName("vote_average")
     val moviesScore: String,
 
-    @field:SerializedName("poster_path")
+    @SerializedName("poster_path")
     val moviesImage: String,
 
-    @field:SerializedName("release_date")
+    @SerializedName("release_date")
     val moviesDate:String
 ) : Parcelable

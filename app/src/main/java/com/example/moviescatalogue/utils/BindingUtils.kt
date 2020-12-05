@@ -18,18 +18,6 @@ import com.example.moviescatalogue.ui.detail.shows.SeasonAdapter
 import com.example.moviescatalogue.ui.movies.MoviesAdapter
 import com.example.moviescatalogue.ui.tvshows.TvShowsAdapter
 
-@BindingAdapter("moviesList")
-fun bindMoviesList(recyclerView: RecyclerView, data: List<MoviesEntity>?) {
-    val adapter = recyclerView.adapter as MoviesAdapter
-    adapter.setMovies(data)
-}
-
-@BindingAdapter("showsList")
-fun bindShowsList(recyclerView: RecyclerView, data: List<TvShowsEntity>?) {
-    val adapter = recyclerView.adapter as TvShowsAdapter
-    adapter.setTvShows(data)
-}
-
 @BindingAdapter("seasonList")
 fun bindSeasonList(recyclerView: RecyclerView, data: List<SeasonsItem>?) {
     val adapter = recyclerView.adapter as SeasonAdapter

@@ -24,7 +24,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:showsList="@{showsViewModel.listShowsApi}"
             tools:listitem="@layout/item_tv_shows" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

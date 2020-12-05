@@ -10,15 +10,19 @@ import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface ApiServices {
-    @GET("discover/movie")
+    @GET("discover/movie?")
     suspend fun getListMovies(
         @Query("api_key") apiKey: String = BuildConfig.API_TOKEN,
-        @Query("sort_by") sortBy: String = "popularity.desc",
+        @Query("language") language : String = "en-EN",
         @Query("page") page: Int
     ): ResponseMovies
 
-    @GET("discover/tv?api_key=${BuildConfig.API_TOKEN}&sort_by=popularity.desc&page=1")
-    suspend fun getListTvShows(): ResponseTvShows
+    @GET("discover/tv?")
+    suspend fun getListTvShows(
+        @Query("api_key") apiKey: String = BuildConfig.API_TOKEN,
+        @Query("language") language : String = "en-EN",
+        @Query("page") page: Int
+    ): ResponseTvShows
 
     @GET("movie/{id}?api_key=${BuildConfig.API_TOKEN}")
     suspend fun getDetailMovies(@Path("id") id: String): ResponseDetailMovies

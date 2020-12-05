@@ -12,9 +12,12 @@ import com.example.moviescatalogue.R
 import com.example.moviescatalogue.data.local.entity.MoviesEntity
 import com.example.moviescatalogue.databinding.ItemMoviesBinding
 import com.example.moviescatalogue.ui.main.MainFragmentDirections
+import com.example.moviescatalogue.ui.main.di.MainScope
 import kotlinx.android.synthetic.main.item_movies.view.*
+import javax.inject.Inject
 
-class MoviesAdapter : PagingDataAdapter<MoviesEntity, MoviesAdapter.MoviesViewHolder>(Movie_DiffUtils) {
+@MainScope
+class MoviesAdapter @Inject constructor(): PagingDataAdapter<MoviesEntity, MoviesAdapter.MoviesViewHolder>(Movie_DiffUtils) {
     private val listMovies = ArrayList<MoviesEntity>()
     private var lastPosition = -1
 
