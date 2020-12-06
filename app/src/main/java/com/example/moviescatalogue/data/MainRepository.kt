@@ -10,8 +10,8 @@ import com.example.moviescatalogue.data.remote.ApiServices
 import com.example.moviescatalogue.data.remote.response.ResponseDetailMovies
 import com.example.moviescatalogue.data.remote.response.ResponseDetailShows
 import com.example.moviescatalogue.di.module.DispatcherModule.IoDispatcher
-import com.example.moviescatalogue.ui.movies.MoviePagingSource
-import com.example.moviescatalogue.ui.tvshows.TvShowsPagingSource
+import com.example.moviescatalogue.ui.main.movies.MoviePagingSource
+import com.example.moviescatalogue.ui.main.tvshows.TvShowsPagingSource
 import com.example.moviescatalogue.utils.wrapEspressoIdlingResource
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow

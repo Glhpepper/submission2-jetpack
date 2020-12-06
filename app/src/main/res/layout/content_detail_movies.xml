@@ -32,12 +32,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:fitsSystemWindows="true"
-                app:title="@{viewModel.detailContentMovie.title}"
                 app:collapsedTitleGravity="center"
                 app:collapsedTitleTextAppearance="@style/TextAppearance.Example.Toolbar.Text"
                 app:contentScrim="?attr/colorSurface"
                 app:layout_scrollFlags="scroll|exitUntilCollapsed"
                 app:statusBarScrim="@color/bamboo"
+                app:title="@{viewModel.detailContentMovie.title}"
                 app:titleEnabled="false"
                 app:toolbarId="@id/toolbar">
 
@@ -195,7 +195,7 @@
                     android:gravity="center"
                     android:text="@string/popularity"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/status_text_movies"/>
+                    app:layout_constraintTop_toBottomOf="@+id/status_text_movies" />
 
                 <TextView
                     android:id="@+id/popularity_movies"
@@ -261,9 +261,9 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:gravity="center"
+                    android:text="@string/original_title"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/vote_average_movie"
-                    android:text="@string/original_title" />
+                    app:layout_constraintTop_toBottomOf="@+id/vote_average_movie" />
 
                 <TextView
                     android:id="@+id/original_title_movies"
@@ -286,8 +286,8 @@
                     android:layout_marginTop="16dp"
                     android:gravity="center"
                     android:text="@{viewModel.detailContentMovie.tagline}"
-                    android:textStyle="bold"
                     android:textSize="18sp"
+                    android:textStyle="bold"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/original_title_movies"
@@ -298,11 +298,23 @@
                     android:layout_width="200dp"
                     android:layout_height="200dp"
                     android:layout_marginTop="16dp"
+                    android:contentDescription="@string/backdop"
                     app:imgUrl="@{viewModel.detailContentMovie.backdropPath}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tagline_movie"
-                    android:contentDescription="@string/backdop"/>
+                    app:layout_constraintTop_toBottomOf="@+id/tagline_movie" />
+
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/fab_movies"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_margin="24dp"
+                    android:contentDescription="@string/favorite"
+                    android:padding="4dp"
+                    app:backgroundTint="@color/blumine"
+                    app:fabCustomSize="60dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.core.widget.NestedScrollView>

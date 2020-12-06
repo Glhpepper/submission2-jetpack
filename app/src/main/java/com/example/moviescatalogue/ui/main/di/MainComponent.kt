@@ -1,10 +1,9 @@
 package com.example.moviescatalogue.ui.main.di
 
-import androidx.paging.ExperimentalPagingApi
 import com.example.moviescatalogue.ui.main.MainActivity
 import com.example.moviescatalogue.ui.main.MainFragment
-import com.example.moviescatalogue.ui.movies.MoviesFragment
-import com.example.moviescatalogue.ui.tvshows.TvShowsFragment
+import com.example.moviescatalogue.ui.main.movies.MoviesFragment
+import com.example.moviescatalogue.ui.main.tvshows.TvShowsFragment
 import dagger.Subcomponent
 
 @MainScope

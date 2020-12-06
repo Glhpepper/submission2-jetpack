@@ -2,25 +2,24 @@ package com.example.moviescatalogue.ui.main
 
 import android.content.Context
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.LoadState
 import com.example.moviescatalogue.R
 import com.example.moviescatalogue.databinding.FragmentMainBinding
 import com.example.moviescatalogue.ui.main.di.MainScope
-import com.example.moviescatalogue.ui.movies.MoviesAdapter
-import com.example.moviescatalogue.ui.tvshows.TvShowsAdapter
+import com.example.moviescatalogue.ui.main.movies.MoviesAdapter
+import com.example.moviescatalogue.ui.main.tvshows.TvShowsAdapter
 import kotlinx.android.synthetic.main.fragment_main.*
 import javax.inject.Inject
 
-@MainScope
 class MainFragment : Fragment() {
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
@@ -48,6 +47,9 @@ class MainFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setHasOptionsMenu(true)
+        (activity as AppCompatActivity).setSupportActionBar(toolbar)
+
         binding.lifecycleOwner = viewLifecycleOwner
         setUpPager()
         btn_retry.setOnClickListener {
@@ -69,5 +71,19 @@ class MainFragment : Fragment() {
             pb_main.isVisible = loadState.source.refresh is LoadState.Loading
             btn_retry.isVisible = loadState.source.refresh is LoadState.Error
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.main_menu, menu)
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.favorite_menu -> {
+                findNavController().navigate(MainFragmentDirections.actionMainFragmentToFavoriteFragment())
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 }

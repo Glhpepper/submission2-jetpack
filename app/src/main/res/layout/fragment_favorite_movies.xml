@@ -6,25 +6,26 @@
     <data>
 
         <variable
-            name="showsViewModel"
-            type="com.example.moviescatalogue.ui.main.MainViewModel" />
+            name="moviesViewModel"
+            type="com.example.moviescatalogue.ui.favorite.FavoriteViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.main.tvshows.TvShowsFragment">
+        tools:context=".ui.main.movies.MoviesFragment">
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_tv_shows"
+            android:id="@+id/rv_favorite_movies"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:clipToPadding="false"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:listitem="@layout/item_tv_shows" />
+            app:layout_constraintTop_toTopOf="parent"/>
+<!--            tools:listitem="@layout/item_movies" />-->
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

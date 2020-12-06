@@ -1,70 +1,72 @@
 package com.example.moviescatalogue.data.remote.response
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 
 data class ResponseDetailShows(
+    @PrimaryKey
+    @SerializedName("id")
+    val id: Int?,
 
-	@field:SerializedName("genres")
-	val genres: List<GenresItemShows>?,
+    @SerializedName("genres")
+    val genres: List<GenresItemShows>?,
 
-	@field:SerializedName("popularity")
-	val popularity: Double?,
+    @SerializedName("popularity")
+    val popularity: Double?,
 
-	@field:SerializedName("id")
-	val id: Int?,
+    @SerializedName("vote_count")
+    val voteCount: Int?,
 
-	@field:SerializedName("vote_count")
-	val voteCount: Int?,
+    @SerializedName("first_air_date")
+    val firstAirDate: String?,
 
-	@field:SerializedName("first_air_date")
-	val firstAirDate: String?,
+    @SerializedName("overview")
+    val overview: String?,
 
-	@field:SerializedName("overview")
-	val overview: String?,
+    @SerializedName("seasons")
+    val seasons: List<SeasonsItem>?,
 
-	@field:SerializedName("seasons")
-	val seasons: List<SeasonsItem>?,
+    @SerializedName("poster_path")
+    val posterPath: String?,
 
-	@field:SerializedName("poster_path")
-	val posterPath: String?,
+    @SerializedName("original_name")
+    val originalName: String?,
 
-	@field:SerializedName("original_name")
-	val originalName: String?,
+    @SerializedName("vote_average")
+    val voteAverage: Double?,
 
-	@field:SerializedName("vote_average")
-	val voteAverage: Double?,
+    @SerializedName("name")
+    val name: String?,
 
-	@field:SerializedName("name")
-	val name: String?,
+    @SerializedName("tagline")
+    val tagline: String?,
 
-	@field:SerializedName("tagline")
-	val tagline: String?,
+    @SerializedName("homepage")
+    val homepage: String?,
 
-	@field:SerializedName("homepage")
-	val homepage: String?,
-
-	@field:SerializedName("status")
-	val status: String?
+    @SerializedName("status")
+    val status: String?
 )
 
 data class GenresItemShows(
 
-	@field:SerializedName("name")
-	val name: String?,
+    @SerializedName("name")
+    val name: String?,
 
-	@field:SerializedName("id")
-	val id: Int?
+    @SerializedName("id")
+    val id: Int?
 )
 
 data class SeasonsItem(
 
-	@field:SerializedName("name")
-	val name: String?,
+    @SerializedName("name")
+    val name: String?,
 
-	@field:SerializedName("id")
-	val id: Int?,
+    @SerializedName("id")
+    val id: Int?,
 
-	@field:SerializedName("poster_path")
-	val posterPath: String?
+    @SerializedName("poster_path")
+    val posterPath: String?
 )
 

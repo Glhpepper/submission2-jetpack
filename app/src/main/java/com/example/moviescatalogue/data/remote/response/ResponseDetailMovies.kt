@@ -3,52 +3,51 @@ package com.example.moviescatalogue.data.remote.response
 import com.google.gson.annotations.SerializedName
 
 data class ResponseDetailMovies(
-
-    @field:SerializedName("title")
-    val title: String?,
-
-    @field:SerializedName("genres")
-    val genres: List<GenresItemMovies>?,
-
-    @field:SerializedName("popularity")
-    val popularity: Double?,
-
-    @field:SerializedName("id")
+    @SerializedName("id")
     val id: Int?,
 
-    @field:SerializedName("vote_count")
+    @SerializedName("title")
+    val title: String?,
+
+    @SerializedName("genres")
+    val genres: List<GenresItemMovies>?,
+
+    @SerializedName("popularity")
+    val popularity: Double?,
+
+    @SerializedName("vote_count")
     val voteCount: Int?,
 
-    @field:SerializedName("overview")
+    @SerializedName("overview")
     val overview: String?,
 
-    @field:SerializedName("original_title")
+    @SerializedName("original_title")
     val originalTitle: String?,
 
-    @field:SerializedName("poster_path")
+    @SerializedName("poster_path")
     val posterPath: String?,
 
-    @field:SerializedName("backdrop_path")
+    @SerializedName("backdrop_path")
     val backdropPath: String?,
 
-    @field:SerializedName("release_date")
+    @SerializedName("release_date")
     val releaseDate: String?,
 
-    @field:SerializedName("vote_average")
+    @SerializedName("vote_average")
     val voteAverage: Double?,
 
-    @field:SerializedName("tagline")
+    @SerializedName("tagline")
     val tagline: String?,
 
-    @field:SerializedName("homepage")
+    @SerializedName("homepage")
     val homepage: String?,
 
-    @field:SerializedName("status")
+    @SerializedName("status")
     val status: String?
 )
 
 data class GenresItemMovies(
 
-    @field:SerializedName("name")
+    @SerializedName("name")
     val name: String?
 )

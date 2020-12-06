@@ -1,4 +1,4 @@
-package com.example.moviescatalogue.ui.movies
+package com.example.moviescatalogue.ui.main.tvshows
 
 import android.view.LayoutInflater
 import android.view.View
@@ -10,22 +10,25 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.moviescatalogue.R
 import com.example.moviescatalogue.data.local.entity.MoviesEntity
-import com.example.moviescatalogue.databinding.ItemMoviesBinding
+import com.example.moviescatalogue.data.local.entity.TvShowsEntity
+import com.example.moviescatalogue.databinding.ItemTvShowsBinding
 import com.example.moviescatalogue.ui.main.MainFragmentDirections
 import com.example.moviescatalogue.ui.main.di.MainScope
-import kotlinx.android.synthetic.main.item_movies.view.*
+import kotlinx.android.synthetic.main.item_tv_shows.view.*
 import javax.inject.Inject
 
 @MainScope
-class MoviesAdapter @Inject constructor(): PagingDataAdapter<MoviesEntity, MoviesAdapter.MoviesViewHolder>(Movie_DiffUtils) {
+class TvShowsAdapter @Inject constructor() : PagingDataAdapter<TvShowsEntity, TvShowsAdapter.TvShowsViewHolder>(
+    Shows_DiffUtils
+) {
     private var lastPosition = -1
 
     companion object {
-        private val Movie_DiffUtils = object : DiffUtil.ItemCallback<MoviesEntity>() {
-            override fun areItemsTheSame(oldItem: MoviesEntity, newItem: MoviesEntity): Boolean =
-                oldItem.moviesId == newItem.moviesId
+        private val Shows_DiffUtils = object : DiffUtil.ItemCallback<TvShowsEntity>() {
+            override fun areItemsTheSame(oldItem: TvShowsEntity, newItem: TvShowsEntity): Boolean =
+                oldItem.showsId == newItem.showsId
 
-            override fun areContentsTheSame(oldItem: MoviesEntity, newItem: MoviesEntity): Boolean =
+            override fun areContentsTheSame(oldItem: TvShowsEntity, newItem: TvShowsEntity): Boolean =
                 oldItem == newItem
         }
     }
@@ -33,15 +36,16 @@ class MoviesAdapter @Inject constructor(): PagingDataAdapter<MoviesEntity, Movie
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): MoviesViewHolder {
-        val view = ItemMoviesBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return MoviesViewHolder(view)
+    ): TvShowsViewHolder {
+        val view = ItemTvShowsBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+
+        return TvShowsViewHolder(view)
     }
 
-    override fun onBindViewHolder(holder: MoviesViewHolder, position: Int) {
-        val movies = getItem(position)
-        holder.bind(movies)
-        setAnimation(holder.itemView.cv_movies, position)
+    override fun onBindViewHolder(holder: TvShowsViewHolder, position: Int) {
+        val tvShows = getItem(position)
+        holder.bind(tvShows)
+        setAnimation(holder.itemView.cv_tv_shows, position)
     }
 
     private fun setAnimation(view: View, position: Int) {
@@ -52,29 +56,29 @@ class MoviesAdapter @Inject constructor(): PagingDataAdapter<MoviesEntity, Movie
         }
     }
 
-    class MoviesViewHolder(private val binding: ItemMoviesBinding) :
+    class TvShowsViewHolder(private val binding: ItemTvShowsBinding) :
         RecyclerView.ViewHolder(binding.root) {
         init {
             binding.setClickListener {
-                navigateToDetail(binding.moviesEntity, it)
+                navigateToDetail(binding.tvShowsEntity, it)
             }
         }
 
         private fun navigateToDetail(
-            movies: MoviesEntity?,
+            tvShows: TvShowsEntity?,
             view: View
         ) {
             val direction =
                 MainFragmentDirections.actionMainFragmentToDetailActivity(
-                    movies?.moviesId,
-                    null
+                    null,
+                    tvShows?.showsId
                 )
             view.findNavController().navigate(direction)
         }
 
-        fun bind(movies: MoviesEntity?) {
+        fun bind(tvShows: TvShowsEntity?) {
             binding.apply {
-                moviesEntity = movies
+                tvShowsEntity = tvShows
                 executePendingBindings()
             }
         }

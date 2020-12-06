@@ -15,8 +15,8 @@ import com.example.moviescatalogue.data.remote.response.GenresItemMovies
 import com.example.moviescatalogue.data.remote.response.GenresItemShows
 import com.example.moviescatalogue.data.remote.response.SeasonsItem
 import com.example.moviescatalogue.ui.detail.shows.SeasonAdapter
-import com.example.moviescatalogue.ui.movies.MoviesAdapter
-import com.example.moviescatalogue.ui.tvshows.TvShowsAdapter
+import com.example.moviescatalogue.ui.main.movies.MoviesAdapter
+import com.example.moviescatalogue.ui.main.tvshows.TvShowsAdapter
 
 @BindingAdapter("seasonList")
 fun bindSeasonList(recyclerView: RecyclerView, data: List<SeasonsItem>?) {

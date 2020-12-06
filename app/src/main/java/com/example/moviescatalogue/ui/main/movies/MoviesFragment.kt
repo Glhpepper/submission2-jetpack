@@ -1,8 +1,7 @@
-package com.example.moviescatalogue.ui.tvshows
+package com.example.moviescatalogue.ui.main.movies
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,23 +12,22 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.paging.ExperimentalPagingApi
 import com.example.moviescatalogue.R
-import com.example.moviescatalogue.databinding.FragmentTvShowsBinding
+import com.example.moviescatalogue.databinding.FragmentMoviesBinding
 import com.example.moviescatalogue.ui.main.MainActivity
 import com.example.moviescatalogue.ui.main.MainViewModel
-import com.example.moviescatalogue.ui.movies.MoviesAdapter
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class TvShowsFragment : Fragment() {
+class MoviesFragment : Fragment() {
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
     private val viewModel by viewModels<MainViewModel> { viewModelFactory }
-    private lateinit var binding: FragmentTvShowsBinding
+    private lateinit var binding: FragmentMoviesBinding
     @Inject
-    lateinit var showsAdapter: TvShowsAdapter
-    private var showsJob: Job? = null
+    lateinit var moviesAdapter: MoviesAdapter
+    private var movieJob: Job? = null
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -40,7 +38,7 @@ class TvShowsFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = inflate(inflater, R.layout.fragment_tv_shows, container, false)
+        binding = inflate(inflater, R.layout.fragment_movies, container, false)
 
         return binding.root
     }
@@ -48,19 +46,19 @@ class TvShowsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.apply {
-            rvTvShows.adapter = showsAdapter
-            rvTvShows.setHasFixedSize(true)
-            showsViewModel = viewModel
+            rvMovies.adapter = moviesAdapter
+            rvMovies.setHasFixedSize(true)
+            moviesViewModel = viewModel
             lifecycleOwner = viewLifecycleOwner
         }
-        setupShows()
+        setupMovies()
     }
 
-    private fun setupShows() {
-        showsJob?.cancel()
-        showsJob = lifecycleScope.launch {
-            viewModel.getShowsApiPaging().collectLatest {
-                showsAdapter.submitData(it)
+    private fun setupMovies() {
+        movieJob?.cancel()
+        movieJob = lifecycleScope.launch {
+            viewModel.getMovieApiPaging().collectLatest {
+                moviesAdapter.submitData(lifecycle, it)
             }
         }
     }

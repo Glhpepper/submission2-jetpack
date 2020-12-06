@@ -1,21 +1,22 @@
-package com.example.moviescatalogue.ui.tvshows
+package com.example.moviescatalogue.ui.main.movies
 
 import androidx.paging.PagingSource
-import com.example.moviescatalogue.data.local.entity.TvShowsEntity
+import com.example.moviescatalogue.data.local.entity.MoviesEntity
 import com.example.moviescatalogue.data.remote.ApiServices
 import retrofit2.HttpException
 import java.io.IOException
+import javax.inject.Inject
 
-class TvShowsPagingSource(private val network: ApiServices) : PagingSource<Int, TvShowsEntity>() {
+class MoviePagingSource(private val network: ApiServices) : PagingSource<Int, MoviesEntity>() {
 
     companion object {
         private const val FIRST_PAGE = 1
     }
 
-    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, TvShowsEntity> {
+    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, MoviesEntity> {
         val page = params.key ?: FIRST_PAGE
         return try {
-            val response = network.getListTvShows(page = page)
+            val response = network.getListMovies(page = page)
             val movieList = response.results
             LoadResult.Page(
                 data = movieList,
@@ -23,9 +24,9 @@ class TvShowsPagingSource(private val network: ApiServices) : PagingSource<Int, 
                 nextKey = if (movieList.isEmpty()) null else page + 1
             )
         } catch (exception: IOException) {
-            return LoadResult.Error(exception)
+            LoadResult.Error(exception)
         } catch (exception: HttpException) {
-            return LoadResult.Error(exception)
+            LoadResult.Error(exception)
         }
     }
 }

@@ -7,7 +7,7 @@
 
         <variable
             name="showsViewModel"
-            type="com.example.moviescatalogue.ui.main.MainViewModel" />
+            type="com.example.moviescatalogue.ui.favorite.FavoriteViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -16,15 +16,15 @@
         tools:context=".ui.main.tvshows.TvShowsFragment">
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_tv_shows"
+            android:id="@+id/rv_favorite_shows"
             android:layout_width="0dp"
             android:layout_height="0dp"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:listitem="@layout/item_tv_shows" />
+            app:layout_constraintTop_toTopOf="parent"/>
+<!--            tools:listitem="@layout/item_tv_shows" />-->
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

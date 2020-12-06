@@ -1,19 +1,22 @@
 package com.example.moviescatalogue.data.local.room
 
-import android.content.Context
 import androidx.room.Database
-import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.example.moviescatalogue.data.local.entity.MoviesEntity
-import com.example.moviescatalogue.data.local.entity.TvShowsEntity
+import androidx.room.TypeConverters
+import com.example.moviescatalogue.data.local.entity.FavoriteMovies
+import com.example.moviescatalogue.data.local.entity.FavoriteShows
+import com.example.moviescatalogue.data.remote.response.ResponseDetailMovies
+import com.example.moviescatalogue.data.remote.response.ResponseDetailShows
 
 @Database(
-    entities = [MoviesEntity::class, TvShowsEntity::class],
+    entities = [FavoriteMovies::class, FavoriteShows::class],
     version = 1,
     exportSchema = false
 )
+@TypeConverters(Converter::class)
 abstract class CatalogueDatabase : RoomDatabase() {
 
-//abstract fun dao : dao
+    abstract fun favoriteMovieDao(): FavoriteMoviesDao
+    abstract fun favoriteShowsDao(): FavoriteShowsDao
 
 }
