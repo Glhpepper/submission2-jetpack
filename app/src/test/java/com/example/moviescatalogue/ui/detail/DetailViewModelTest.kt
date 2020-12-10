@@ -5,10 +5,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.example.moviescatalogue.MainCoroutineRule
 import com.example.moviescatalogue.data.MainRepository
-import com.example.moviescatalogue.data.local.entity.DetailEntity
 import com.example.moviescatalogue.data.remote.response.*
 import com.example.moviescatalogue.getOrAwaitValue
-import com.example.moviescatalogue.utils.DummyData
 import com.nhaarman.mockitokotlin2.whenever
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runBlockingTest
@@ -41,34 +39,15 @@ class DetailViewModelTest {
     }
 
     @Test
-    fun getDetailMovies_return_moviesOffline() {
-        val id = "0001"
-        val moviesList = DummyData.generateDetail(id)
-        val movies = MutableLiveData(moviesList[0])
-
-        mainCoroutineRule.runBlockingTest {
-            whenever(mainRepository.getDetailOffline(id)).thenReturn(movies)
-            detailViewModel.getDetailOffline(id)
-            verify(mainRepository).getDetailOffline(id)
-            detailViewModel.detailContentOffline.getOrAwaitValue()
-            val detailEntity = detailViewModel.detailContentOffline.value
-
-            assertThat(detailEntity, `is`(notNullValue()))
-            assertThat(detailEntity?.detailTopCast?.size, `is`(5))
-            assertThat(detailEntity, `is`(movies.value))
-        }
-    }
-
-    @Test
     fun getDetailMoviesApi_return_success() {
         val id = "0001"
         val genreList = ArrayList<GenresItemMovies>()
         genreList.add(GenresItemMovies("NAME"))
         val moviesList = ResponseDetailMovies(
-            "TITTLE",
+            0,
+            "TITLE",
             genreList,
             0.0,
-            0,
             0,
             "OVERVIEW",
             "ORIGINALTITLE",
@@ -101,8 +80,8 @@ class DetailViewModelTest {
         val genreList = emptyList<GenresItemMovies>()
         val moviesList = ResponseDetailMovies(
             null,
-            genreList,
             null,
+            genreList,
             null,
             null,
             null,
@@ -130,25 +109,6 @@ class DetailViewModelTest {
     }
 
     @Test
-    fun getDetailShows_return_showsOffline() {
-        val id = "1000"
-        val showsList = DummyData.generateDetail(id)
-        val shows = MutableLiveData(showsList[0])
-
-        mainCoroutineRule.runBlockingTest {
-            whenever(mainRepository.getDetailOffline(id)).thenReturn(shows)
-            detailViewModel.getDetailOffline(id)
-            verify(mainRepository).getDetailOffline(id)
-            detailViewModel.detailContentOffline.getOrAwaitValue()
-            val detailEntity = detailViewModel.detailContentOffline.value
-
-            assertThat(detailEntity, `is`(notNullValue()))
-            assertThat(detailEntity?.detailTopCast?.size, `is`(5))
-            assertThat(detailEntity, `is`(shows.value))
-        }
-    }
-
-    @Test
     fun getDetailShowsApi_return_success() {
         val id = "1000"
         val genreList = ArrayList<GenresItemShows>()
@@ -156,9 +116,9 @@ class DetailViewModelTest {
         val seasonList = ArrayList<SeasonsItem>()
         seasonList.add(SeasonsItem("NAME", 0, "POSTERPATH"))
         val showsList = ResponseDetailShows(
+            0,
             genreList,
             0.0,
-            0,
             0,
             "FIRSTAIRDATE",
             "OVERVIEW",
@@ -192,8 +152,8 @@ class DetailViewModelTest {
         val genreList = emptyList<GenresItemShows>()
         val seasonList = emptyList<SeasonsItem>()
         val showsList = ResponseDetailShows(
-            genreList,
             null,
+            genreList,
             null,
             null,
             null,

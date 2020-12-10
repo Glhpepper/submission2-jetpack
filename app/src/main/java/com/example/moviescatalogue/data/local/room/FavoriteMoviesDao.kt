@@ -7,8 +7,9 @@ import com.example.moviescatalogue.data.remote.response.ResponseDetailMovies
 
 @Dao
 interface FavoriteMoviesDao {
+
     @Query("SELECT * from favorite_movies")
-    fun getFavoriteMovies(): LiveData<List<FavoriteMovies>>
+    fun getFavoriteMoviesPaging(): List<FavoriteMovies>
 
     @Query("SELECT EXISTS(SELECT * from favorite_movies WHERE id =:id)")
     suspend fun checkFavorite(id: Int): Boolean

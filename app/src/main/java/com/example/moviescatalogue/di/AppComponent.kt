@@ -8,6 +8,7 @@ import com.example.moviescatalogue.di.module.DispatcherModule
 import com.example.moviescatalogue.di.module.NetworkModule
 import com.example.moviescatalogue.di.module.ViewModelModuleBuilder
 import com.example.moviescatalogue.ui.detail.di.DetailComponent
+import com.example.moviescatalogue.ui.favorite.di.FavoriteComponent
 import com.example.moviescatalogue.ui.main.di.MainComponent
 import dagger.BindsInstance
 import dagger.Component
@@ -31,6 +32,7 @@ interface AppComponent {
 
     fun mainComponent(): MainComponent.Factory
     fun detailComponent(): DetailComponent.Factory
+    fun favoriteComponent(): FavoriteComponent.Factory
 
     val mainRepository: MainRepository
 }

@@ -24,8 +24,22 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
-<!--            tools:listitem="@layout/item_movies" />-->
+            app:layout_constraintTop_toTopOf="parent"
+            tools:listitem="@layout/item_favorite_movies" />
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/imageNoFavorite_movies"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/no_data"
+            android:visibility="invisible"
+            app:civ_border_color="@color/blumine"
+            app:civ_border_width="4dp"
+            app:layout_constraintBottom_toBottomOf="@+id/rv_favorite_movies"
+            app:layout_constraintEnd_toEndOf="@+id/rv_favorite_movies"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

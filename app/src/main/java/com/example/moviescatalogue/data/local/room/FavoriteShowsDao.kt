@@ -2,12 +2,13 @@ package com.example.moviescatalogue.data.local.room
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
+import com.example.moviescatalogue.data.local.entity.FavoriteMovies
 import com.example.moviescatalogue.data.local.entity.FavoriteShows
 
 @Dao
 interface FavoriteShowsDao {
     @Query("SELECT * from favorite_shows")
-    fun getFavoriteShows(): LiveData<List<FavoriteShows>>
+    fun getFavoriteShowsPaging(): List<FavoriteShows>
 
     @Query("SELECT EXISTS(SELECT * from favorite_shows WHERE id =:id)")
     suspend fun checkFavorite(id: Int): Boolean

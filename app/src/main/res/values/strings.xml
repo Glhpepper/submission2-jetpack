@@ -30,6 +30,7 @@
     <string name="season_name">season name</string>
     <string name="retry">Retry</string>
     <string name="favorite">Favorite</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="state_true">Success Added to favorite</string>
+    <string name="state_false">Success Deleted from favorite</string>
+    <string name="sort">sorting</string>
 </resources>

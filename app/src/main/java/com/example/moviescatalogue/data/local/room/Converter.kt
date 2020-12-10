@@ -11,11 +11,30 @@ import java.lang.reflect.Type
 
 class Converter {
     @TypeConverter
-    fun fromString(value: String): ArrayList<String> {
-        val type = object : TypeToken<ArrayList<String>>() {}.type
+    fun fromGenreMovies(value: String): List<GenresItemMovies> {
+        val type = object : TypeToken<List<GenresItemMovies>>() {}.type
         return Gson().fromJson(value, type)
     }
 
     @TypeConverter
-    fun fromList(list: ArrayList<String>): String = Gson().toJson(list)
+    fun fromListGenreMovies(list: List<GenresItemMovies>): String = Gson().toJson(list)
+
+    @TypeConverter
+    fun fromStringGenreShows(value: String): List<GenresItemShows> {
+        val type = object : TypeToken<List<GenresItemShows>>() {}.type
+        return Gson().fromJson(value, type)
+    }
+
+    @TypeConverter
+    fun fromListGenreShows(list: List<GenresItemShows>): String = Gson().toJson(list)
+
+
+    @TypeConverter
+    fun fromStringSeasonItem(value: String): List<SeasonsItem> {
+        val type = object : TypeToken<List<SeasonsItem>>() {}.type
+        return Gson().fromJson(value, type)
+    }
+
+    @TypeConverter
+    fun fromListSeasonItem(list: List<SeasonsItem>): String = Gson().toJson(list)
 }

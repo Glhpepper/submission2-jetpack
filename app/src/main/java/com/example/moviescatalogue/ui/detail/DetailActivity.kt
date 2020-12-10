@@ -11,18 +11,23 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.NestedScrollView
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.navArgs
-import androidx.paging.ExperimentalPagingApi
 import com.example.moviescatalogue.MyApplication
 import com.example.moviescatalogue.R
+import com.example.moviescatalogue.data.local.entity.FavoriteMovies
+import com.example.moviescatalogue.data.local.entity.FavoriteShows
 import com.example.moviescatalogue.data.remote.response.ResponseDetailMovies
 import com.example.moviescatalogue.data.remote.response.ResponseDetailShows
 import com.example.moviescatalogue.databinding.ActivityDetailBinding
 import com.example.moviescatalogue.ui.detail.di.DetailComponent
 import com.example.moviescatalogue.ui.detail.shows.SeasonAdapter
+import com.example.moviescatalogue.utils.AnimatorHelper.startAnimator
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_detail.*
 import kotlinx.android.synthetic.main.content_detail_movies.*
 import kotlinx.android.synthetic.main.content_detail_shows.*
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class DetailActivity : AppCompatActivity() {
@@ -39,6 +44,7 @@ class DetailActivity : AppCompatActivity() {
     private val args: DetailActivityArgs by navArgs()
     private lateinit var binding: ActivityDetailBinding
     private var isToolbarShow = false
+    private var statusState = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         detailComponent = (application as MyApplication).appComponent.detailComponent().create()
@@ -54,7 +60,37 @@ class DetailActivity : AppCompatActivity() {
             viewModel = detailViewModel
         }
         setupDetail()
+        checkFavorite()
+        fab_movies.setOnClickListener {
+            statusState = !statusState
+            setStateFavoriteMovies(statusState)
 
+            startAnimator(fab_movies)
+            if (statusState) {
+                Snackbar.make(detail_layout, R.string.state_true, Snackbar.LENGTH_SHORT)
+                    .show()
+                insertFavoriteMovies()
+            } else {
+                Snackbar.make(detail_layout, R.string.state_false, Snackbar.LENGTH_SHORT)
+                    .show()
+                deleteFavoriteMovies()
+            }
+        }
+        fab_shows.setOnClickListener {
+            statusState = !statusState
+            setStateFavoriteShows(statusState)
+
+            startAnimator(fab_shows)
+            if (statusState) {
+                Snackbar.make(detail_layout, R.string.state_true, Snackbar.LENGTH_SHORT)
+                    .show()
+                insertFavoriteShows()
+            } else {
+                Snackbar.make(detail_layout, R.string.state_false, Snackbar.LENGTH_SHORT)
+                    .show()
+                deleteFavoriteShows()
+            }
+        }
     }
 
     private fun setupDetail() {
@@ -67,6 +103,103 @@ class DetailActivity : AppCompatActivity() {
             detailViewModel.getDetailTvShows(id)
             setupShows()
             content_movies.visibility = View.GONE
+        }
+    }
+
+    private fun checkFavorite() {
+        detailViewModel.detailContentMovie.observe(this, { detail ->
+            val check = detail.id
+            if (check != null) {
+                lifecycleScope.launch {
+                    val checkState = detailViewModel.checkFavoriteMovies(check)
+                    setStateFavoriteMovies(checkState)
+                    statusState = checkState
+                }
+            }
+        })
+        detailViewModel.detailContentShows.observe(this, { detail ->
+            val check = detail.id
+            if (check != null) {
+                lifecycleScope.launch {
+                    val checkState = detailViewModel.checkFavoriteShows(check)
+                    setStateFavoriteShows(checkState)
+                    statusState = checkState
+                }
+            }
+        })
+    }
+
+    private fun insertFavoriteMovies() {
+        detailViewModel.detailContentMovie.observe(this, { detail ->
+            val values = FavoriteMovies(
+                detail.id,
+                detail.title,
+                detail.genres,
+                detail.popularity,
+                detail.voteCount,
+                detail.overview,
+                detail.originalTitle,
+                detail.posterPath,
+                detail.backdropPath,
+                detail.releaseDate,
+                detail.voteAverage.toString(),
+                detail.tagline,
+                detail.homepage,
+                detail.status
+            )
+
+            detailViewModel.insertFavoriteMovies(values)
+        })
+    }
+
+    private fun deleteFavoriteMovies() {
+        detailViewModel.detailContentMovie.observe(this, { detail ->
+            detail.id?.let { detailViewModel.deleteFavoriteMoviesById(it) }
+        })
+    }
+
+    private fun insertFavoriteShows() {
+        detailViewModel.detailContentShows.observe(this, { detail ->
+            val values = FavoriteShows(
+                detail.id,
+                detail.genres,
+                detail.popularity,
+                detail.voteCount,
+                detail.firstAirDate,
+                detail.overview,
+                detail.seasons,
+                detail.posterPath,
+                detail.originalName,
+                detail.voteAverage.toString(),
+                detail.name,
+                detail.tagline,
+                detail.homepage,
+                detail.status
+            )
+
+            detailViewModel.insertFavoriteShows(values)
+        })
+    }
+
+    private fun deleteFavoriteShows() {
+        detailViewModel.detailContentShows.observe(this, { detail ->
+            detail.id?.let { detailViewModel.deleteFavoriteShowsById(it) }
+        })
+    }
+
+    private fun setStateFavoriteMovies(checkState: Boolean) {
+        if (checkState) {
+            fab_movies.setImageResource(R.drawable.round_favorite_black_48dp)
+        } else {
+            fab_movies.setImageResource(R.drawable.round_favorite_border_black_48dp)
+        }
+    }
+
+    private fun setStateFavoriteShows(checkState: Boolean) {
+        if (checkState) {
+            fab_shows.setImageResource(R.drawable.round_favorite_black_48dp)
+        } else {
+            fab_shows.setImageResource(R.drawable.round_favorite_border_black_48dp)
         }
     }
 
