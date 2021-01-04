@@ -25,6 +25,7 @@ class MoviesFragment : Fragment() {
     lateinit var viewModelFactory: ViewModelProvider.Factory
     private val viewModel by viewModels<MainViewModel> { viewModelFactory }
     private lateinit var binding: FragmentMoviesBinding
+
     @Inject
     lateinit var moviesAdapter: MoviesAdapter
     private var movieJob: Job? = null
@@ -57,9 +58,10 @@ class MoviesFragment : Fragment() {
     private fun setupMovies() {
         movieJob?.cancel()
         movieJob = lifecycleScope.launch {
-            viewModel.getMovieApiPaging().collectLatest {
-                moviesAdapter.submitData(lifecycle, it)
-            }
+            viewModel.getMovieApiPaging()
+            viewModel.listMoviesApi.observe(viewLifecycleOwner, { movies ->
+                moviesAdapter.submitData(lifecycle, movies)
+            })
         }
     }
 }

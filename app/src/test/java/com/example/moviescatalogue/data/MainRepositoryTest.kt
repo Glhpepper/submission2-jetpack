@@ -1,13 +1,21 @@
 package com.example.moviescatalogue.data
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.asLiveData
+import androidx.paging.*
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.example.moviescatalogue.MainCoroutineRule
+import com.example.moviescatalogue.collectData
 import com.example.moviescatalogue.data.local.entity.MoviesEntity
 import com.example.moviescatalogue.data.local.entity.TvShowsEntity
+import com.example.moviescatalogue.data.local.room.CatalogueDatabase
 import com.example.moviescatalogue.data.remote.ApiServices
 import com.example.moviescatalogue.data.remote.response.*
+import com.example.moviescatalogue.getFlowAsLiveDataValue
 import com.example.moviescatalogue.getOrAwaitValue
+import com.example.moviescatalogue.ui.main.movies.MoviePagingSource
 import com.nhaarman.mockitokotlin2.whenever
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -20,105 +28,64 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.mockito.Mockito.mock
-import org.mockito.Mockito.verify
+import org.mockito.Mockito.*
 
 @ExperimentalCoroutinesApi
 @RunWith(AndroidJUnit4::class)
 class MainRepositoryTest {
-//
-//    private lateinit var mainRepository: MainRepository
-//    private lateinit var dummyData: DummyData
-//    private val apiServices = mock(ApiServices::class.java)
-//
-//    @get:Rule
-//    var mainCoroutineRule = MainCoroutineRule()
-//
-//    @get:Rule
-//    var instantExecutorRule = InstantTaskExecutorRule()
-//
-//    @Before
-//    fun createRepository() {
-//        dummyData = DummyData
-//
-//        mainRepository = MainRepository(Dispatchers.Main, apiServices, dummyData)
-//    }
-//
-//    @Test
-//    fun getMovies() {
-//        val movies = dummyData.generateDummyMovies()
-//
-//        mainCoroutineRule.runBlockingTest {
-//            mainRepository.getMovies()
-//            val moviesEntity = mainRepository.getMovies().getOrAwaitValue()
-//
-//            assertThat(moviesEntity, `is`(allOf(notNullValue(), not(empty()))))
-//            assertThat(moviesEntity.size, `is`(movies.size))
-//            assertThat(moviesEntity, `is`(movies))
-//        }
-//    }
-//
-//    @Test
-//    fun getTVShows() {
-//        val shows = dummyData.generateDummyShows()
-//
-//        mainCoroutineRule.runBlockingTest {
-//            mainRepository.getTvShows()
-//            val showsEntity = mainRepository.getTvShows().getOrAwaitValue()
-//
-//            assertThat(showsEntity, `is`(allOf(notNullValue(), not(empty()))))
-//            assertThat(showsEntity.size, `is`(shows.size))
-//            assertThat(showsEntity, `is`(shows))
-//        }
-//    }
-//
-//    @Test
-//    fun getDetailOffline() {
-//        val dummyMovies = dummyData.generateDummyMovies()
-//        val moviesId = dummyMovies[0].moviesId
-//        val moviesDetail = dummyData.generateDetail(moviesId)
-//
-//        val dummyShows = dummyData.generateDummyShows()
-//        val showsId = dummyShows[0].showsId
-//        val showsDetail = dummyData.generateDetail(showsId)
-//
-//        mainCoroutineRule.runBlockingTest {
-//            mainRepository.getDetailOffline(moviesId)
-//            val moviesEntity = mainRepository.getDetailOffline(moviesId).getOrAwaitValue()
-//
-//            assertThat(moviesDetail, `is`(allOf(notNullValue(), not(empty()))))
-//            assertThat(moviesEntity, `is`(moviesDetail[0]))
-//
-//            mainRepository.getDetailOffline(showsId)
-//            val showsEntity = mainRepository.getDetailOffline(showsId).getOrAwaitValue()
-//
-//            assertThat(showsDetail, `is`(allOf(notNullValue(), not(empty()))))
-//            assertThat(showsEntity, `is`(showsDetail[0]))
-//        }
-//    }
-//
-//    @Test
-//    fun getMoviesApi() {
-//        val moviesList = ArrayList<MoviesEntity>()
-//        moviesList.add(
-//            MoviesEntity(
-//                "1", "TITTLE", "OVERVIEW", "SCORE", "IMAGE", "DATE"
-//            )
-//        )
-//        val movies = ResponseMovies(moviesList)
-//
-//        mainCoroutineRule.runBlockingTest {
-//            whenever(apiServices.getListMovies()).thenReturn(movies)
-//            mainRepository.getMoviesApi()
-//            verify(apiServices).getListMovies()
-//
-//            val moviesEntity = mainRepository.getMoviesApi().getOrAwaitValue()
-//            assertThat(moviesEntity, `is`(notNullValue()))
-//            assertThat(moviesEntity.results?.size, `is`(1))
-//            assertThat(moviesEntity, `is`(movies))
-//        }
-//    }
-//
+
+    private lateinit var mainRepository: MainRepository
+    private val apiServices = mock(ApiServices::class.java)
+    private val catalogueDatabase = mock(CatalogueDatabase::class.java)
+    private val pager = mock(Pager::class.java)
+    private val moviePagingSource = mock(PagingSource::class.java) as PagingSource<Int, MoviesEntity>
+    private val networkPage = 20
+
+    @get:Rule
+    var mainCoroutineRule = MainCoroutineRule()
+
+    @get:Rule
+    var instantExecutorRule = InstantTaskExecutorRule()
+
+    @Before
+    fun createRepository() {
+        val moviesDao = catalogueDatabase.favoriteMovieDao()
+        val showsDao = catalogueDatabase.favoriteShowsDao()
+        mainRepository = MainRepository(Dispatchers.Main, apiServices, catalogueDatabase)
+    }
+
+    @Test
+    fun getMoviesApi() {
+        val moviesList = ArrayList<MoviesEntity>()
+        moviesList.add(
+            MoviesEntity(
+                "1", "TITTLE", "OVERVIEW", "SCORE", "IMAGE", "DATE"
+            )
+        )
+        val movies = MutableLiveData(PagingData.from(moviesList))
+        val moviesResponse = ResponseMovies(moviesList)
+        val moviesPager = Pager(
+            config = PagingConfig(
+                pageSize = networkPage,
+                enablePlaceholders = false
+            ),
+            pagingSourceFactory = { MoviePagingSource(apiServices) }
+        ).liveData
+
+        mainCoroutineRule.runBlockingTest {
+            whenever(apiServices.getListMovies(page = 1)).thenReturn(moviesResponse)
+            whenever(pager.liveData).thenReturn(moviesPager)
+            mainRepository.getMoviesApi()
+            verify(pager.liveData)
+            verify(apiServices).getListMovies(page = 1)
+            val moviesEntity = mainRepository.getMoviesApi().getFlowAsLiveDataValue()
+            val title = moviesEntity?.map { it.moviesTitle }
+
+            assertThat(moviesEntity, `is`(notNullValue()))
+            assertThat(title?.collectData(), `is`(listOf("TITTLE")))
+        }
+    }
+
 //    @Test
 //    fun getShowsApi() {
 //        val showsList = ArrayList<TvShowsEntity>()

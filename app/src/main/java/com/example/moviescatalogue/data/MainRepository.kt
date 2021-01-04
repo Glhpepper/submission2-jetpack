@@ -35,7 +35,7 @@ class MainRepository @Inject constructor(
         private const val NETWORK_PAGE_SIZE = 20
     }
 
-    override suspend fun getMoviesApi(): Flow<PagingData<MoviesEntity>> {
+    override suspend fun getMoviesApi(): LiveData<PagingData<MoviesEntity>> {
         wrapEspressoIdlingResource {
             return Pager(
                 config = PagingConfig(
@@ -43,11 +43,11 @@ class MainRepository @Inject constructor(
                     enablePlaceholders = false
                 ),
                 pagingSourceFactory = { MoviePagingSource(network) }
-            ).flow
+            ).liveData
         }
     }
 
-    override suspend fun getShowsApi(): Flow<PagingData<TvShowsEntity>> {
+    override suspend fun getShowsApi(): LiveData<PagingData<TvShowsEntity>> {
         wrapEspressoIdlingResource {
             return Pager(
                 config = PagingConfig(
@@ -55,7 +55,7 @@ class MainRepository @Inject constructor(
                     enablePlaceholders = false
                 ),
                 pagingSourceFactory = { TvShowsPagingSource(network) }
-            ).flow
+            ).liveData
         }
     }
 

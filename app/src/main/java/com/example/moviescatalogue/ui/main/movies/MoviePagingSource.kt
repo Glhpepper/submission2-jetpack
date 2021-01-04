@@ -5,7 +5,6 @@ import com.example.moviescatalogue.data.local.entity.MoviesEntity
 import com.example.moviescatalogue.data.remote.ApiServices
 import retrofit2.HttpException
 import java.io.IOException
-import javax.inject.Inject
 
 class MoviePagingSource(private val network: ApiServices) : PagingSource<Int, MoviesEntity>() {
 

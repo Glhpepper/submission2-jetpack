@@ -16,23 +16,33 @@ import javax.inject.Inject
 @MainScope
 class MainViewModel @Inject constructor(private val mainRepo: MainRepository) : ViewModel() {
 
-    private val _listMoviesApi = MutableLiveData<PagingData<MoviesEntity>>()
-    val listMoviesApi: LiveData<PagingData<MoviesEntity>>
+    private lateinit var _listMoviesApi: LiveData<PagingData<MoviesEntity>>
+    val listMoviesApi
         get() = _listMoviesApi
 
-    private val _listShowsApi = MutableLiveData<List<TvShowsEntity>?>()
-    val listShowsApi: LiveData<List<TvShowsEntity>?>
+    private lateinit var _listShowsApi: LiveData<PagingData<TvShowsEntity>>
+    val listShowsApi
         get() = _listShowsApi
 
-    suspend fun getMovieApiPaging(): Flow<PagingData<MoviesEntity>> {
+    suspend fun getMovieApiPaging() {
         wrapEspressoIdlingResource {
-            return mainRepo.getMoviesApi().cachedIn(viewModelScope)
+            val movieList = mainRepo.getMoviesApi().cachedIn(viewModelScope)
+            try {
+                _listMoviesApi = movieList
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
         }
     }
 
-    suspend fun getShowsApiPaging(): Flow<PagingData<TvShowsEntity>> {
+    suspend fun getShowsApiPaging(){
         wrapEspressoIdlingResource {
-           return mainRepo.getShowsApi().cachedIn(viewModelScope)
+            val showsList = mainRepo.getShowsApi().cachedIn(viewModelScope)
+            try {
+                _listShowsApi = showsList
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
         }
     }
 }

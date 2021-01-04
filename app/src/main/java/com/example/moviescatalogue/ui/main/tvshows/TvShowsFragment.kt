@@ -59,8 +59,9 @@ class TvShowsFragment : Fragment() {
     private fun setupShows() {
         showsJob?.cancel()
         showsJob = lifecycleScope.launch {
-            viewModel.getShowsApiPaging().collectLatest {
-                showsAdapter.submitData(lifecycle, it)
+            viewModel.getShowsApiPaging()
+            viewModel.listShowsApi.observe(viewLifecycleOwner) { shows ->
+                showsAdapter.submitData(lifecycle, shows)
             }
         }
     }

@@ -13,9 +13,9 @@ import kotlinx.coroutines.flow.Flow
 
 interface MainDataSource {
 
-    suspend fun getMoviesApi(): Flow<PagingData<MoviesEntity>>
+    suspend fun getMoviesApi(): LiveData<PagingData<MoviesEntity>>
 
-    suspend fun getShowsApi(): Flow<PagingData<TvShowsEntity>>
+    suspend fun getShowsApi(): LiveData<PagingData<TvShowsEntity>>
 
     suspend fun getDetailMovie(id: String): LiveData<ResponseDetailMovies>
 
