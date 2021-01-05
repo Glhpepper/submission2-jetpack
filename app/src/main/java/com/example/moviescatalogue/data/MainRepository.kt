@@ -2,60 +2,48 @@ package com.example.moviescatalogue.data
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.paging.*
+import androidx.paging.LivePagedListBuilder
+import androidx.paging.PagedList
+import com.example.moviescatalogue.data.local.LocalDataSource
 import com.example.moviescatalogue.data.local.entity.FavoriteMovies
 import com.example.moviescatalogue.data.local.entity.FavoriteShows
-import com.example.moviescatalogue.data.local.entity.MoviesEntity
-import com.example.moviescatalogue.data.local.entity.TvShowsEntity
-import com.example.moviescatalogue.data.local.room.CatalogueDatabase
-import com.example.moviescatalogue.data.local.room.FavoriteMoviesDao
-import com.example.moviescatalogue.data.remote.ApiServices
+import com.example.moviescatalogue.data.remote.RemoteDataSource
+import com.example.moviescatalogue.data.remote.api.ApiServices
 import com.example.moviescatalogue.data.remote.response.ResponseDetailMovies
 import com.example.moviescatalogue.data.remote.response.ResponseDetailShows
+import com.example.moviescatalogue.data.remote.response.ResponseMovies
+import com.example.moviescatalogue.data.remote.response.ResponseTvShows
 import com.example.moviescatalogue.di.module.DispatcherModule.IoDispatcher
-import com.example.moviescatalogue.ui.favorite.movies.FavoriteMoviesPagingSource
-import com.example.moviescatalogue.ui.favorite.tvshows.FavoriteShowsPagingSource
-import com.example.moviescatalogue.ui.main.movies.MoviePagingSource
-import com.example.moviescatalogue.ui.main.tvshows.TvShowsPagingSource
 import com.example.moviescatalogue.utils.wrapEspressoIdlingResource
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class MainRepository @Inject constructor(
     @IoDispatcher private val ioDispatcher: CoroutineDispatcher,
-    private val network: ApiServices,
-    private val catalogueDatabase: CatalogueDatabase
+    private val remoteDataSource: RemoteDataSource,
+    private val localDataSource: LocalDataSource
 ) : MainDataSource {
-    private val moviesDao = catalogueDatabase.favoriteMovieDao()
-    private val showsDao = catalogueDatabase.favoriteShowsDao()
 
-    companion object {
-        private const val NETWORK_PAGE_SIZE = 20
-    }
-
-    override suspend fun getMoviesApi(): LiveData<PagingData<MoviesEntity>> {
+    override suspend fun getMoviesApi(): LiveData<ResponseMovies> {
         wrapEspressoIdlingResource {
-            return Pager(
-                config = PagingConfig(
-                    pageSize = NETWORK_PAGE_SIZE,
-                    enablePlaceholders = false
-                ),
-                pagingSourceFactory = { MoviePagingSource(network) }
-            ).liveData
+            val moviesResults = MutableLiveData<ResponseMovies>()
+            withContext(ioDispatcher) {
+                val moviesList = remoteDataSource.getListMovies()
+                moviesResults.postValue(moviesList)
+            }
+            return moviesResults
         }
     }
 
-    override suspend fun getShowsApi(): LiveData<PagingData<TvShowsEntity>> {
+    override suspend fun getShowsApi(): LiveData<ResponseTvShows> {
         wrapEspressoIdlingResource {
-            return Pager(
-                config = PagingConfig(
-                    pageSize = NETWORK_PAGE_SIZE,
-                    enablePlaceholders = false
-                ),
-                pagingSourceFactory = { TvShowsPagingSource(network) }
-            ).liveData
+            val tvShowsResults = MutableLiveData<ResponseTvShows>()
+            withContext(ioDispatcher) {
+                val showsList = remoteDataSource.getListShows()
+                tvShowsResults.postValue(showsList)
+            }
+            return tvShowsResults
         }
     }
 
@@ -63,7 +51,7 @@ class MainRepository @Inject constructor(
         wrapEspressoIdlingResource {
             val moviesDetailResults = MutableLiveData<ResponseDetailMovies>()
             withContext(ioDispatcher) {
-                val moviesDetail = network.getDetailMovies(id)
+                val moviesDetail = remoteDataSource.getDetailMovies(id)
                 moviesDetailResults.postValue(moviesDetail)
             }
             return moviesDetailResults
@@ -74,92 +62,80 @@ class MainRepository @Inject constructor(
         wrapEspressoIdlingResource {
             val tvShowsDetailResults = MutableLiveData<ResponseDetailShows>()
             withContext(ioDispatcher) {
-                val showsDetail = network.getDetailTvShows(id)
+                val showsDetail = remoteDataSource.getDetailShows(id)
                 tvShowsDetailResults.postValue(showsDetail)
             }
             return tvShowsDetailResults
         }
     }
 
-    override suspend fun getMoviesFavoritePaging(): LiveData<PagingData<FavoriteMovies>> {
+    override suspend fun getMoviesFavoritePaging(): LiveData<PagedList<FavoriteMovies>> {
         wrapEspressoIdlingResource {
-            return Pager(
-                config = PagingConfig(
-                    pageSize = NETWORK_PAGE_SIZE,
-                    enablePlaceholders = false
-                ),
-                pagingSourceFactory = {
-                    FavoriteMoviesPagingSource(
-                        ioDispatcher,
-                        catalogueDatabase
-                    )
-                }
-            ).liveData
+            val config = PagedList.Config.Builder()
+                .setEnablePlaceholders(false)
+                .setInitialLoadSizeHint(4)
+                .setPageSize(4)
+                .build()
+            return LivePagedListBuilder(localDataSource.getAllFavoriteMovies(), config).build()
         }
     }
 
     override suspend fun checkFavoriteMovies(id: Int): Boolean {
         return withContext(ioDispatcher) {
-            moviesDao.checkFavorite(id)
+            localDataSource.checkFavoriteMovies(id)
         }
     }
 
     override suspend fun insertFavoriteMovies(favoriteMovies: FavoriteMovies) {
         withContext(ioDispatcher) {
-            moviesDao.insertFavoriteMovies(favoriteMovies)
+            localDataSource.insertFavoriteMovies(favoriteMovies)
         }
     }
 
     override suspend fun deleteFavoriteMoviesById(id: Int) {
         withContext(ioDispatcher) {
-            moviesDao.deleteFavoriteById(id)
+            localDataSource.deleteFavoriteMoviesById(id)
         }
     }
 
     override suspend fun deleteFavoriteMovies(favoriteMovies: FavoriteMovies) {
         withContext(ioDispatcher) {
-            moviesDao.deleteFavoriteUser(favoriteMovies)
+            localDataSource.deleteFavoriteMovies(favoriteMovies)
         }
     }
 
-    override suspend fun getShowsFavoritePaging(): LiveData<PagingData<FavoriteShows>> {
+    override suspend fun getShowsFavoritePaging(): LiveData<PagedList<FavoriteShows>> {
         wrapEspressoIdlingResource {
-            return Pager(
-                config = PagingConfig(
-                    pageSize = NETWORK_PAGE_SIZE,
-                    enablePlaceholders = false
-                ),
-                pagingSourceFactory = {
-                    FavoriteShowsPagingSource(
-                        ioDispatcher,
-                        catalogueDatabase
-                    )
-                }
-            ).liveData
+            val config = PagedList.Config.Builder()
+                .setEnablePlaceholders(false)
+                .setInitialLoadSizeHint(4)
+                .setPageSize(4)
+                .build()
+            return LivePagedListBuilder(localDataSource.getAllFavoriteShows(), config).build()
         }
     }
 
     override suspend fun checkFavoriteShows(id: Int): Boolean {
         return withContext(ioDispatcher) {
-            showsDao.checkFavorite(id)
+            localDataSource.checkFavoriteShows(id)
         }
     }
 
     override suspend fun insertFavoriteShows(favoriteShows: FavoriteShows) {
         withContext(ioDispatcher) {
-            showsDao.insertFavoriteShows(favoriteShows)
+            localDataSource.insertFavoriteShows(favoriteShows)
         }
     }
 
     override suspend fun deleteFavoriteShowsById(id: Int) {
         withContext(ioDispatcher) {
-            showsDao.deleteFavoriteById(id)
+            localDataSource.deleteFavoriteShowsById(id)
         }
     }
 
     override suspend fun deleteFavoriteShows(favoriteShows: FavoriteShows) {
         withContext(ioDispatcher) {
-            showsDao.deleteFavoriteUser(favoriteShows)
+            localDataSource.deleteFavoriteShows(favoriteShows)
         }
     }
 }

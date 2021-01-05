@@ -9,15 +9,10 @@ import androidx.databinding.DataBindingUtil.inflate
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
-import androidx.paging.ExperimentalPagingApi
 import com.example.moviescatalogue.R
 import com.example.moviescatalogue.databinding.FragmentMoviesBinding
 import com.example.moviescatalogue.ui.main.MainActivity
 import com.example.moviescatalogue.ui.main.MainViewModel
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class MoviesFragment : Fragment() {
@@ -28,7 +23,6 @@ class MoviesFragment : Fragment() {
 
     @Inject
     lateinit var moviesAdapter: MoviesAdapter
-    private var movieJob: Job? = null
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -56,12 +50,6 @@ class MoviesFragment : Fragment() {
     }
 
     private fun setupMovies() {
-        movieJob?.cancel()
-        movieJob = lifecycleScope.launch {
-            viewModel.getMovieApiPaging()
-            viewModel.listMoviesApi.observe(viewLifecycleOwner, { movies ->
-                moviesAdapter.submitData(lifecycle, movies)
-            })
-        }
+        viewModel.getMoviesApi()
     }
 }

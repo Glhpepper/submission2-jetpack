@@ -2,26 +2,16 @@ package com.example.moviescatalogue.ui.main
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.asLiveData
-import androidx.paging.PagedList
-import androidx.paging.PagingData
-import androidx.paging.map
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.example.moviescatalogue.MainCoroutineRule
-import com.example.moviescatalogue.collectData
 import com.example.moviescatalogue.data.MainRepository
 import com.example.moviescatalogue.data.local.entity.MoviesEntity
 import com.example.moviescatalogue.data.local.entity.TvShowsEntity
 import com.example.moviescatalogue.data.remote.response.ResponseMovies
 import com.example.moviescatalogue.data.remote.response.ResponseTvShows
-import com.example.moviescatalogue.getFlowAsLiveDataValue
 import com.example.moviescatalogue.getOrAwaitValue
-import com.nhaarman.mockitokotlin2.stub
 import com.nhaarman.mockitokotlin2.whenever
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runBlockingTest
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.Matchers.*
@@ -29,9 +19,8 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.mockito.Mock
-import org.mockito.Mockito
-import org.mockito.Mockito.*
+import org.mockito.Mockito.mock
+import org.mockito.Mockito.verify
 
 @ExperimentalCoroutinesApi
 @RunWith(AndroidJUnit4::class)
@@ -52,23 +41,41 @@ class MainViewModelTest {
     }
 
     @Test
-    fun getMoviesApiPaging_return_success() {
+    fun getMoviesApi_return_success() {
         val moviesList = ArrayList<MoviesEntity>()
-        moviesList.add(MoviesEntity(
-            "1", "TITTLE", "OVERVIEW", "SCORE", "IMAGE", "DATE"
-        ))
+        moviesList.add(
+            MoviesEntity(
+                "1", "TITTLE", "OVERVIEW", "SCORE", "IMAGE", "DATE"
+            )
+        )
+        val responseMovie = ResponseMovies(moviesList)
+        val movies = MutableLiveData(responseMovie)
 
-        val movies = MutableLiveData(PagingData.from(moviesList))
         mainCoroutineRule.runBlockingTest {
             whenever(mainRepository.getMoviesApi()).thenReturn(movies)
-            mainViewModel.getMovieApiPaging()
+            mainViewModel.getMoviesApi()
             verify(mainRepository).getMoviesApi()
-            mainViewModel.listMoviesApi.getFlowAsLiveDataValue()
+            mainViewModel.listMoviesApi.getOrAwaitValue()
             val moviesEntity = mainViewModel.listMoviesApi.value
-            val title = moviesEntity?.map { it.moviesTitle }
+            assertThat(moviesEntity, `is`(allOf(notNullValue(), not(empty()))))
+            assertThat(moviesEntity?.size, `is`(1))
+            assertThat(moviesEntity?.get(0), `is`(movies.value?.results?.get(0)))
+        }
+    }
 
-            assertThat(moviesEntity, `is`(notNullValue()))
-            assertThat(title?.collectData(), `is`(listOf("TITTLE")))
+    @Test
+    fun getMoviesApi_return_successWithEmptyList() {
+        val moviesList = ResponseMovies(emptyList())
+        val movies = MutableLiveData(moviesList)
+
+        mainCoroutineRule.runBlockingTest {
+            whenever(mainRepository.getMoviesApi()).thenReturn(movies)
+            mainViewModel.getMoviesApi()
+            verify(mainRepository).getMoviesApi()
+            mainViewModel.listMoviesApi.getOrAwaitValue()
+            val moviesEntity = mainViewModel.listMoviesApi.value
+            assertThat(moviesEntity, `is`(allOf(notNullValue(), empty())))
+            assertThat(moviesEntity?.size, `is`(0))
         }
     }
 
@@ -80,18 +87,34 @@ class MainViewModelTest {
                 "1", "TITTLE", "OVERVIEW", "SCORE", "IMAGE", "DATE"
             )
         )
-        val shows = MutableLiveData(PagingData.from(showsList))
+        val responseShows = ResponseTvShows(showsList)
+        val shows = MutableLiveData(responseShows)
 
         mainCoroutineRule.runBlockingTest {
             whenever(mainRepository.getShowsApi()).thenReturn(shows)
-            mainViewModel.getShowsApiPaging()
+            mainViewModel.getTvShowsApi()
             verify(mainRepository).getShowsApi()
-            mainViewModel.listShowsApi.getFlowAsLiveDataValue()
+            mainViewModel.listShowsApi.getOrAwaitValue()
             val showsEntity = mainViewModel.listShowsApi.value
-            val title = showsEntity?.map { it.showsTitle }
+            assertThat(showsEntity, `is`(allOf(notNullValue(), not(empty()))))
+            assertThat(showsEntity?.size, `is`(1))
+            assertThat(showsEntity?.get(0), `is`(shows.value?.results?.get(0)))
+        }
+    }
 
-            assertThat(showsEntity, `is`(notNullValue()))
-            assertThat(title?.collectData(), `is`(listOf("TITTLE")))
+    @Test
+    fun getShowsApi_return_successWithEmptyList() {
+        val showsList = ResponseTvShows(emptyList())
+        val shows = MutableLiveData(showsList)
+
+        mainCoroutineRule.runBlockingTest {
+            whenever(mainRepository.getShowsApi()).thenReturn(shows)
+            mainViewModel.getTvShowsApi()
+            verify(mainRepository).getShowsApi()
+            mainViewModel.listShowsApi.getOrAwaitValue()
+            val showsEntity = mainViewModel.listShowsApi.value
+            assertThat(showsEntity, `is`(allOf(notNullValue(), empty())))
+            assertThat(showsEntity?.size, `is`(0))
         }
     }
 }

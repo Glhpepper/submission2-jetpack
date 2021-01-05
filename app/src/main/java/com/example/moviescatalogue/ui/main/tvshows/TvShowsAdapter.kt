@@ -5,11 +5,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import androidx.navigation.findNavController
-import androidx.paging.PagingDataAdapter
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.moviescatalogue.R
-import com.example.moviescatalogue.data.local.entity.MoviesEntity
 import com.example.moviescatalogue.data.local.entity.TvShowsEntity
 import com.example.moviescatalogue.databinding.ItemTvShowsBinding
 import com.example.moviescatalogue.ui.main.MainFragmentDirections
@@ -18,19 +15,17 @@ import kotlinx.android.synthetic.main.item_tv_shows.view.*
 import javax.inject.Inject
 
 @MainScope
-class TvShowsAdapter @Inject constructor() : PagingDataAdapter<TvShowsEntity, TvShowsAdapter.TvShowsViewHolder>(
-    Shows_DiffUtils
-) {
+class TvShowsAdapter @Inject constructor() : RecyclerView.Adapter<TvShowsAdapter.TvShowsViewHolder>() {
+    private val listTvShows = ArrayList<TvShowsEntity>()
     private var lastPosition = -1
 
-    companion object {
-        private val Shows_DiffUtils = object : DiffUtil.ItemCallback<TvShowsEntity>() {
-            override fun areItemsTheSame(oldItem: TvShowsEntity, newItem: TvShowsEntity): Boolean =
-                oldItem.showsId == newItem.showsId
-
-            override fun areContentsTheSame(oldItem: TvShowsEntity, newItem: TvShowsEntity): Boolean =
-                oldItem == newItem
+    fun setTvShows(tvShows: List<TvShowsEntity>?) {
+        if (tvShows == null) return
+        listTvShows.apply {
+            clear()
+            addAll(tvShows)
         }
+        notifyDataSetChanged()
     }
 
     override fun onCreateViewHolder(
@@ -38,15 +33,16 @@ class TvShowsAdapter @Inject constructor() : PagingDataAdapter<TvShowsEntity, Tv
         viewType: Int
     ): TvShowsViewHolder {
         val view = ItemTvShowsBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-
         return TvShowsViewHolder(view)
     }
 
     override fun onBindViewHolder(holder: TvShowsViewHolder, position: Int) {
-        val tvShows = getItem(position)
+        val tvShows = listTvShows[position]
         holder.bind(tvShows)
         setAnimation(holder.itemView.cv_tv_shows, position)
     }
+
+    override fun getItemCount(): Int = listTvShows.size
 
     private fun setAnimation(view: View, position: Int) {
         if (position > lastPosition) {

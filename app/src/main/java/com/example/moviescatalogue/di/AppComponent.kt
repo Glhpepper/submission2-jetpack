@@ -1,7 +1,6 @@
 package com.example.moviescatalogue.di
 
 import android.content.Context
-import androidx.paging.ExperimentalPagingApi
 import com.example.moviescatalogue.data.MainRepository
 import com.example.moviescatalogue.di.module.DatabaseModule
 import com.example.moviescatalogue.di.module.DispatcherModule

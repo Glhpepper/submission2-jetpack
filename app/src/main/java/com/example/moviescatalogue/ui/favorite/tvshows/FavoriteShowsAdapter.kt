@@ -5,22 +5,20 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import androidx.navigation.findNavController
-import androidx.paging.PagingDataAdapter
+import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.moviescatalogue.R
-import com.example.moviescatalogue.data.local.entity.FavoriteMovies
 import com.example.moviescatalogue.data.local.entity.FavoriteShows
 import com.example.moviescatalogue.databinding.ItemFavoriteShowsBinding
 import com.example.moviescatalogue.ui.favorite.FavoriteFragmentDirections
 import com.example.moviescatalogue.ui.favorite.di.FavoriteScope
-import kotlinx.android.synthetic.main.item_favorite_movies.view.*
 import kotlinx.android.synthetic.main.item_favorite_shows.view.*
 import javax.inject.Inject
 
 @FavoriteScope
 class FavoriteShowsAdapter @Inject constructor() :
-    PagingDataAdapter<FavoriteShows, FavoriteShowsAdapter.FavoriteViewHolder>(Shows_DiffUtils) {
+    PagedListAdapter<FavoriteShows, FavoriteShowsAdapter.FavoriteViewHolder>(Shows_DiffUtils) {
     private var lastPosition = -1
 
     companion object {

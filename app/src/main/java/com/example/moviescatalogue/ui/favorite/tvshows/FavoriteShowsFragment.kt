@@ -36,7 +36,6 @@ class FavoriteShowsFragment : Fragment() {
 
     @Inject
     lateinit var favoriteShowsAdapter: FavoriteShowsAdapter
-    private var movieJob: Job? = null
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -69,7 +68,7 @@ class FavoriteShowsFragment : Fragment() {
     private fun swipeDeleteShows() {
         val swipeToDelete = object : SwipeToDelete() {
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                val position = viewHolder.bindingAdapterPosition
+                val position = viewHolder.adapterPosition
                 val favoritePosition = favoriteShowsAdapter.getFavoriteAtPosition(position)
                 viewModel.deleteFavoriteShows(favoritePosition)
                 favoriteShowsList()
@@ -82,11 +81,12 @@ class FavoriteShowsFragment : Fragment() {
     }
 
     private fun favoriteShowsList() {
-        movieJob?.cancel()
-        movieJob = lifecycleScope.launch {
-            viewModel.getFavoriteShowsPaging()
-            viewModel.favoriteShows.observe(viewLifecycleOwner, { favorite ->
-                favoriteShowsAdapter.submitData(lifecycle, favorite)
+ //       viewModel.getFavoriteShowsPaging()
+
+        lifecycleScope.launch {
+            viewModel.getFavoriteShowPaging().observe(viewLifecycleOwner, { favoriteShows ->
+                favoriteShowsAdapter.submitList(favoriteShows)
+                favoriteShowsAdapter.notifyDataSetChanged()
             })
         }
     }

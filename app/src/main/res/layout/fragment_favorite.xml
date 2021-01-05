@@ -33,8 +33,7 @@
                     style="@style/Widget.MaterialComponents.Toolbar.Primary"
                     android:layout_width="match_parent"
                     android:layout_height="?attr/actionBarSize"
-                    app:layout_collapseMode="parallax"
-                    app:menu="@menu/menu_favorite">
+                    app:layout_collapseMode="parallax">
 
                     <TextView
                         android:id="@+id/favorite_title"

@@ -1,4 +1,4 @@
-package com.example.moviescatalogue.data.remote
+package com.example.moviescatalogue.data.remote.api
 
 import com.example.moviescatalogue.BuildConfig
 import com.example.moviescatalogue.data.remote.response.ResponseDetailMovies
@@ -13,16 +13,22 @@ interface ApiServices {
     @GET("discover/movie?")
     suspend fun getListMovies(
         @Query("api_key") apiKey: String = BuildConfig.API_TOKEN,
-        @Query("sort_by") sortBy : String = "popularity.desc",
+        @Query("sort_by") sortBy: String = "popularity.desc",
         @Query("page") page: Int
     ): ResponseMovies
 
     @GET("discover/tv?")
     suspend fun getListTvShows(
         @Query("api_key") apiKey: String = BuildConfig.API_TOKEN,
-        @Query("sort_by") sortBy : String = "popularity.desc",
+        @Query("sort_by") sortBy: String = "popularity.desc",
         @Query("page") page: Int
     ): ResponseTvShows
+
+    @GET("discover/movie?api_key=${BuildConfig.API_TOKEN}&sort_by=popularity.desc&page=1")
+    suspend fun getListMovie(): ResponseMovies
+
+    @GET("discover/tv?api_key=${BuildConfig.API_TOKEN}&sort_by=popularity.desc&page=1")
+    suspend fun getListTvShow(): ResponseTvShows
 
     @GET("movie/{id}?api_key=${BuildConfig.API_TOKEN}")
     suspend fun getDetailMovies(@Path("id") id: String): ResponseDetailMovies

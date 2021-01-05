@@ -2,7 +2,6 @@ package com.example.moviescatalogue.ui.main
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.paging.ExperimentalPagingApi
 import com.example.moviescatalogue.MyApplication
 import com.example.moviescatalogue.R
 import com.example.moviescatalogue.ui.main.di.MainComponent

@@ -2,27 +2,31 @@ package com.example.moviescatalogue.ui.favorite
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.MutableLiveData
-import androidx.paging.PagingData
-import androidx.paging.map
+import androidx.paging.PagedList
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.example.moviescatalogue.MainCoroutineRule
-import com.example.moviescatalogue.collectData
+import com.example.moviescatalogue.PagedListUtil
 import com.example.moviescatalogue.data.MainRepository
 import com.example.moviescatalogue.data.local.entity.FavoriteMovies
 import com.example.moviescatalogue.data.local.entity.FavoriteShows
 import com.example.moviescatalogue.data.remote.response.GenresItemMovies
 import com.example.moviescatalogue.data.remote.response.GenresItemShows
 import com.example.moviescatalogue.data.remote.response.SeasonsItem
-import com.example.moviescatalogue.getFlowAsLiveDataValue
+import com.example.moviescatalogue.getOrAwaitValue
 import com.nhaarman.mockitokotlin2.whenever
+import junit.framework.TestCase
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runBlockingTest
+import org.hamcrest.CoreMatchers.notNullValue
 import org.hamcrest.MatcherAssert.assertThat
-import org.hamcrest.Matchers.*
+import org.hamcrest.Matchers.`is`
+import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.mockito.Mock
+import org.mockito.Mockito
 import org.mockito.Mockito.mock
 import org.mockito.Mockito.verify
 
@@ -57,17 +61,19 @@ class FavoriteViewModelTest {
                 "STATUS",
             )
         )
-        val movies = MutableLiveData(PagingData.from(moviesList))
+        val movies = MutableLiveData<PagedList<FavoriteMovies>>()
+        movies.value = PagedListUtil.mockPagedList(moviesList)
+
         mainCoroutineRule.runBlockingTest {
             whenever(mainRepository.getMoviesFavoritePaging()).thenReturn(movies)
             favoriteViewModel.getFavoriteMoviePaging()
             verify(mainRepository).getMoviesFavoritePaging()
-            favoriteViewModel.favoriteMovies.getFlowAsLiveDataValue()
-            val moviesEntity = favoriteViewModel.favoriteMovies.value
-            val title = moviesEntity?.map { it.title.toString() }
+            favoriteViewModel.getFavoriteMoviePaging().getOrAwaitValue()
+            val moviesEntity = favoriteViewModel.getFavoriteMoviePaging().value
 
             assertThat(moviesEntity, `is`(notNullValue()))
-            assertThat(title?.collectData(), `is`(listOf("TITTLE")))
+            assertThat(moviesEntity?.get(0)?.title, `is`("TITTLE"))
+            assertThat(moviesEntity?.size, `is`(1))
         }
     }
 
@@ -86,17 +92,19 @@ class FavoriteViewModelTest {
                 "STATUS",
             )
         )
-        val shows = MutableLiveData(PagingData.from(showsList))
+        val shows = MutableLiveData<PagedList<FavoriteShows>>()
+        shows.value = PagedListUtil.mockPagedList(showsList)
+
         mainCoroutineRule.runBlockingTest {
             whenever(mainRepository.getShowsFavoritePaging()).thenReturn(shows)
             favoriteViewModel.getFavoriteShowsPaging()
             verify(mainRepository).getShowsFavoritePaging()
-            favoriteViewModel.favoriteShows.getFlowAsLiveDataValue()
-            val showsEntity = favoriteViewModel.favoriteShows.value
-            val title = showsEntity?.map { it.name.toString() }
+            favoriteViewModel.getFavoriteShowPaging().getOrAwaitValue()
+            val showsEntity = favoriteViewModel.getFavoriteShowPaging().value
 
             assertThat(showsEntity, `is`(notNullValue()))
-            assertThat(title?.collectData(), `is`(listOf("NAME")))
+            assertThat(showsEntity?.get(0)?.name, `is`("NAME"))
+            assertThat(showsEntity?.size, `is`(1))
         }
     }
 }

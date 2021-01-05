@@ -1,7 +1,6 @@
 package com.example.moviescatalogue
 
 import android.app.Application
-import androidx.paging.ExperimentalPagingApi
 import com.example.moviescatalogue.di.AppComponent
 import com.example.moviescatalogue.di.DaggerAppComponent
 

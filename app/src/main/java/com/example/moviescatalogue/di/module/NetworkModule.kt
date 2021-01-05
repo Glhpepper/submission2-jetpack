@@ -1,7 +1,7 @@
 package com.example.moviescatalogue.di.module
 
-import com.example.moviescatalogue.data.remote.ApiServices
-import com.example.moviescatalogue.data.remote.RetrofitClient
+import com.example.moviescatalogue.data.remote.api.ApiServices
+import com.example.moviescatalogue.data.remote.api.RetrofitClient
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton

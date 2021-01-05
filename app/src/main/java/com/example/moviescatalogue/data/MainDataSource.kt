@@ -1,27 +1,25 @@
 package com.example.moviescatalogue.data
 
 import androidx.lifecycle.LiveData
-import androidx.paging.PagingData
+import androidx.paging.PagedList
 import com.example.moviescatalogue.data.local.entity.FavoriteMovies
 import com.example.moviescatalogue.data.local.entity.FavoriteShows
-import com.example.moviescatalogue.data.local.entity.MoviesEntity
-import com.example.moviescatalogue.data.local.entity.TvShowsEntity
 import com.example.moviescatalogue.data.remote.response.ResponseDetailMovies
 import com.example.moviescatalogue.data.remote.response.ResponseDetailShows
+import com.example.moviescatalogue.data.remote.response.ResponseMovies
 import com.example.moviescatalogue.data.remote.response.ResponseTvShows
-import kotlinx.coroutines.flow.Flow
 
 interface MainDataSource {
 
-    suspend fun getMoviesApi(): LiveData<PagingData<MoviesEntity>>
+    suspend fun getMoviesApi(): LiveData<ResponseMovies>
 
-    suspend fun getShowsApi(): LiveData<PagingData<TvShowsEntity>>
+    suspend fun getShowsApi(): LiveData<ResponseTvShows>
 
     suspend fun getDetailMovie(id: String): LiveData<ResponseDetailMovies>
 
     suspend fun getDetailTvShows(id: String): LiveData<ResponseDetailShows>
 
-    suspend fun getMoviesFavoritePaging(): LiveData<PagingData<FavoriteMovies>>
+    suspend fun getMoviesFavoritePaging(): LiveData<PagedList<FavoriteMovies>>
 
     suspend fun checkFavoriteMovies(id: Int): Boolean
 
@@ -31,7 +29,7 @@ interface MainDataSource {
 
     suspend fun deleteFavoriteMovies(favoriteMovies: FavoriteMovies)
 
-    suspend fun getShowsFavoritePaging(): LiveData<PagingData<FavoriteShows>>
+    suspend fun getShowsFavoritePaging(): LiveData<PagedList<FavoriteShows>>
 
     suspend fun checkFavoriteShows(id: Int): Boolean
 

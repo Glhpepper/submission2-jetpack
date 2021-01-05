@@ -5,27 +5,20 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import androidx.navigation.findNavController
-import androidx.paging.PagingData
-import androidx.paging.PagingDataAdapter
+import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.moviescatalogue.R
 import com.example.moviescatalogue.data.local.entity.FavoriteMovies
-import com.example.moviescatalogue.data.local.entity.FavoriteShows
-import com.example.moviescatalogue.data.local.entity.MoviesEntity
 import com.example.moviescatalogue.databinding.ItemFavoriteMoviesBinding
 import com.example.moviescatalogue.ui.favorite.FavoriteFragmentDirections
 import com.example.moviescatalogue.ui.favorite.di.FavoriteScope
-import com.example.moviescatalogue.ui.main.MainFragmentDirections
-import kotlinx.android.synthetic.main.fragment_favorite_movies.view.*
 import kotlinx.android.synthetic.main.item_favorite_movies.view.*
-import kotlinx.android.synthetic.main.item_movies.view.*
-import kotlinx.android.synthetic.main.item_movies.view.cv_movies
 import javax.inject.Inject
 
 @FavoriteScope
 class FavoriteMoviesAdapter @Inject constructor() :
-    PagingDataAdapter<FavoriteMovies, FavoriteMoviesAdapter.FavoriteViewHolder>(Movie_DiffUtils) {
+    PagedListAdapter<FavoriteMovies, FavoriteMoviesAdapter.FavoriteViewHolder>(Movie_DiffUtils) {
     private var lastPosition = -1
 
     companion object {

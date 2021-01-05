@@ -1,6 +1,7 @@
 package com.example.moviescatalogue.data.local.room
 
 import androidx.lifecycle.LiveData
+import androidx.paging.DataSource
 import androidx.room.*
 import com.example.moviescatalogue.data.local.entity.FavoriteMovies
 import com.example.moviescatalogue.data.remote.response.ResponseDetailMovies
@@ -10,6 +11,9 @@ interface FavoriteMoviesDao {
 
     @Query("SELECT * from favorite_movies")
     fun getFavoriteMoviesPaging(): List<FavoriteMovies>
+
+    @Query("SELECT * FROM favorite_movies")
+    fun getFavoriteMoviePaging(): DataSource.Factory<Int, FavoriteMovies>
 
     @Query("SELECT EXISTS(SELECT * from favorite_movies WHERE id =:id)")
     suspend fun checkFavorite(id: Int): Boolean

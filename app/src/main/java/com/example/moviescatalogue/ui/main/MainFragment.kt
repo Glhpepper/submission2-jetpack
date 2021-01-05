@@ -4,19 +4,13 @@ import android.content.Context
 import android.os.Bundle
 import android.view.*
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import androidx.paging.ExperimentalPagingApi
-import androidx.paging.LoadState
 import com.example.moviescatalogue.R
 import com.example.moviescatalogue.databinding.FragmentMainBinding
-import com.example.moviescatalogue.ui.main.di.MainScope
-import com.example.moviescatalogue.ui.main.movies.MoviesAdapter
-import com.example.moviescatalogue.ui.main.tvshows.TvShowsAdapter
 import kotlinx.android.synthetic.main.fragment_main.*
 import javax.inject.Inject
 
@@ -25,11 +19,6 @@ class MainFragment : Fragment() {
     lateinit var viewModelFactory: ViewModelProvider.Factory
     private val mainViewModel by viewModels<MainViewModel> { viewModelFactory }
     private lateinit var binding: FragmentMainBinding
-
-    @Inject
-    lateinit var moviesAdapter: MoviesAdapter
-    @Inject
-    lateinit var showsAdapter: TvShowsAdapter
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -52,24 +41,27 @@ class MainFragment : Fragment() {
 
         binding.lifecycleOwner = viewLifecycleOwner
         setUpPager()
-        btn_retry.setOnClickListener {
-            moviesAdapter.retry()
-            showsAdapter.retry()
-        }
     }
 
     private fun setUpPager() {
         val sectionPagerAdapter = SectionPagerAdapter(context, childFragmentManager)
         tab_layout.setupWithViewPager(view_pager)
         view_pager.adapter = sectionPagerAdapter
+        showProgress(true)
 
-        moviesAdapter.addLoadStateListener { loadState ->
-            pb_main.isVisible = loadState.source.refresh is LoadState.Loading
-            btn_retry.isVisible = loadState.source.refresh is LoadState.Error
-        }
-        showsAdapter.addLoadStateListener { loadState ->
-            pb_main.isVisible = loadState.source.refresh is LoadState.Loading
-            btn_retry.isVisible = loadState.source.refresh is LoadState.Error
+        mainViewModel.listMoviesApi.observe(viewLifecycleOwner, { movies ->
+            if (movies != null) showProgress(false)
+        })
+        mainViewModel.listShowsApi.observe(viewLifecycleOwner, { shows ->
+            if (shows != null) showProgress(false)
+        })
+    }
+
+    private fun showProgress(state: Boolean) {
+        if (state) {
+            pb_main.visibility = View.VISIBLE
+        } else {
+            pb_main.visibility = View.GONE
         }
     }
 
