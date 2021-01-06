@@ -80,7 +80,7 @@ class FavoriteShowsFragment : Fragment() {
             viewModel.getFavoriteShowPaging().observe(viewLifecycleOwner, { favoriteShows ->
                 favoriteShowsAdapter.submitList(favoriteShows)
                 favoriteShowsAdapter.notifyDataSetChanged()
-                if (favoriteShows == arrayListOf<PagedList<FavoriteShows>>()){
+                if (favoriteShows.isNullOrEmpty()){
                     showNoData(true)
                 }
                 else{

@@ -10,7 +10,7 @@ class SeasonAdapter : RecyclerView.Adapter<SeasonAdapter.SeasonViewHolder>() {
     private val listSeason = ArrayList<SeasonsItem>()
 
     fun setListSeason(seasonsItem: List<SeasonsItem>?) {
-        if (seasonsItem == null) return
+        if (seasonsItem.isNullOrEmpty()) return
         listSeason.apply {
             clear()
             addAll(seasonsItem)

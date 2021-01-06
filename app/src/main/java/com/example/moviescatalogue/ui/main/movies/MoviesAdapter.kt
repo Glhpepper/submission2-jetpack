@@ -20,7 +20,7 @@ class MoviesAdapter @Inject constructor(): RecyclerView.Adapter<MoviesAdapter.Mo
     private var lastPosition = -1
 
     fun setMovies(movies: List<MoviesEntity>?) {
-        if (movies == null) return
+        if (movies.isNullOrEmpty()) return
         listMovies.apply {
             clear()
             addAll(movies)

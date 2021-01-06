@@ -20,7 +20,7 @@ class TvShowsAdapter @Inject constructor() : RecyclerView.Adapter<TvShowsAdapter
     private var lastPosition = -1
 
     fun setTvShows(tvShows: List<TvShowsEntity>?) {
-        if (tvShows == null) return
+        if (tvShows.isNullOrEmpty()) return
         listTvShows.apply {
             clear()
             addAll(tvShows)
