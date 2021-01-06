@@ -64,10 +64,10 @@ class FavoriteShowsDaoTest {
     @Test
     fun checkFavoriteShows() = mainCoroutineRule.runBlockingTest {
         showsDao.insertFavoriteShows(showsList[0])
-        val movieLoaded = showsList[0].id?.let { showsDao.checkFavorite(it) }
+        val showsLoaded = showsList[0].id?.let { showsDao.checkFavorite(it) }
 
-        assertThat(movieLoaded, notNullValue())
-        assertThat(movieLoaded, `is`(true))
+        assertThat(showsLoaded, notNullValue())
+        assertThat(showsLoaded, `is`(true))
     }
 
     @Test
@@ -76,9 +76,9 @@ class FavoriteShowsDaoTest {
         showsList[0].id?.let { showsDao.deleteFavoriteById(it) }
 
         val factory = showsDao.getFavoriteMShowPaging()
-        val listMovies = (factory.create() as LimitOffsetDataSource).loadRange(0, 4)
+        val listShows = (factory.create() as LimitOffsetDataSource).loadRange(0, 4)
 
-        assertThat(listMovies.isEmpty(), `is`(true))
+        assertThat(listShows.isEmpty(), `is`(true))
     }
 
     @Test
@@ -86,10 +86,10 @@ class FavoriteShowsDaoTest {
         showsDao.insertFavoriteShows(showsList[0])
 
         val factory = showsDao.getFavoriteMShowPaging()
-        val listMovies = (factory.create() as LimitOffsetDataSource).loadRange(0, 4)
+        val listShows = (factory.create() as LimitOffsetDataSource).loadRange(0, 4)
 
-        assertThat(listMovies, notNullValue())
-        assertThat(listMovies[0].id, `is`(0))
+        assertThat(listShows, notNullValue())
+        assertThat(listShows[0].id, `is`(0))
     }
 
     @Test
@@ -98,8 +98,8 @@ class FavoriteShowsDaoTest {
         showsDao.deleteFavoriteUser(showsList[0])
 
         val factory = showsDao.getFavoriteMShowPaging()
-        val listMovies = (factory.create() as LimitOffsetDataSource).loadRange(0, 4)
+        val listShows = (factory.create() as LimitOffsetDataSource).loadRange(0, 4)
 
-        assertThat(listMovies.isEmpty(), `is`(true))
+        assertThat(listShows.isEmpty(), `is`(true))
     }
 }
