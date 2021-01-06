@@ -1,8 +1,7 @@
 package com.example.moviescatalogue.data
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import androidx.lifecycle.MutableLiveData
-import androidx.paging.*
+import androidx.paging.DataSource
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.example.moviescatalogue.MainCoroutineRule
 import com.example.moviescatalogue.PagedListUtil
@@ -12,21 +11,21 @@ import com.example.moviescatalogue.data.local.entity.FavoriteShows
 import com.example.moviescatalogue.data.local.entity.MoviesEntity
 import com.example.moviescatalogue.data.local.entity.TvShowsEntity
 import com.example.moviescatalogue.data.remote.RemoteDataSource
-import com.example.moviescatalogue.data.remote.api.ApiServices
 import com.example.moviescatalogue.data.remote.response.*
 import com.example.moviescatalogue.getOrAwaitValue
 import com.nhaarman.mockitokotlin2.whenever
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runBlockingTest
-import org.hamcrest.CoreMatchers.*
+import org.hamcrest.CoreMatchers.`is`
+import org.hamcrest.CoreMatchers.notNullValue
 import org.hamcrest.MatcherAssert.assertThat
-import org.hamcrest.Matchers
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.mockito.Mockito.*
+import org.mockito.Mockito.mock
+import org.mockito.Mockito.verify
 
 @ExperimentalCoroutinesApi
 @RunWith(AndroidJUnit4::class)
@@ -186,7 +185,7 @@ class MainRepositoryTest {
             val moviesFavorite = PagedListUtil.mockPagedList(moviesList)
 
             assertThat(moviesFavorite, `is`(notNullValue()))
-            assertThat(moviesFavorite[0]?.title, `is`("TITTLE"))
+            assertThat(moviesFavorite[0]?.id, `is`(0))
         }
     }
 
@@ -215,7 +214,7 @@ class MainRepositoryTest {
             val courseEntities = PagedListUtil.mockPagedList(showsList)
 
             assertThat(courseEntities, `is`(notNullValue()))
-            assertThat(courseEntities[0]?.name, `is`("NAME"))
+            assertThat(courseEntities[0]?.id, `is`(0))
         }
     }
 }

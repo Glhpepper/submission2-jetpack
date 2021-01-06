@@ -2,12 +2,11 @@ package com.example.moviescatalogue.ui.favorite.movies
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -22,8 +21,6 @@ import com.example.moviescatalogue.ui.favorite.FavoriteViewModel
 import com.example.moviescatalogue.utils.SwipeToDelete
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_favorite_movies.*
-import kotlinx.android.synthetic.main.fragment_favorite_shows.*
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -57,7 +54,6 @@ class FavoriteMoviesFragment : Fragment() {
             lifecycleOwner = viewLifecycleOwner
             rvFavoriteMovies.adapter = favoriteMoviesAdapter
             rvFavoriteMovies.setHasFixedSize(true)
-            moviesViewModel = viewModel
         }
 
         favoriteMovieList()
@@ -80,7 +76,6 @@ class FavoriteMoviesFragment : Fragment() {
     }
 
     private fun favoriteMovieList() {
-        showNoData(true)
         lifecycleScope.launch {
             viewModel.getFavoriteMoviePaging().observe(viewLifecycleOwner, { favoriteShows ->
                 favoriteMoviesAdapter.submitList(favoriteShows)

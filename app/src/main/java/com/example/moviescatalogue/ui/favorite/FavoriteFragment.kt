@@ -9,19 +9,11 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
-import androidx.paging.PagedList
 import com.example.moviescatalogue.MyApplication
 import com.example.moviescatalogue.R
-import com.example.moviescatalogue.data.local.entity.FavoriteMovies
-import com.example.moviescatalogue.data.local.entity.FavoriteShows
 import com.example.moviescatalogue.databinding.FragmentFavoriteBinding
 import com.example.moviescatalogue.ui.favorite.di.FavoriteComponent
 import kotlinx.android.synthetic.main.fragment_favorite.*
-import kotlinx.android.synthetic.main.fragment_favorite_movies.*
-import kotlinx.android.synthetic.main.fragment_favorite_shows.*
-import kotlinx.android.synthetic.main.fragment_main.*
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class FavoriteFragment : Fragment() {

@@ -8,6 +8,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.example.moviescatalogue.MainCoroutineRule
 import com.example.moviescatalogue.data.local.entity.FavoriteShows
 import com.example.moviescatalogue.data.local.room.CatalogueDatabase
+import com.example.moviescatalogue.data.local.room.FavoriteShowsDao
 import com.example.moviescatalogue.data.remote.response.GenresItemShows
 import com.example.moviescatalogue.data.remote.response.SeasonsItem
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -25,8 +26,11 @@ import org.junit.runner.RunWith
 @RunWith(AndroidJUnit4::class)
 class FavoriteShowsDaoTest {
     private lateinit var database: CatalogueDatabase
+    private lateinit var showsDao: FavoriteShowsDao
+    private val showsList = ArrayList<FavoriteShows>()
+    private val genreList = ArrayList<GenresItemShows>()
+    private val seasonList = ArrayList<SeasonsItem>()
 
-    @ExperimentalCoroutinesApi
     @get:Rule
     var mainCoroutineRule = MainCoroutineRule()
 
@@ -39,6 +43,19 @@ class FavoriteShowsDaoTest {
             ApplicationProvider.getApplicationContext(),
             CatalogueDatabase::class.java
         ).allowMainThreadQueries().build()
+
+        showsDao = database.favoriteShowsDao()
+
+        genreList.add(GenresItemShows("NAME", 0))
+        seasonList.add(SeasonsItem("NAME", 0, "POSTERPATH"))
+        showsList.add(
+            FavoriteShows(
+                0, genreList, 0.0, 0, "FIRSTAIRDATE", "OVERVIEW",
+                seasonList, "POSTERPATH", "ORIGINALNAME",
+                "VOTEAVERAGE", "NAME", "TAGLINE", "HOMEPAGE",
+                "STATUS",
+            )
+        )
     }
 
     @After
@@ -46,21 +63,8 @@ class FavoriteShowsDaoTest {
 
     @Test
     fun checkFavoriteShows() = mainCoroutineRule.runBlockingTest {
-        val showsList = ArrayList<FavoriteShows>()
-        val genreList = ArrayList<GenresItemShows>()
-        genreList.add(GenresItemShows("NAME", 0))
-        val seasonList = ArrayList<SeasonsItem>()
-        seasonList.add(SeasonsItem("NAME", 0, "POSTERPATH"))
-        showsList.add(
-            FavoriteShows(
-                0, genreList, 0.0, 0, "FIRSTAIRDATE", "OVERVIEW",
-                seasonList, "POSTERPATH", "ORIGINALNAME",
-                "VOTEAVERAGE", "NAME", "TAGLINE", "HOMEPAGE",
-                "STATUS",
-            )
-        )
-        database.favoriteShowsDao().insertFavoriteShows(showsList[0])
-        val movieLoaded = showsList[0].id?.let { database.favoriteShowsDao().checkFavorite(it) }
+        showsDao.insertFavoriteShows(showsList[0])
+        val movieLoaded = showsList[0].id?.let { showsDao.checkFavorite(it) }
 
         assertThat(movieLoaded, notNullValue())
         assertThat(movieLoaded, `is`(true))
@@ -68,23 +72,10 @@ class FavoriteShowsDaoTest {
 
     @Test
     fun deleteFavoriteShowsById() = mainCoroutineRule.runBlockingTest {
-        val showsList = ArrayList<FavoriteShows>()
-        val genreList = ArrayList<GenresItemShows>()
-        genreList.add(GenresItemShows("NAME", 0))
-        val seasonList = ArrayList<SeasonsItem>()
-        seasonList.add(SeasonsItem("NAME", 0, "POSTERPATH"))
-        showsList.add(
-            FavoriteShows(
-                0, genreList, 0.0, 0, "FIRSTAIRDATE", "OVERVIEW",
-                seasonList, "POSTERPATH", "ORIGINALNAME",
-                "VOTEAVERAGE", "NAME", "TAGLINE", "HOMEPAGE",
-                "STATUS",
-            )
-        )
-        database.favoriteShowsDao().insertFavoriteShows(showsList[0])
-        showsList[0].id?.let { database.favoriteShowsDao().deleteFavoriteById(it) }
+        showsDao.insertFavoriteShows(showsList[0])
+        showsList[0].id?.let { showsDao.deleteFavoriteById(it) }
 
-        val factory = database.favoriteShowsDao().getFavoriteMShowPaging()
+        val factory = showsDao.getFavoriteMShowPaging()
         val listMovies = (factory.create() as LimitOffsetDataSource).loadRange(0, 4)
 
         assertThat(listMovies.isEmpty(), `is`(true))
@@ -92,47 +83,21 @@ class FavoriteShowsDaoTest {
 
     @Test
     fun insertFavoriteShows() = mainCoroutineRule.runBlockingTest {
-        val showsList = ArrayList<FavoriteShows>()
-        val genreList = ArrayList<GenresItemShows>()
-        genreList.add(GenresItemShows("NAME", 0))
-        val seasonList = ArrayList<SeasonsItem>()
-        seasonList.add(SeasonsItem("NAME", 0, "POSTERPATH"))
-        showsList.add(
-            FavoriteShows(
-                0, genreList, 0.0, 0, "FIRSTAIRDATE", "OVERVIEW",
-                seasonList, "POSTERPATH", "ORIGINALNAME",
-                "VOTEAVERAGE", "NAME", "TAGLINE", "HOMEPAGE",
-                "STATUS",
-            )
-        )
-        database.favoriteShowsDao().insertFavoriteShows(showsList[0])
+        showsDao.insertFavoriteShows(showsList[0])
 
-        val factory = database.favoriteShowsDao().getFavoriteMShowPaging()
+        val factory = showsDao.getFavoriteMShowPaging()
         val listMovies = (factory.create() as LimitOffsetDataSource).loadRange(0, 4)
 
         assertThat(listMovies, notNullValue())
-        assertThat(listMovies[0].name, `is`("NAME"))
+        assertThat(listMovies[0].id, `is`(0))
     }
 
     @Test
     fun deleteFavoriteShows() = mainCoroutineRule.runBlockingTest {
-        val showsList = ArrayList<FavoriteShows>()
-        val genreList = ArrayList<GenresItemShows>()
-        genreList.add(GenresItemShows("NAME", 0))
-        val seasonList = ArrayList<SeasonsItem>()
-        seasonList.add(SeasonsItem("NAME", 0, "POSTERPATH"))
-        showsList.add(
-            FavoriteShows(
-                0, genreList, 0.0, 0, "FIRSTAIRDATE", "OVERVIEW",
-                seasonList, "POSTERPATH", "ORIGINALNAME",
-                "VOTEAVERAGE", "NAME", "TAGLINE", "HOMEPAGE",
-                "STATUS",
-            )
-        )
-        database.favoriteShowsDao().insertFavoriteShows(showsList[0])
-        database.favoriteShowsDao().deleteFavoriteUser(showsList[0])
+        showsDao.insertFavoriteShows(showsList[0])
+        showsDao.deleteFavoriteUser(showsList[0])
 
-        val factory = database.favoriteShowsDao().getFavoriteMShowPaging()
+        val factory = showsDao.getFavoriteMShowPaging()
         val listMovies = (factory.create() as LimitOffsetDataSource).loadRange(0, 4)
 
         assertThat(listMovies.isEmpty(), `is`(true))

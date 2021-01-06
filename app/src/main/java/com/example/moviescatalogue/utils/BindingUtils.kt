@@ -4,13 +4,10 @@ import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
-import androidx.paging.PagedList
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.moviescatalogue.R
-import com.example.moviescatalogue.data.local.entity.FavoriteMovies
-import com.example.moviescatalogue.data.local.entity.FavoriteShows
 import com.example.moviescatalogue.data.local.entity.MoviesEntity
 import com.example.moviescatalogue.data.local.entity.TvShowsEntity
 import com.example.moviescatalogue.data.remote.api.RetrofitClient.BASE_IMG
@@ -18,8 +15,6 @@ import com.example.moviescatalogue.data.remote.response.GenresItemMovies
 import com.example.moviescatalogue.data.remote.response.GenresItemShows
 import com.example.moviescatalogue.data.remote.response.SeasonsItem
 import com.example.moviescatalogue.ui.detail.shows.SeasonAdapter
-import com.example.moviescatalogue.ui.favorite.movies.FavoriteMoviesAdapter
-import com.example.moviescatalogue.ui.favorite.tvshows.FavoriteShowsAdapter
 import com.example.moviescatalogue.ui.main.movies.MoviesAdapter
 import com.example.moviescatalogue.ui.main.tvshows.TvShowsAdapter
 
@@ -29,22 +24,10 @@ fun bindMoviesList(recyclerView: RecyclerView, data: List<MoviesEntity>?) {
     adapter.setMovies(data)
 }
 
-@BindingAdapter("favoriteMoviesList")
-fun bindMoviesFavorite(recyclerView: RecyclerView, data: PagedList<FavoriteMovies>?) {
-    val adapter = recyclerView.adapter as FavoriteMoviesAdapter
-    adapter.submitList(data)
-}
-
 @BindingAdapter("showsList")
 fun bindShowsList(recyclerView: RecyclerView, data: List<TvShowsEntity>?) {
     val adapter = recyclerView.adapter as TvShowsAdapter
     adapter.setTvShows(data)
-}
-
-@BindingAdapter("favoriteShowsList")
-fun bindShowsFavorite(recyclerView: RecyclerView, data: PagedList<FavoriteShows>?) {
-    val adapter = recyclerView.adapter as FavoriteShowsAdapter
-    adapter.submitList(data)
 }
 
 @BindingAdapter("seasonList")

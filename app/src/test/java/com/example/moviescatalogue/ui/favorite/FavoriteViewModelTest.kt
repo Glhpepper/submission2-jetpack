@@ -14,19 +14,15 @@ import com.example.moviescatalogue.data.remote.response.GenresItemShows
 import com.example.moviescatalogue.data.remote.response.SeasonsItem
 import com.example.moviescatalogue.getOrAwaitValue
 import com.nhaarman.mockitokotlin2.whenever
-import junit.framework.TestCase
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runBlockingTest
 import org.hamcrest.CoreMatchers.notNullValue
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.Matchers.`is`
-import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.mockito.Mock
-import org.mockito.Mockito
 import org.mockito.Mockito.mock
 import org.mockito.Mockito.verify
 
@@ -72,7 +68,7 @@ class FavoriteViewModelTest {
             val moviesEntity = favoriteViewModel.getFavoriteMoviePaging().value
 
             assertThat(moviesEntity, `is`(notNullValue()))
-            assertThat(moviesEntity?.get(0)?.title, `is`("TITTLE"))
+            assertThat(moviesEntity?.get(0)?.id, `is`(0))
             assertThat(moviesEntity?.size, `is`(1))
         }
     }
@@ -97,13 +93,13 @@ class FavoriteViewModelTest {
 
         mainCoroutineRule.runBlockingTest {
             whenever(mainRepository.getShowsFavoritePaging()).thenReturn(shows)
-            favoriteViewModel.getFavoriteShowsPaging()
+            favoriteViewModel.getFavoriteShowPaging()
             verify(mainRepository).getShowsFavoritePaging()
             favoriteViewModel.getFavoriteShowPaging().getOrAwaitValue()
             val showsEntity = favoriteViewModel.getFavoriteShowPaging().value
 
             assertThat(showsEntity, `is`(notNullValue()))
-            assertThat(showsEntity?.get(0)?.name, `is`("NAME"))
+            assertThat(showsEntity?.get(0)?.id, `is`(0))
             assertThat(showsEntity?.size, `is`(1))
         }
     }

@@ -8,7 +8,6 @@ import com.example.moviescatalogue.data.local.LocalDataSource
 import com.example.moviescatalogue.data.local.entity.FavoriteMovies
 import com.example.moviescatalogue.data.local.entity.FavoriteShows
 import com.example.moviescatalogue.data.remote.RemoteDataSource
-import com.example.moviescatalogue.data.remote.api.ApiServices
 import com.example.moviescatalogue.data.remote.response.ResponseDetailMovies
 import com.example.moviescatalogue.data.remote.response.ResponseDetailShows
 import com.example.moviescatalogue.data.remote.response.ResponseMovies
@@ -81,26 +80,34 @@ class MainRepository @Inject constructor(
     }
 
     override suspend fun checkFavoriteMovies(id: Int): Boolean {
-        return withContext(ioDispatcher) {
-            localDataSource.checkFavoriteMovies(id)
+        wrapEspressoIdlingResource {
+            return withContext(ioDispatcher) {
+                localDataSource.checkFavoriteMovies(id)
+            }
         }
     }
 
     override suspend fun insertFavoriteMovies(favoriteMovies: FavoriteMovies) {
-        withContext(ioDispatcher) {
-            localDataSource.insertFavoriteMovies(favoriteMovies)
+        wrapEspressoIdlingResource {
+            withContext(ioDispatcher) {
+                localDataSource.insertFavoriteMovies(favoriteMovies)
+            }
         }
     }
 
     override suspend fun deleteFavoriteMoviesById(id: Int) {
-        withContext(ioDispatcher) {
-            localDataSource.deleteFavoriteMoviesById(id)
+        wrapEspressoIdlingResource {
+            withContext(ioDispatcher) {
+                localDataSource.deleteFavoriteMoviesById(id)
+            }
         }
     }
 
     override suspend fun deleteFavoriteMovies(favoriteMovies: FavoriteMovies) {
-        withContext(ioDispatcher) {
-            localDataSource.deleteFavoriteMovies(favoriteMovies)
+        wrapEspressoIdlingResource {
+            withContext(ioDispatcher) {
+                localDataSource.deleteFavoriteMovies(favoriteMovies)
+            }
         }
     }
 
@@ -116,26 +123,34 @@ class MainRepository @Inject constructor(
     }
 
     override suspend fun checkFavoriteShows(id: Int): Boolean {
-        return withContext(ioDispatcher) {
-            localDataSource.checkFavoriteShows(id)
+        wrapEspressoIdlingResource {
+            return withContext(ioDispatcher) {
+                localDataSource.checkFavoriteShows(id)
+            }
         }
     }
 
     override suspend fun insertFavoriteShows(favoriteShows: FavoriteShows) {
-        withContext(ioDispatcher) {
-            localDataSource.insertFavoriteShows(favoriteShows)
+        wrapEspressoIdlingResource {
+            withContext(ioDispatcher) {
+                localDataSource.insertFavoriteShows(favoriteShows)
+            }
         }
     }
 
     override suspend fun deleteFavoriteShowsById(id: Int) {
-        withContext(ioDispatcher) {
-            localDataSource.deleteFavoriteShowsById(id)
+        wrapEspressoIdlingResource {
+            withContext(ioDispatcher) {
+                localDataSource.deleteFavoriteShowsById(id)
+            }
         }
     }
 
     override suspend fun deleteFavoriteShows(favoriteShows: FavoriteShows) {
-        withContext(ioDispatcher) {
-            localDataSource.deleteFavoriteShows(favoriteShows)
+        wrapEspressoIdlingResource {
+            withContext(ioDispatcher) {
+                localDataSource.deleteFavoriteShows(favoriteShows)
+            }
         }
     }
 }

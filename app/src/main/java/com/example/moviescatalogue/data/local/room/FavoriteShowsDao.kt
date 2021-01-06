@@ -1,15 +1,11 @@
 package com.example.moviescatalogue.data.local.room
 
-import androidx.lifecycle.LiveData
 import androidx.paging.DataSource
 import androidx.room.*
-import com.example.moviescatalogue.data.local.entity.FavoriteMovies
 import com.example.moviescatalogue.data.local.entity.FavoriteShows
 
 @Dao
 interface FavoriteShowsDao {
-    @Query("SELECT * from favorite_shows")
-    fun getFavoriteShowsPaging(): List<FavoriteShows>
 
     @Query("SELECT * FROM favorite_shows")
     fun getFavoriteMShowPaging(): DataSource.Factory<Int, FavoriteShows>

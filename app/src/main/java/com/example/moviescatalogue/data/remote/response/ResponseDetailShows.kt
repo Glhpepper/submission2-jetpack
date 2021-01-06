@@ -1,11 +1,8 @@
 package com.example.moviescatalogue.data.remote.response
 
-import androidx.room.Entity
-import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 
 data class ResponseDetailShows(
-    @PrimaryKey
     @SerializedName("id")
     val id: Int?,
 

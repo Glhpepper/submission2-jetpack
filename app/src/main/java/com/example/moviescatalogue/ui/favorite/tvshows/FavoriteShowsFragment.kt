@@ -2,11 +2,11 @@ package com.example.moviescatalogue.ui.favorite.tvshows
 
 import android.content.Context
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -14,18 +14,13 @@ import androidx.paging.PagedList
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.example.moviescatalogue.R
-import com.example.moviescatalogue.data.local.entity.FavoriteMovies
 import com.example.moviescatalogue.data.local.entity.FavoriteShows
 import com.example.moviescatalogue.databinding.FragmentFavoriteShowsBinding
-import com.example.moviescatalogue.databinding.FragmentTvShowsBinding
 import com.example.moviescatalogue.ui.favorite.FavoriteFragment
 import com.example.moviescatalogue.ui.favorite.FavoriteViewModel
-import com.example.moviescatalogue.ui.favorite.movies.FavoriteMoviesAdapter
 import com.example.moviescatalogue.utils.SwipeToDelete
 import com.google.android.material.snackbar.Snackbar
-import kotlinx.android.synthetic.main.fragment_favorite_movies.*
 import kotlinx.android.synthetic.main.fragment_favorite_shows.*
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -59,7 +54,6 @@ class FavoriteShowsFragment : Fragment() {
             lifecycleOwner = viewLifecycleOwner
             rvFavoriteShows.adapter = favoriteShowsAdapter
             rvFavoriteShows.setHasFixedSize(true)
-            showsViewModel = viewModel
         }
 
         favoriteShowsList()
@@ -82,8 +76,6 @@ class FavoriteShowsFragment : Fragment() {
     }
 
     private fun favoriteShowsList() {
-        showNoData(true)
-
         lifecycleScope.launch {
             viewModel.getFavoriteShowPaging().observe(viewLifecycleOwner, { favoriteShows ->
                 favoriteShowsAdapter.submitList(favoriteShows)

@@ -5,9 +5,6 @@
 
     <data>
 
-        <variable
-            name="showsViewModel"
-            type="com.example.moviescatalogue.ui.favorite.FavoriteViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -24,7 +21,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:favoriteShowsList="@{showsViewModel.favoriteShows}"
             tools:listitem="@layout/item_favorite_shows" />
 
         <de.hdodenhof.circleimageview.CircleImageView

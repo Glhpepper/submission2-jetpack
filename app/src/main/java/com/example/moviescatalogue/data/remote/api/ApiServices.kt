@@ -7,22 +7,8 @@ import com.example.moviescatalogue.data.remote.response.ResponseMovies
 import com.example.moviescatalogue.data.remote.response.ResponseTvShows
 import retrofit2.http.GET
 import retrofit2.http.Path
-import retrofit2.http.Query
 
 interface ApiServices {
-    @GET("discover/movie?")
-    suspend fun getListMovies(
-        @Query("api_key") apiKey: String = BuildConfig.API_TOKEN,
-        @Query("sort_by") sortBy: String = "popularity.desc",
-        @Query("page") page: Int
-    ): ResponseMovies
-
-    @GET("discover/tv?")
-    suspend fun getListTvShows(
-        @Query("api_key") apiKey: String = BuildConfig.API_TOKEN,
-        @Query("sort_by") sortBy: String = "popularity.desc",
-        @Query("page") page: Int
-    ): ResponseTvShows
 
     @GET("discover/movie?api_key=${BuildConfig.API_TOKEN}&sort_by=popularity.desc&page=1")
     suspend fun getListMovie(): ResponseMovies

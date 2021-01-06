@@ -10,7 +10,6 @@ import com.example.moviescatalogue.data.local.entity.FavoriteShows
 import com.example.moviescatalogue.data.remote.response.ResponseDetailMovies
 import com.example.moviescatalogue.data.remote.response.ResponseDetailShows
 import com.example.moviescatalogue.ui.detail.di.DetailScope
-import com.example.moviescatalogue.utils.wrapEspressoIdlingResource
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -27,7 +26,6 @@ class DetailViewModel @Inject constructor(private val mainRepository: MainReposi
         get() = _detailContentShows
 
     fun getDetailMovie(id: String) {
-        wrapEspressoIdlingResource {
             viewModelScope.launch {
                 val detailMovie = mainRepository.getDetailMovie(id)
                 try {
@@ -36,11 +34,9 @@ class DetailViewModel @Inject constructor(private val mainRepository: MainReposi
                     e.printStackTrace()
                 }
             }
-        }
     }
 
     fun getDetailTvShows(id: String) {
-        wrapEspressoIdlingResource {
             viewModelScope.launch {
                 val detailShow = mainRepository.getDetailTvShows(id)
                 try {
@@ -48,7 +44,6 @@ class DetailViewModel @Inject constructor(private val mainRepository: MainReposi
                 } catch (e: Exception) {
                     e.printStackTrace()
                 }
-            }
         }
     }
 

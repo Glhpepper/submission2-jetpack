@@ -1,6 +1,4 @@
-
 package com.example.moviescatalogue.utils
-
 
 import android.view.View
 import androidx.databinding.DataBindingUtil
@@ -9,7 +7,6 @@ import androidx.fragment.app.FragmentActivity
 import androidx.test.core.app.ActivityScenario
 import androidx.test.espresso.IdlingResource
 import java.util.*
-
 
 class DataBindingIdlingResource : IdlingResource {
 
