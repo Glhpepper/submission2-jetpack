@@ -6,6 +6,6 @@ import com.example.moviescatalogue.di.DaggerTestAppComponent
 class MyApplicationTest : MyApplication() {
 
     override fun initializeComponent(): AppComponent {
-        return DaggerTestAppComponent.factory().create()
+        return DaggerTestAppComponent.factory().create(applicationContext)
     }
 }

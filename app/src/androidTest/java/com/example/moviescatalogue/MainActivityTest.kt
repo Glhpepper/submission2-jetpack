@@ -4,9 +4,9 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
+import androidx.test.espresso.Espresso.pressBack
 import androidx.test.espresso.IdlingRegistry
-import androidx.test.espresso.action.ViewActions.click
-import androidx.test.espresso.action.ViewActions.swipeUp
+import androidx.test.espresso.action.ViewActions.*
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.contrib.RecyclerViewActions
 import androidx.test.espresso.matcher.ViewMatchers.*
@@ -14,9 +14,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
 import com.example.moviescatalogue.data.MainRepository
 import com.example.moviescatalogue.ui.main.MainActivity
-import com.example.moviescatalogue.utils.DataBindingIdlingResource
-import com.example.moviescatalogue.utils.EspressoIdlingResource
-import com.example.moviescatalogue.utils.monitorActivity
+import com.example.moviescatalogue.utils.*
 import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Before
@@ -146,6 +144,75 @@ class MainActivityOnlineTest {
     }
 
     @Test
+    fun saveMovieToFavorite_thenDelete() {
+        val activityScenario = ActivityScenario.launch(MainActivity::class.java)
+        dataBindingIdlingResource.monitorActivity(activityScenario)
+
+        onView(withId(R.id.rv_movies))
+            .perform(
+                RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(
+                    0,
+                    click()
+                )
+            )
+
+        onView(withId(R.id.detail_image_movie)).perform(swipeUp())
+        onView(withId(R.id.backdrop_movie)).perform(NestedScrollViewExtensionsSwipe())
+
+        onView(withId(R.id.fab_movies)).perform(click())
+        pressBack()
+
+        onView(withId(R.id.favorite_menu)).perform(click())
+
+        onView(withId(R.id.rv_favorite_movies)).check(matches(isDisplayed()))
+        onView(withId(R.id.rv_favorite_movies))
+            .perform(
+                RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(
+                    0,
+                    click()
+                )
+            )
+        onView(withId(R.id.detail_image_movie)).perform(swipeUp())
+        onView(withId(R.id.backdrop_movie)).perform(NestedScrollViewExtensionsSwipe())
+
+        onView(withId(R.id.fab_movies)).perform(click())
+        pressBack()
+
+        onView(withId(R.id.imageNoFavorite_movies)).check(matches(isDisplayed()))
+
+        activityScenario.close()
+    }
+
+    @Test
+    fun saveMovieToFavorite_thenSwipeDelete() {
+        val activityScenario = ActivityScenario.launch(MainActivity::class.java)
+        dataBindingIdlingResource.monitorActivity(activityScenario)
+
+        onView(withId(R.id.rv_movies))
+            .perform(
+                RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(
+                    0,
+                    click()
+                )
+            )
+
+        onView(withId(R.id.detail_image_movie)).perform(swipeUp())
+        onView(withId(R.id.backdrop_movie)).perform(NestedScrollViewExtensionsSwipe())
+
+        onView(withId(R.id.fab_movies)).perform(click())
+        pressBack()
+
+        onView(withId(R.id.favorite_menu)).perform(click())
+
+        onView(withId(R.id.rv_favorite_movies)).check(matches(isDisplayed()))
+        onView(withId(R.id.img_movies)).perform(swipeRight())
+
+        onView(withId(R.id.imageNoFavorite_movies)).check(matches(isDisplayed()))
+
+        activityScenario.close()
+    }
+
+    @Test
     fun loadDetailShowsOnline() {
         val shows = runBlocking {
             mainRepository.getShowsApi()
@@ -211,6 +278,79 @@ class MainActivityOnlineTest {
                     it
                 )
             })
+
+        activityScenario.close()
+    }
+
+    @Test
+    fun saveShowToFavorite_thenDelete() {
+        val activityScenario = ActivityScenario.launch(MainActivity::class.java)
+        dataBindingIdlingResource.monitorActivity(activityScenario)
+
+        onView(withText("Tv Shows")).perform(click())
+        onView(withId(R.id.rv_tv_shows))
+            .perform(
+                RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(
+                    0,
+                    click()
+                )
+            )
+
+        onView(withId(R.id.detail_image_shows)).perform(swipeUp())
+        onView(withId(R.id.rv_season_list)).perform(NestedScrollViewExtensionsScroll())
+
+        onView(withId(R.id.fab_shows)).perform(click())
+        pressBack()
+
+        onView(withId(R.id.favorite_menu)).perform(click())
+
+        onView(withText("Tv Shows")).perform(click())
+        onView(withId(R.id.rv_favorite_shows)).check(matches(isDisplayed()))
+        onView(withId(R.id.rv_favorite_shows))
+            .perform(
+                RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(
+                    0,
+                    click()
+                )
+            )
+        onView(withId(R.id.detail_image_shows)).perform(swipeUp())
+        onView(withId(R.id.rv_season_list)).perform(NestedScrollViewExtensionsScroll())
+
+        onView(withId(R.id.fab_shows)).perform(click())
+        pressBack()
+
+        onView(withId(R.id.imageNoFavorite_shows)).check(matches(isDisplayed()))
+
+        activityScenario.close()
+    }
+
+    @Test
+    fun saveShowToFavorite_thenSwipeDelete() {
+        val activityScenario = ActivityScenario.launch(MainActivity::class.java)
+        dataBindingIdlingResource.monitorActivity(activityScenario)
+
+        onView(withText("Tv Shows")).perform(click())
+        onView(withId(R.id.rv_tv_shows))
+            .perform(
+                RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(
+                    0,
+                    click()
+                )
+            )
+
+        onView(withId(R.id.detail_image_shows)).perform(swipeUp())
+        onView(withId(R.id.rv_season_list)).perform(NestedScrollViewExtensionsScroll())
+
+        onView(withId(R.id.fab_shows)).perform(click())
+        pressBack()
+
+        onView(withId(R.id.favorite_menu)).perform(click())
+
+        onView(withText("Tv Shows")).perform(click())
+        onView(withId(R.id.rv_favorite_shows)).check(matches(isDisplayed()))
+        onView(withId(R.id.img_shows)).perform(swipeLeft())
+
+        onView(withId(R.id.imageNoFavorite_shows)).check(matches(isDisplayed()))
 
         activityScenario.close()
     }

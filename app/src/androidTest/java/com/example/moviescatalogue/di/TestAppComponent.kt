@@ -1,9 +1,8 @@
 package com.example.moviescatalogue.di
 
-import com.example.moviescatalogue.di.module.DispatcherModule
-import com.example.moviescatalogue.di.module.DummyModule
-import com.example.moviescatalogue.di.module.NetworkModule
-import com.example.moviescatalogue.di.module.ViewModelModuleBuilder
+import android.content.Context
+import com.example.moviescatalogue.di.module.*
+import dagger.BindsInstance
 import dagger.Component
 import javax.inject.Singleton
 
@@ -12,7 +11,7 @@ import javax.inject.Singleton
     modules = [
         DispatcherModule::class,
         NetworkModule::class,
-        DummyModule::class,
+        DatabaseModule::class,
         AppMainComponent::class,
         ViewModelModuleBuilder::class]
 )
@@ -20,7 +19,7 @@ interface TestAppComponent : AppComponent {
 
     @Component.Factory
     interface Factory {
-        fun create(): TestAppComponent
+        fun create(@BindsInstance applicationContext: Context): TestAppComponent
     }
 
 }

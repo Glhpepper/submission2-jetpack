@@ -40,7 +40,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <ImageView
-                android:id="@+id/img_movies"
+                android:id="@+id/img_shows"
                 android:layout_width="130dp"
                 android:layout_height="175dp"
                 android:layout_alignParentStart="true"
@@ -67,7 +67,7 @@
                 android:textSize="16sp"
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/img_movies"
+                app:layout_constraintStart_toEndOf="@+id/img_shows"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="@string/title" />
 
@@ -87,7 +87,7 @@
                 android:textStyle="italic"
                 app:layout_constraintBottom_toTopOf="@+id/tv_date_movies"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/img_movies"
+                app:layout_constraintStart_toEndOf="@+id/img_shows"
                 app:layout_constraintTop_toBottomOf="@+id/tv_title_movies"
                 tools:text="@string/overview" />
 
@@ -102,7 +102,7 @@
                 android:textSize="14sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/pb_score_movies"
-                app:layout_constraintStart_toEndOf="@+id/img_movies"
+                app:layout_constraintStart_toEndOf="@+id/img_shows"
                 tools:text="@string/date" />
 
             <ProgressBar

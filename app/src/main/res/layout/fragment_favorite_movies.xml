@@ -34,7 +34,6 @@
             android:layout_height="200dp"
             android:scaleType="centerCrop"
             android:src="@drawable/no_data"
-            android:visibility="invisible"
             app:civ_border_color="@color/blumine"
             app:civ_border_width="4dp"
             app:layout_constraintBottom_toBottomOf="@+id/rv_favorite_movies"

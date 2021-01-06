@@ -10,6 +10,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.paging.PagedList
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.example.moviescatalogue.R
@@ -81,13 +82,27 @@ class FavoriteShowsFragment : Fragment() {
     }
 
     private fun favoriteShowsList() {
- //       viewModel.getFavoriteShowsPaging()
+        showNoData(true)
 
         lifecycleScope.launch {
             viewModel.getFavoriteShowPaging().observe(viewLifecycleOwner, { favoriteShows ->
                 favoriteShowsAdapter.submitList(favoriteShows)
                 favoriteShowsAdapter.notifyDataSetChanged()
+                if (favoriteShows == arrayListOf<PagedList<FavoriteShows>>()){
+                    showNoData(true)
+                }
+                else{
+                    showNoData(false)
+                }
             })
+        }
+    }
+
+    private fun showNoData(state: Boolean) {
+        if (state) {
+            imageNoFavorite_shows.visibility = View.VISIBLE
+        } else {
+            imageNoFavorite_shows.visibility = View.GONE
         }
     }
 

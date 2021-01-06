@@ -11,15 +11,18 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.paging.PagedList
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.example.moviescatalogue.R
+import com.example.moviescatalogue.data.local.entity.FavoriteMovies
 import com.example.moviescatalogue.databinding.FragmentFavoriteMoviesBinding
 import com.example.moviescatalogue.ui.favorite.FavoriteFragment
 import com.example.moviescatalogue.ui.favorite.FavoriteViewModel
 import com.example.moviescatalogue.utils.SwipeToDelete
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_favorite_movies.*
+import kotlinx.android.synthetic.main.fragment_favorite_shows.*
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -77,13 +80,26 @@ class FavoriteMoviesFragment : Fragment() {
     }
 
     private fun favoriteMovieList() {
-        //viewModel.getFavoriteMoviesPaging()
-
+        showNoData(true)
         lifecycleScope.launch {
             viewModel.getFavoriteMoviePaging().observe(viewLifecycleOwner, { favoriteShows ->
                 favoriteMoviesAdapter.submitList(favoriteShows)
                 favoriteMoviesAdapter.notifyDataSetChanged()
+                if (favoriteShows == arrayListOf<PagedList<FavoriteMovies>>()){
+                    showNoData(true)
+                }
+                else {
+                    showNoData(false)
+                }
             })
+        }
+    }
+
+    private fun showNoData(state: Boolean) {
+        if (state) {
+            imageNoFavorite_movies.visibility = View.VISIBLE
+        } else {
+            imageNoFavorite_movies.visibility = View.GONE
         }
     }
 

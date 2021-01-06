@@ -178,6 +178,7 @@ class DetailViewModelTest {
 
             assertThat(detailEntity, `is`(notNullValue()))
             assertThat(detailEntity?.genres?.size, `is`(0))
+            assertThat(detailEntity?.seasons?.size, `is`(0))
         }
     }
 }
